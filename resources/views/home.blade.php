@@ -1,6 +1,6 @@
 <x-layout title="Ecomus - Ultimate HTML">
     <x-topbar />
-    <x-header absolute/>
+    <x-header />
     <x-sections.slider />
     @php
         $categories = [
