@@ -1,0 +1,58 @@
+services:
+  tour-app:
+    image: yoonustehrani/sunny-baby-app:latest
+    networks:
+      - web
+      - sunny-baby
+    ports:
+      - "8000:8000"
+    volumes:
+      - './storage/app/public:/app/storage/app/public:rw'
+  pgsql:
+    image: 'postgres:17'
+    environment:
+      PGPASSWORD: '${DB_PASSWORD:-secret}'
+      POSTGRES_DB: '${DB_DATABASE}'
+      POSTGRES_USER: '${DB_USERNAME}'
+      POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
+    volumes:
+      - 'app-pgsql:/var/lib/postgresql/data'
+      - './vendor/laravel/sail/database/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
+    networks:
+      - sunny-baby
+    healthcheck:
+      test:
+        - CMD
+        - pg_isready
+        - '-q'
+        - '-d'
+        - '${DB_DATABASE}'
+        - '-U'
+        - '${DB_USERNAME}'
+      retries: 3
+      timeout: 5s
+  redis:
+    image: 'redis:alpine'
+    volumes:
+      - 'app-redis:/data'
+    networks:
+      - sunny-baby
+    healthcheck:
+      test:
+        - CMD
+        - redis-cli
+        - ping
+      retries: 3
+      timeout: 5s
+networks:
+  sunny-baby:
+    driver: bridge
+  web:
+    external: true
+    
+
+volumes:
+  app-pgsql:
+    driver: local
+  app-redis:
+    driver: local
