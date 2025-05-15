@@ -7,11 +7,11 @@ WORKDIR /app
 # Install dependencies based on the preferred package manager
 # yarn.lock* pnpm-lock.yaml*
 COPY package.json package-lock.json* ./
-COPY . .
 RUN \
   if [ -f package-lock.json ]; then npm ci; \
   else echo "Lockfile not found."; \
   fi 
+COPY . .
 RUN  if [ -f package-lock.json ]; then npm run build; \
   else echo "Lockfile not found."; \
   fi
@@ -58,6 +58,6 @@ RUN apt-get update -y && apt-get install -y supervisor
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-COPY --from=static-builder */app/public/build ./public/build
+COPY --from=static-builder /app/public/build ./public/build
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
