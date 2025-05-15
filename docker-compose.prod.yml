@@ -47,8 +47,6 @@ services:
 networks:
   sunny-baby:
     driver: bridge
-  web:
-    external: true
     
 
 volumes:
