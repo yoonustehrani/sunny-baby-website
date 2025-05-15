@@ -1,28 +1,21 @@
 FROM node:18-alpine AS base
 
 # npm install
-FROM base AS deps
+FROM base AS static-builder
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 # Install dependencies based on the preferred package manager
 # yarn.lock* pnpm-lock.yaml*
 COPY package.json package-lock.json* ./
+COPY . .
 RUN \
   if [ -f package-lock.json ]; then npm ci; \
   else echo "Lockfile not found."; \
-  fi
-
-# npm run build
-FROM base AS static-builder
-WORKDIR /app
-COPY --from=deps */app/node_modules ./node_modules
-# Could be improved using only the needed files for build
-COPY . .
-RUN \
-  if [ -f package-lock.json ]; then npm run build; \
+  fi 
+RUN  if [ -f package-lock.json ]; then npm run build; \
   else echo "Lockfile not found."; \
   fi
-
+  
 # Serving the app
 # FROM dunglas/frankenphp:1-php8.4-bookworm
 
