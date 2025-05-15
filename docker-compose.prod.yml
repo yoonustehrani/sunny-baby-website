@@ -1,5 +1,5 @@
 services:
-  tour-app:
+  app:
     image: yoonustehrani/sunny-baby-app:latest
     networks:
       - web
