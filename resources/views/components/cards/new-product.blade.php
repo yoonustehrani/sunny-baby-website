@@ -31,7 +31,7 @@
     <div class="card-product-info">
         <a href="product-detail.html" class="title link">{{ $title }}</a>
         <span class="price">{{ format_price($price) }}</span>
-        <ul class="list-color-product">
+        {{-- <ul class="list-color-product">
             <li class="list-color-item color-swatch active">
                 <span class="tooltip">Grey</span>
                 <span class="swatch-value bg_grey"></span>
@@ -47,6 +47,6 @@
                 <span class="swatch-value bg_light-pink"></span>
                 <img class="lazyload" data-src="{{ asset('images/products/photo-9.jpg') }}" src="{{ asset('images/products/photo-9.jpg') }}" alt="image-product">
             </li>
-        </ul>
+        </ul> --}}
     </div>
 </div>

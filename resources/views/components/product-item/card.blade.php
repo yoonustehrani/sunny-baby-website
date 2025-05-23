@@ -11,7 +11,7 @@
         <div class="card-product-info">
             <a href="product-detail.html" class="title link">{{ $title }}</a>
             <span class="price">{{ $price }}</span>
-            <x-product-item.color-list :colors="[
+            {{-- <x-product-item.color-list :colors="[
                 [
                     'name' => 'Orange',
                     'class' => 'bg_orange-3',
@@ -30,7 +30,7 @@
                     'img' => 'images/products/photo-3.jpg',
                     'thumbnail' => 'images/products/photo-3.jpg',
                 ],
-            ]"/>
+            ]"/> --}}
         </div>
     </div>
 </div>

@@ -23,13 +23,15 @@
     --font-vazir: "Vazirmatn" !important; 
 }
 
+body, html {
+    @apply tw:w-full! tw:overflow-x-hidden!;
+}
+
 @layer base {
     h5, h6 {
         @apply tw:font-vazir;
     }
-    body, html {
-        @apply tw:w-screen! tw:overflow-x-hidden!;
-    }
+    
     /* :root {
         --font-vazir: "Vazirmatn";
 		--bs-body-font-family: "Vazirmatn";
