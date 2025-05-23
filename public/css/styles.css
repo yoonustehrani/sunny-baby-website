@@ -17041,7 +17041,7 @@ blockquote .text {
   }
   .slider-home-2 .wrap-slider {
     height: 300px;
-    margin-right: -80px;
+    /* margin-right: -80px; */
   }
   .slider-home-4 .wrap-slider {
     height: 250px;
