@@ -11,12 +11,10 @@
     <link rel="stylesheet" href="{{ asset('fonts/font-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/swiper-bundle.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
-    <link rel="stylesheet"type="text/css" href="{{ asset('css/styles.css') }}">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/css/theme.css', 'resources/js/app.js'])
     {{-- Favicon and Touch Icons --}}
-    <link rel="shortcut icon" href="images/logo/favicon.png">
-    <link rel="apple-touch-icon-precomposed" href="images/logo/favicon.png">
+    <link rel="shortcut icon" href="{{ asset('images/logo/favicon.png') }}">
+    <link rel="apple-touch-icon-precomposed" href="{{ asset('images/logo/favicon.png') }}">
     {{ $head ?? '' }}
 </head>
 <body class="preload-wrapper popup-loader tw:font-vazir tw:font-base tw:w-screen tw:overflow-x-hidden" dir="rtl">
@@ -913,7 +911,7 @@
                                 <span class="icon icon-check"></span>
                             </a>
                             <div class="w-100">
-                                <a href="index.html#" class="btns-full">Buy with <img src="images/payments/paypal.png" alt=""></a>
+                                <a href="index.html#" class="btns-full">Buy with <img src="{{ asset('images/footer/zp-logo.svg') }}" class="tw:h-5" alt=""></a>
                                 <a href="index.html#" class="payment-more-option">More payment options</a>
                             </div>
                         </form>
@@ -1040,7 +1038,7 @@
                                         <span class="icon icon-check"></span>
                                     </a>
                                     <div class="w-100">
-                                        <a href="index.html#" class="btns-full">Buy with <img src="images/payments/paypal.png" alt=""></a>
+                                        <a href="index.html#" class="btns-full">Buy with <img src="{{ asset('images/footer/zp-logo.svg') }}" class="tw:h-5" alt=""></a>
                                         <a href="index.html#" class="payment-more-option">More payment options</a>
                                     </div>
                                 </form>
@@ -1135,7 +1133,7 @@
                             </p>
                         </div>
                         <div>
-                            <img class="sizechart lazyload" data-src="images/shop/products/size_chart2.jpg" src="images/shop/products/size_chart2.jpg" alt="">
+                            {{-- <img class="sizechart lazyload" data-src="images/shop/products/size_chart2.jpg" src="images/shop/products/size_chart2.jpg" alt=""> --}}
                         </div>
                     </div>
                 </div>
@@ -1176,12 +1174,10 @@
     <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/swiper-bundle.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/carousel.js') }}"></script>
-    
     <script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/lazysize.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/count-down.js') }}"></script>   
     <script type="text/javascript" src="{{ asset('js/wow.min.js') }}"></script>   
-    <script type="text/javascript" src="{{ asset('js/wow.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/multiple-modal.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/main.js') }}"></script>
 </body>
