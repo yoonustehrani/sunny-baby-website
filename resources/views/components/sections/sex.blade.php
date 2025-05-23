@@ -5,7 +5,7 @@
             <p class="sub-title wow fadeInUp" data-wow-delay="0s">دخترانه، پسرانه، و اسپرت. همه مدلش رو موجود داریم.</p>
         </div>
     </div>
-    <div class="tw:-mt-6 tw:w-full tw:px-4 tw:md:w-4/5 tw:mx-auto tw:flex-wrap tw:flex tw:items-center tw:justify-center tw:gap-12 tw:py-6">
+    <div class="tw:-mt-6 tw:w-full tw:px-4 tw:md:w-4/5 tw:mx-auto tw:flex-wrap tw:flex tw:items-center tw:justify-center tw:gap-4 tw:md:gap-12 tw:py-6">
         <x-rec-item>
             <img height="60px" width="60px" loading="lazy" src="{{ asset('icons/baby-boy.svg') }}" alt="baby boy icon">
             <span class="tw:text-xl">پسرانه</span>

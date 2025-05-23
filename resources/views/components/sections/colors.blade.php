@@ -1,4 +1,4 @@
-<div class="tw:w-full tw:mb-16">
+<div class="tw:w-full">
     <div class="tw:w-fit tw:mx-auto">
         <div class="flat-title">
             <span class="title wow fadeInUp tw:font-bold" data-wow-delay="0s">دسته بندی بر اساس رنگ</span>
