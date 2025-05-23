@@ -230,7 +230,7 @@ html {
 
 body {
   color: var(--main);
-  background-color: var(--white);
+  /* background-color: var(--white); */
 }
 
 img {
@@ -2321,7 +2321,7 @@ header.header-bg {
   padding-bottom: 40px;
   position: relative;
 }
-.footer .footer-wrap .footer-body::before {
+/* .footer .footer-wrap .footer-body::before {
   position: absolute;
   content: "";
   top: 0;
@@ -2331,7 +2331,7 @@ header.header-bg {
   width: 100%;
   max-width: 1440px;
   transform: translateX(-50%);
-}
+} */
 .footer .footer-wrap .footer-bottom .footer-bottom-wrap {
   padding-top: 21px;
   border-top: 1px solid var(--line);
