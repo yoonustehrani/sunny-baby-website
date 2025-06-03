@@ -1,6 +1,6 @@
 <!-- brand -->
 <section class="tw:flex tw:justify-center tw:mb-12">
-    <div class="tw:bg-isabelline tw:shadow-md tw:rounded-2xl tw:w-10/12 tw:lg:w-4/5 tw:py-8 tw:px-4">
+    <div class="tw:bg-alabaster tw:shadow-md tw:rounded-2xl tw:w-10/12 tw:lg:w-4/5 tw:py-8 tw:px-4">
         <div class="tw:w-fit tw:mx-auto">
             <div class="flat-title">
                 <span class="title wow fadeInUp tw:font-bold" data-wow-delay="0s">دسته بندی بر اساس برند</span>

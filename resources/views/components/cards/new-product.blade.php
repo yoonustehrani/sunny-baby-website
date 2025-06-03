@@ -1,4 +1,4 @@
-<div class="card-product tw:bg-isabelline! tw:p-2! tw:rounded-xl style-4 fl-item">
+<div class="card-product tw:bg-alabaster! tw:p-2! tw:rounded-xl style-4 fl-item">
     <div class="card-product-wrapper">
         <a href="product-detail.html" class="product-img">
             <img class="lazyload img-product" data-src="{{ asset('images/products/photo-6.jpg') }}" src="{{ asset('images/products/photo-6.jpg') }}" alt="image-product">
