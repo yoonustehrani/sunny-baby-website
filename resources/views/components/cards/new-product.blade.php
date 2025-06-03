@@ -1,4 +1,4 @@
-<div class="card-product style-4 fl-item">
+<div class="card-product tw:bg-isabelline! tw:p-2! tw:rounded-xl style-4 fl-item">
     <div class="card-product-wrapper">
         <a href="product-detail.html" class="product-img">
             <img class="lazyload img-product" data-src="{{ asset('images/products/photo-6.jpg') }}" src="{{ asset('images/products/photo-6.jpg') }}" alt="image-product">
@@ -28,9 +28,9 @@
         </div>
         <a href="home-04.html#quick_add" data-bs-toggle="modal" class="btn-quick-add quick-add">@lang('QUICK ADD')</a>
     </div>
-    <div class="card-product-info">
-        <a href="product-detail.html" class="title link">{{ $title }}</a>
-        <span class="price">{{ format_price($price) }}</span>
+    <div class="card-product-info tw:px-2!">
+        <a href="#" class="title link tw:text-xl">{{ $title }}</a>
+        <span class="price tw:text-lg">{{ format_price($price) }}</span>
         {{-- <ul class="list-color-product">
             <li class="list-color-item color-swatch active">
                 <span class="tooltip">Grey</span>
