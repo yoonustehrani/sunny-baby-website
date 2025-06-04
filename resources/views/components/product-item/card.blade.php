@@ -5,7 +5,7 @@
                 <img class="lazyload img-product" data-src="{{ asset('images/products/photo-1.jpg') }}" src="{{ asset('images/products/photo-1.jpg') }}" alt="image-product">
                 <img class="lazyload img-hover" data-src="{{ asset('images/products/photo-2.jpg') }}" src="{{ asset('images/products/photo-2.jpg') }}" alt="image-product">
             </a>
-            <x-product-item.buttons />
+            {{-- <x-product-item.buttons /> --}}
             <x-product-item.size-list />
         </div>
         <div class="card-product-info">

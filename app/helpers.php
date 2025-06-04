@@ -14,9 +14,7 @@ if (! function_exists('price')) {
 
 if (! function_exists('format_price')) {
     function format_price(int $price) {
-        return sprintf("%s تومان", farsi_numbers(
-            number_format($price)
-        ));
+        return sprintf("%s تومان", number_format($price));
     }
 }
 

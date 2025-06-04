@@ -5,13 +5,37 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
-@font-face {
+/* @font-face {
 	font-family: 'Vazirmatn';
 	src: url(/resources/fonts/Vazirmatn[wght].woff2) format('woff2 supports variations'),
 		url(/resources/fonts/Vazirmatn[wght].woff2) format('woff2-variations');
 	font-weight: 100 900;
 	font-style: normal;
 	font-display: swap;
+} */
+
+@font-face {
+  font-family: 'YekanBakh';
+  src: url(/resources/fonts/YekanBakhFaNum-Regular.woff2) format('woff2');
+  font-weight: 100 400; /* Normal/Regular */
+  font-style: normal;
+  font-display: swap; /* Optional for performance */
+}
+
+@font-face {
+  font-family: 'YekanBakh';
+  src: url(/resources/fonts/YekanBakhFaNum-SemiBold.woff2) format('woff2');
+  font-weight: 500 600; /* Semi-bold */
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'YekanBakh';
+  src: url(/resources/fonts/YekanBakhFaNum-ExtraBold.woff2) format('woff2');
+  font-weight: 600 900; /* Extra bold */
+  font-style: normal;
+  font-display: swap;
 }
 
 /* @theme {
@@ -20,7 +44,7 @@
 } */
 
 @theme {
-    --font-vazir: "Vazirmatn" !important; 
+    --font-yekan: "YekanBakh" !important; 
     --color-creamy: #FEF7E5;
     --color-floral-white: #FFFBF0;
     --color-baby-powder-white: #FFFEFA;
@@ -28,6 +52,7 @@
     --color-nude-green: #B3D395;
     --color-isabelline: #F8F5F2;
     --color-alabaster: #F3EEE5;
+    --color-alabaster-dark: #EDE6D8;
 }
 
 body, html {
@@ -36,7 +61,7 @@ body, html {
 
 @layer base {
     h5, h6 {
-        @apply tw:font-vazir;
+        @apply tw:font-yekan;
     }
     
     /* :root {

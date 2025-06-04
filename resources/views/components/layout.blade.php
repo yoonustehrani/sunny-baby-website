@@ -17,7 +17,7 @@
     <link rel="apple-touch-icon-precomposed" href="{{ asset('images/logo/favicon.png') }}">
     {{ $head ?? '' }}
 </head>
-<body class="preload-wrapper popup-loader tw:font-vazir tw:font-base tw:w-screen tw:overflow-x-hidden tw:bg-isabelline" dir="rtl">
+<body class="preload-wrapper popup-loader tw:font-yekan tw:font-base tw:w-screen tw:overflow-x-hidden tw:bg-isabelline" dir="rtl">
     <!-- preload -->
     <div class="preload preload-container">
         <div class="preload-logo">

@@ -26,7 +26,7 @@
             <span>L</span>
             <span>XL</span>
         </div>
-        <a href="home-04.html#quick_add" data-bs-toggle="modal" class="btn-quick-add quick-add">@lang('QUICK ADD')</a>
+        <a href="home-04.html#quick_add" data-bs-toggle="modal" class="btn-quick-add quick-add tw:hidden tw:md:flex">@lang('QUICK ADD')</a>
     </div>
     <div class="card-product-info tw:px-2!">
         <a href="#" class="title link tw:text-xl">{{ $title }}</a>
