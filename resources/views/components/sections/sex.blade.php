@@ -8,20 +8,21 @@
             </div>
         </div>
         <div
+        {{--  --}}
             class="tw:-mt-6 tw:w-full tw:px-4 tw:md:w-4/5 tw:mx-auto tw:flex-wrap tw:flex tw:items-center tw:justify-center tw:gap-4 tw:md:gap-12 tw:py-6">
             <x-rec-item>
-                <img height="60px" width="60px" loading="lazy" src="{{ asset('icons/baby-boy.svg') }}"
+                <img class="tw:size-12 tw:md:size-16" height="50px" width="50px" loading="lazy" src="{{ asset('icons/baby-boy.svg') }}"
                     alt="baby boy icon">
-                <span class="tw:text-xl">پسرانه</span>
+                <span class="tw:text-base tw:md:text-xl">پسرانه</span>
             </x-rec-item>
             <x-rec-item>
-                <img height="60px" width="60px" loading="lazy" src="{{ asset('icons/baby-girl.svg') }}"
+                <img class="tw:size-12 tw:md:size-16" height="50px" width="50px" loading="lazy" src="{{ asset('icons/baby-girl.svg') }}"
                     alt="baby girl icon">
-                <span class="tw:text-xl">دخترانه</span>
+                <span class="tw:text-base tw:md:text-xl">دخترانه</span>
             </x-rec-item>
             <x-rec-item>
-                <img height="60px" width="60px" loading="lazy" src="{{ asset('icons/unisex.svg') }}" alt="unisex icon">
-                <span class="tw:text-xl">اسپرت</span>
+                <img class="tw:size-12 tw:md:size-16" height="50px" width="50px" loading="lazy" src="{{ asset('icons/unisex.svg') }}" alt="unisex icon">
+                <span class="tw:text-base tw:md:text-xl">اسپرت</span>
             </x-rec-item>
         </div>
     </div>
