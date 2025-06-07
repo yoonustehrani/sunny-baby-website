@@ -8,10 +8,10 @@
                     بیابید.</p>
             </div>
         </div>
-        <div class="container">
-            <div class="swiper tf-sw-brand tw:border-orange-900/10" data-loop="false" data-play="false" data-preview="6" data-tablet="3"
+        <div class="container" dir="ltr">
+            <div class="swiper tf-sw-brand tw:border-orange-900/10 tw:bg-white tw:shadow" data-loop="false" data-play="false" data-preview="6" data-tablet="3"
                 data-mobile="2" data-space-lg="0" data-space-md="0">
-                <div class="swiper-wrapper" dir="ltr">
+                <div class="swiper-wrapper">
                     <div class="swiper-slide">
                         <div class="brand-item tw:border-orange-900/10">
                             <img class="lazyload" data-src="images/brand/brand-01.png" src="images/brand/brand-01.png"
