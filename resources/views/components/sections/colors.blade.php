@@ -1,5 +1,5 @@
 <section class="tw:flex tw:justify-center tw:mb-12">
-    <div class="tw:bg-alabaster-dark tw:shadow-md tw:rounded-2xl tw:w-10/12 tw:lg:w-4/5 tw:py-8 tw:px-4">
+    <div class="tw:bg-alabaster-dark tw:shadow-md tw:rounded-2xl tw:w-11/12 tw:lg:w-4/5 tw:py-8 tw:px-4">
         <div class="tw:w-fit tw:mx-auto">
             <div class="flat-title">
                 <span class="title wow fadeInUp tw:font-bold" data-wow-delay="0s">دسته بندی بر اساس رنگ</span>
@@ -8,7 +8,7 @@
             </div>
         </div>
         <div
-            class="tw:-mt-6 tw:w-full tw:px-4 tw:md:w-4/5 tw:mx-auto tw:flex-wrap tw:flex tw:items-center tw:justify-center tw:gap-8 tw:py-6">
+            class="tw:-mt-6 tw:w-full tw:px-1 tw:md:px-4 tw:md:w-4/5 tw:mx-auto tw:flex-wrap tw:flex tw:items-center tw:justify-center tw:gap-8 tw:py-6">
             <a class="tw:block" href="#">
                 <div
                     class="tw:size-20 tw:p-2 tw:rounded-full tw:bg-white tw:border tw:border-black/10 tw:relative tw:flex tw:justify-center">
