@@ -24,3 +24,12 @@ if (! function_exists('random_price')) {
         return $root * 10 * 1000;
     }
 }
+
+if (! function_exists('round_price')) {
+    function round_price(int $price)
+    {
+        return intval(
+            round(intval($price) / 1000, 1)
+        );
+    }
+}
