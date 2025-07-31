@@ -17,8 +17,9 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(City::class);
-            $table->text('value');
+            $table->string('fullname');
             $table->string('phone_number', 15);
+            $table->text('text');
             $table->string('zip', 10)->default(
                 str('1')->repeat(10)->value(),
             );
