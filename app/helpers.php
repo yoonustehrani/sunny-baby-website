@@ -33,3 +33,51 @@ if (! function_exists('round_price')) {
         );
     }
 }
+
+if (! function_exists('clean_string')) {
+    function clean_string(string $string)
+    {
+        return preg_replace('/[\x{200E}\x{200F}\x{202A}-\x{202E}]/u', '', $string);
+    }
+}
+
+if (! function_exists('quote_str')) {
+    function quote_str(string $string)
+    {
+        return str($string)->append('"')->prepend('"')->value();
+    }
+}
+
+if (! function_exists('unquote_str')) {
+    function unquote_str(string $string)
+    {
+        if (str_starts_with($string, '"') && str_ends_with($string, '"')) {
+            return preg_replace(['/^\'/', '/\'$/'], ['', ''], $string);
+        }
+        return $string;
+    }
+}
+
+if (! function_exists('slugify')) {
+    function slugify(string $string)
+    {
+        return str_replace(' ', '-', $string);
+    }
+}
+
+function buildCategoryTree(array $categories, $parentId = null, $parent_key = 'parent_id', $id_key = 'id'): array
+{
+    $branch = [];
+
+    foreach ($categories as $category) {
+        if ($category[$parent_key] == $parentId) {
+            $children = buildCategoryTree($categories, $category[$id_key], $parent_key, $id_key);
+            if ($children) {
+                $category['children'] = $children;
+            }
+            $branch[] = $category;
+        }
+    }
+
+    return $branch;
+}

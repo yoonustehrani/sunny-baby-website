@@ -1,5 +1,6 @@
 <?php
 
+use Database\Seeders\CategorySeeder;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
