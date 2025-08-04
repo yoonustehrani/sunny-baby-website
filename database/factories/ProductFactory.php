@@ -2,13 +2,19 @@
 
 namespace Database\Factories;
 
+use App\Enums\ProductType;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
  */
 class ProductFactory extends Factory
 {
+    protected function random_price()
+    {
+        return random_int(10, 200) * 10_000;
+    }
     /**
      * Define the model's default state.
      *
@@ -17,7 +23,29 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title' => fake()->words(
+                random_int(1, 5), true
+            ),
+            'type' => ProductType::SIMPLE,
+            'slug' => fake()->unique()->slug(),
+            'description' => fake()->paragraph(),
+            'price' => $this->random_price(),
+            'stock' => random_int(0, 20),
+            'reserved' => 0,
+            'weight' => random_int(1, 20) * 100,
+            'is_active' => true
         ];
+    }
+    public function variable(): Factory
+    {
+        return $this->state(fn(array $state) => [
+            'type' => ProductType::VARIABLE
+        ]);
+    }
+    public function variation()
+    {
+        return $this->state(fn(array $state) => [
+            'type' => ProductType::VARIATION
+        ]);
     }
 }

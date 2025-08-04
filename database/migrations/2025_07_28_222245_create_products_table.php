@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('sku', 60)->unique()->nullable();
             $table->string('title');
             $table->string('slug')->unique();
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->bigInteger('price')->unsigned()->nullable();
             $table->integer('stock')->unsigned();
             $table->integer('reserved')->unsigned()->default(0);

@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class VariableValue extends Model
 {
+    protected $fillable = ['value', 'type_value'];
     public function value(): Attribute
     {
-        return new Attribute(
-            set: function($value) {
-                $this->attributes['value'] = $value;
-                $this->attributes['value_hash'] = sha1($value);
-            }
+        return Attribute::make(
+            set: fn($value) => [
+                'value' => $value,
+                'value_hash' => sha1($value),
+            ]
         );
     }
 }
