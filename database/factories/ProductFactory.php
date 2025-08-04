@@ -39,13 +39,19 @@ class ProductFactory extends Factory
     public function variable(): Factory
     {
         return $this->state(fn(array $state) => [
-            'type' => ProductType::VARIABLE
+            'type' => ProductType::VARIABLE,
+            'price' => null,
+            'reserved' => null,
+            'weight' => null,
         ]);
     }
     public function variation()
     {
         return $this->state(fn(array $state) => [
-            'type' => ProductType::VARIATION
+            'type' => ProductType::VARIATION,
+            'title' => null,
+            'description' => null,
+            'slug' => null
         ]);
     }
 }

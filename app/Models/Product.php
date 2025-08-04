@@ -4,6 +4,9 @@ namespace App\Models;
 
 use App\Enums\DiscountMethod;
 use App\Enums\DiscountTargetType;
+use App\Enums\ProductType;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -50,8 +53,28 @@ class Product extends Model
         return $this->belongsToMany(Category::class);
     }
 
-    public function variants()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<\App\Models\Product, $this>
+     */
+    public function variations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Product::class, 'parent_id')->whereType(ProductType::VARIATION);
+    }
+
+    public function variables()
     {
         return $this->belongsToMany(Variable::class, 'product_variant_attribute')->withPivot(['variable_value_id']);
+    }
+
+    #[Scope]
+    protected function onlyVariable(Builder $query): void
+    {
+        $query->where('type', ProductType::VARIABLE);
+    }
+
+    #[Scope]
+    protected function notVariations(Builder $query): void
+    {
+        $query->where('type', '<>', ProductType::VARIATION);
     }
 }

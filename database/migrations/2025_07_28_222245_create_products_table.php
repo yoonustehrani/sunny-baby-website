@@ -15,16 +15,16 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Product::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Product::class, 'parent_id')->nullable()->constrained()->cascadeOnDelete();
             $table->char('type', 1)->default(ProductType::SIMPLE);
-            $table->string('sku', 60)->unique()->nullable();
-            $table->string('title');
-            $table->string('slug')->unique();
+            $table->string('sku', 60)->nullable()->unique();
+            $table->string('title')->nullable();
+            $table->string('slug')->nullable()->unique();
             $table->text('description')->nullable();
             $table->bigInteger('price')->unsigned()->nullable();
-            $table->integer('stock')->unsigned();
-            $table->integer('reserved')->unsigned()->default(0);
-            $table->integer('weight')->unsigned();
+            $table->integer('stock')->nullable()->unsigned();
+            $table->integer('reserved')->nullable()->unsigned()->default(0);
+            $table->integer('weight')->nullable()->unsigned();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
