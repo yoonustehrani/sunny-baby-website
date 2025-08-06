@@ -15,6 +15,8 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call(CategorySeeder::class);
+        $this->call(VariableSeeder::class);
         Product::factory(5)->create();
         try {
             DB::beginTransaction();

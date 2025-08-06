@@ -14,6 +14,7 @@ class CitySeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call(ProvinceSeeder::class);
         $data = new CSVReader(database_path('seeders/data/cities.csv'), [
             'int', 'str', 'str', 'int', 'str'
         ])->read()->getData();
