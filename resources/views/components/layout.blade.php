@@ -765,7 +765,7 @@
     </div>
     <!-- /modal login -->
 
-    <x-cart />
+    <livewire:mini-cart />
 
     <!-- modal compare -->
     <div class="offcanvas offcanvas-bottom canvas-compare" id="compare">

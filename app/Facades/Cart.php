@@ -5,6 +5,15 @@ namespace App\Facades;
 use App\Services\CartService;
 use Illuminate\Support\Facades\Facade;
 
+/**
+ * @method static \Illuminate\Support\Collection all()
+ * @method static \App\Services\CartService update(int|string $productId, int $quantity)
+ * @method static \App\Services\CartService remove(int|string $productId)
+ * @method static void clear()
+ * @method static array sums()
+ * @method static int count()
+ * @method static array toArray()
+ */
 class Cart extends Facade
 {
     /**

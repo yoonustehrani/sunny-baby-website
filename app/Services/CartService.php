@@ -35,7 +35,7 @@ class CartService
 
     public function all()
     {
-        $products = Product::with('discount')->whereIn('id', $this->items->keys())->get()->keyBy('id');
+        $products = Product::with('discount', 'variables.value')->whereIn('id', $this->items->keys())->get()->keyBy('id');
         return $this->items->map(function(int $quantity, $productId) use(&$products) {
             /**
              * @var \App\Models\Product
@@ -62,12 +62,12 @@ class CartService
         return $this->saveCartToSession();
     }
 
-    public function clear()
+    public function clear(): void
     {
         Session::remove(self::SESSION_KEY);
     }
 
-    public function saveCartToSession(): self
+    protected function saveCartToSession(): self
     {
         Session::put(self::SESSION_KEY, $this->toArray());
         return $this;
@@ -82,7 +82,7 @@ class CartService
         return compact('subtotal', 'total_discount', 'total');
     }
 
-    public function count()
+    public function count(): int
     {
         return $this->items->sum();
     }
