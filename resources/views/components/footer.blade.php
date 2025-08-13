@@ -14,7 +14,7 @@
                             <div class="tw:w-48">
                                 {{-- footer-logo --}}
                                 <a href="{{ route('home') }}">
-                                    <img src="{{ asset('images/logo/sunnybaby-logo.webp') }}" alt="">
+                                    <img src="{{ asset('images/logo/sunny-baby-logo.webp') }}" alt="">
                                 </a>
                             </div>
                             <ul>

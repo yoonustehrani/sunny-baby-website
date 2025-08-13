@@ -8,6 +8,7 @@
     {{-- font --}}
     {{-- <link rel="stylesheet" href="fonts/fonts.css">
      --}}
+    @livewireStyles
     <link rel="stylesheet" href="{{ asset('fonts/font-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/swiper-bundle.min.css') }}">
@@ -1170,6 +1171,7 @@
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js" integrity="sha512-WW8/jxkELe2CAiE4LvQfwm1rajOS8PHasCCx+knHG0gBHt8EXxS6T6tJRTGuDQVnluuAvMxWF4j8SNFDKceLFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script> --}}
     <!-- Javascript -->
+    @livewireScripts
     <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/swiper-bundle.min.js') }}"></script>
