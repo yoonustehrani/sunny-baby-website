@@ -12,6 +12,7 @@ class AddToCartButton extends Component
     public Product $product;
     public bool $inCart;
     public int $count;
+    public ?string $style;
 
     public function mount()
     {

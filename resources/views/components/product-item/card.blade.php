@@ -9,9 +9,10 @@
             <x-product-item.size-list />
         </div>
         <div class="card-product-info">
-            <a href="#" class="title link tw:text-base tw:mx-auto tw:font-normal">{{ $title }}</a>
-            <span class="price tw:text-sm tw:mx-auto tw:font-normal tw:text-caramel">{{ format_price($price) }}</span>
-            <a class="tw:block tw:w-full tw:md:w-auto tw:text-sm tw:text-center tw:rounded-md tw:shadow-sm tw:border tw:border-transparent tw:duration-300 tw:hover:border-gray-700 tw:bg-dun tw:px-2 tw:lg:px-3 tw:py-1 tw:mb-3 tw:mt-1 tw:mx-auto" href="#">@lang('QUICK ADD')</a>
+            <a href="#" class="title link tw:text-base tw:mx-auto tw:font-normal">{{ $product->title }}</a>
+            <span class="price tw:text-sm tw:mx-auto tw:font-normal tw:text-caramel">{{ format_price($product->price) }}</span>
+            <livewire:add-to-cart-button :$product/>
+            {{-- <a class="tw:block tw:w-full tw:md:w-auto tw:text-sm tw:text-center tw:rounded-md tw:shadow-sm tw:border tw:border-transparent tw:duration-300 tw:hover:border-gray-700 tw:bg-dun tw:px-2 tw:lg:px-3 tw:py-1 tw:mb-3 tw:mt-1 tw:mx-auto" href="#">@lang('QUICK ADD')</a> --}}
             {{-- <x-product-item.color-list :colors="[
                 [
                     'name' => 'Orange',

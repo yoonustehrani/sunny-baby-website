@@ -26,7 +26,7 @@
             <span>L</span>
             <span>XL</span>
         </div>
-        <a href="home-04.html#quick_add" data-bs-toggle="modal" class="btn-quick-add quick-add tw:hidden tw:md:flex">@lang('QUICK ADD')</a>
+        <livewire:add-to-cart-button :$product style='hover'/>
     </div>
     <div class="card-product-info tw:px-2!" x-data='{}'>
         <a href="#" class="title link tw:text-sm tw:md:text-base tw:mx-auto tw:font-normal">{{ $product->title }}</a>
