@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Facade;
  * @method static \Illuminate\Support\Collection all()
  * @method static \App\Services\CartService update(int|string $productId, int $quantity)
  * @method static \App\Services\CartService remove(int|string $productId)
+ * @method static bool has(int|string $productId)
+ * @method static int getProductQuantity(int|string $productId)
  * @method static void clear()
  * @method static array sums()
  * @method static int count()

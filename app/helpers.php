@@ -1,6 +1,6 @@
 <?php
 
-if (! function_exists('price')) {
+if (! function_exists('farsi_numbers')) {
     function farsi_numbers(int|string $number) {
         if (is_integer($number)) {
             $number = strval($number);
@@ -65,19 +65,21 @@ if (! function_exists('slugify')) {
     }
 }
 
-function buildCategoryTree(array $categories, $parentId = null, $parent_key = 'parent_id', $id_key = 'id'): array
-{
-    $branch = [];
+if (! function_exists('buildCategoryTree')) {
+    function buildCategoryTree(array $categories, $parentId = null, $parent_key = 'parent_id', $id_key = 'id'): array
+    {
+        $branch = [];
 
-    foreach ($categories as $category) {
-        if ($category[$parent_key] == $parentId) {
-            $children = buildCategoryTree($categories, $category[$id_key], $parent_key, $id_key);
-            if ($children) {
-                $category['children'] = $children;
+        foreach ($categories as $category) {
+            if ($category[$parent_key] == $parentId) {
+                $children = buildCategoryTree($categories, $category[$id_key], $parent_key, $id_key);
+                if ($children) {
+                    $category['children'] = $children;
+                }
+                $branch[] = $category;
             }
-            $branch[] = $category;
         }
-    }
 
-    return $branch;
+        return $branch;
+    }
 }

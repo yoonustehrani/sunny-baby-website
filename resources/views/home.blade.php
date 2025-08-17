@@ -1,4 +1,4 @@
-<x-layout title="Ecomus - Ultimate HTML">
+<x-layout title="سانی بی بی">
     <x-topbar />
     <x-header />
     <x-sections.slider />

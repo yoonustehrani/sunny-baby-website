@@ -75,13 +75,7 @@
             </a>
         </div>
         <div class="toolbar-item">
-            <a href="index.html#shoppingCart" data-bs-toggle="modal">
-                <div class="toolbar-icon">
-                    <i class="icon-bag"></i>
-                    <div class="toolbar-count">1</div>
-                </div>
-                <div class="toolbar-label">@lang('Cart')</div>
-            </a>
+            <livewire:cart-icon mobile>
         </div>
     </div>
     <!-- /toolbar-bottom -->
@@ -765,8 +759,9 @@
         </div>
     </div>
     <!-- /modal login -->
-
-    <livewire:mini-cart />
+    <div class="modal fullRight fade modal-shopping-cart" id="shoppingCart">
+        <livewire:mini-cart />
+    </div>
 
     <!-- modal compare -->
     <div class="offcanvas offcanvas-bottom canvas-compare" id="compare">

@@ -9,14 +9,14 @@
         @foreach ($product->variables as $item)
             <div class="meta-variant">{{ $item->value }}</div>
         @endforeach
-        <div class="price fw-6">{{ $product->price }}</div>
+        <div class="price fw-6">{{ format_price($product->price) }}</div>
         <div class="tf-mini-cart-btns">
             <div class="wg-quantity small">
                 <span class="btn-quantity minus-btn" wire:click='sub'>-</span>
                 <input type="text" name="number" value="{{ $quantity }}">
                 <span class="btn-quantity plus-btn" wire:click='add'>+</span>
             </div>
-            <div class="tf-mini-cart-remove" wire:click='remove'>@lang('Remove')</div>
+            <button class="tf-mini-cart-remove" wire:click='remove'>@lang('Remove')</button>
         </div>
     </div>
 </div>
