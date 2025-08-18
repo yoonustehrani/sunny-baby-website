@@ -547,7 +547,7 @@
                                             <li><a href="our-store.html" class="menu-link-text link text_black-2">Our store</a></li>
                                             <li><a href="store-locations.html" class="menu-link-text link text_black-2">Store locator</a></li>
                                             <li><a href="timeline.html" class="menu-link-text link text_black-2 position-relative">Timeline <div class="demo-label"><span class="demo-new">New</span></div> </a></li>
-                                            <li><a href="view-cart.html" class="menu-link-text link text_black-2 position-relative">View cart</a></li>
+                                            <li><a href="{{ route('cart') }}" class="menu-link-text link text_black-2 position-relative">@lang("View cart")</a></li>
                                             <li><a href="checkout.html" class="menu-link-text link text_black-2 position-relative">Check out</a></li>
                                             <li><a href="payment-confirmation.html" class="menu-link-text link text_black-2 position-relative">Payment Confirmation</a></li>
                                             <li><a href="payment-failure.html" class="menu-link-text link text_black-2 position-relative">Payment Failure</a></li>
@@ -1567,7 +1567,7 @@
                                 <li><a href="our-store.html" class="sub-nav-link">Our store</a></li>
                                 <li><a href="store-locations.html" class="sub-nav-link">Store locator</a></li>
                                 <li><a href="timeline.html" class="sub-nav-link line-clamp">Timeline<div class="demo-label"><span class="demo-new">New</span></div></a></li>
-                                <li><a href="view-cart.html" class="sub-nav-link line-clamp">View cart</a></li>
+                                <li><a href="{{ route('cart') }}" class="sub-nav-link line-clamp">@lang("View cart")</a></li>
                                 <li><a href="checkout.html" class="sub-nav-link line-clamp">Check out</a></li>
                                 <li><a href="payment-confirmation.html" class="sub-nav-link line-clamp">Payment Confirmation</a></li>
                                 <li><a href="payment-failure.html" class="sub-nav-link line-clamp">Payment Failure</a></li>
@@ -2170,7 +2170,7 @@
                                     </label>
                                 </div>
                                 <div class="tf-mini-cart-view-checkout">
-                                    <a href="view-cart.html" class="tf-btn btn-outline radius-3 link w-100 justify-content-center">View cart</a>
+                                    <a href="{{ route('cart') }}" class="tf-btn btn-outline radius-3 link w-100 justify-content-center">@lang("View cart")</a>
                                     <a href="checkout.html" class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"><span>Check out</span></a>
                                 </div>
                             </div>

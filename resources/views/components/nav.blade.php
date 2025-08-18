@@ -372,7 +372,7 @@
                     <li><a href="our-store.html" class="menu-link-text link text_black-2">Our store</a></li>
                     <li><a href="store-locations.html" class="menu-link-text link text_black-2">Store locator</a></li>
                     <li><a href="timeline.html" class="menu-link-text link text_black-2 position-relative">Timeline <div class="demo-label"><span class="demo-new">New</span></div> </a></li>
-                    <li><a href="view-cart.html" class="menu-link-text link text_black-2 position-relative">View cart</a></li>
+                    <li><a href="{{ route('cart') }}" class="menu-link-text link text_black-2 position-relative">@lang("View cart")</a></li>
                     <li><a href="{{ route('checkout') }}" class="menu-link-text link text_black-2 position-relative">@lang('Check out')</a></li>
                     <li><a href="{{ route('payment.confirmed') }}" class="menu-link-text link text_black-2 position-relative">@lang('Payment confirmation')</a></li>
                     <li><a href="{{ route('payment.failed') }}" class="menu-link-text link text_black-2 position-relative">@lang('Payment Failure')</a></li>

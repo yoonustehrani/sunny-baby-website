@@ -1,4 +1,4 @@
-<x-layout title="Contact Us">
+<x-layout :title="__('Contact Us')">
     <x-header />
     <div class="tf-page-title style-2">
         <div class="container-full">

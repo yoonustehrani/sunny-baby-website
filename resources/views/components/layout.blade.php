@@ -297,7 +297,7 @@
                                 <li><a href="our-store.html" class="sub-nav-link">Our store</a></li>
                                 <li><a href="store-locations.html" class="sub-nav-link">Store locator</a></li>
                                 <li><a href="timeline.html" class="sub-nav-link line-clamp">Timeline<div class="demo-label"><span class="demo-new">New</span></div></a></li>
-                                <li><a href="view-cart.html" class="sub-nav-link line-clamp">View cart</a></li>
+                                <li><a href="{{ route('cart') }}" class="sub-nav-link line-clamp">@lang("View cart")</a></li>
                                 <li><a href="checkout.html" class="sub-nav-link line-clamp">Check out</a></li>
                                 <li><a href="payment-confirmation.html" class="sub-nav-link line-clamp">Payment Confirmation</a></li>
                                 <li><a href="payment-failure.html" class="sub-nav-link line-clamp">Payment Failure</a></li>

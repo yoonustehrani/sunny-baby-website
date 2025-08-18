@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Pages\ShowCart;
 use Database\Seeders\CategorySeeder;
 use Illuminate\Support\Facades\Route;
 
@@ -18,3 +19,4 @@ Route::prefix('/payment')->name('payment.')->group(function() {
 });
 
 Route::view('/checkout', 'cart.checkout')->name('checkout');
+Route::get('/cart', ShowCart::class)->name('cart');
