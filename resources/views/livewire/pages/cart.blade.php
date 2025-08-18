@@ -1,10 +1,10 @@
 <section class="flat-spacing-11">
     <div class="container">
-        @if (App\Facades\Cart::count() < 1)
+        @if ($isEmpty)
         <div class="tf-page-cart text-center mt_140 mb_200">
-            <h5 class="mb_24">Your cart is empty</h5>
-            <p class="mb_24">You may check out all the available products and buy some in the shop</p>
-            <a href="shop-default.html" class="tf-btn btn-sm radius-3 btn-fill btn-icon animate-hover-btn">Return to shop<i class="icon icon-arrow1-top-left"></i></a>
+            <h5 class="mb_24">@lang('Your cart is empty')</h5>
+            <p class="mb_24">@lang("You may check out all the available products and buy some in the shop")</p>
+            <a href="shop-default.html" class="tf-btn btn-sm radius-3 btn-fill btn-icon animate-hover-btn">@lang('Return to shop')<i class="icon icon-arrow1-top-left"></i></a>
         </div>
         @else
         <div class="tf-page-cart-wrap">
@@ -20,39 +20,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($items as $item)
-                                <tr class="tf-cart-item file-delete">
-                                    <td class="tf-cart-item_product">
-                                        <a href="product-detail.html" class="img-box">
-                                            <img src="images/products/white-2.jpg" alt="img-product">
-                                        </a>
-                                        <div class="cart-info">
-                                            <a href="product-detail.html" class="cart-title link">Oversized Printed T-shirt</a>
-                                            <div class="cart-meta-variant">White / M</div>
-                                            <span class="remove-cart link remove">Remove</span>
-                                        </div>
-                                    </td>
-                                    <td class="tf-cart-item_price" cart-data-title="Price">
-                                        <div class="cart-price">{{ format_price($item['product']['price']) }}</div>
-                                    </td>
-                                    <td class="tf-cart-item_quantity" cart-data-title="Quantity">
-                                        <div class="cart-quantity">
-                                            <div class="wg-quantity">
-                                                <span class="btn-quantity minus-btn">
-                                                    <svg class="d-inline-block" width="9" height="1" viewBox="0 0 9 1" fill="currentColor"><path d="M9 1H5.14286H3.85714H0V1.50201e-05H3.85714L5.14286 0L9 1.50201e-05V1Z"></path></svg>
-                                                </span>
-                                                <input type="text" name="number" value="{{ $item['quantity'] }}">
-                                                <span class="btn-quantity plus-btn">
-                                                    <svg class="d-inline-block" width="9" height="9" viewBox="0 0 9 9" fill="currentColor"><path d="M9 5.14286H5.14286V9H3.85714V5.14286H0V3.85714H3.85714V0H5.14286V3.85714H9V5.14286Z"></path></svg>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="tf-cart-item_total" cart-data-title="Total">
-                                        <div class="cart-total">{{ format_price($item['product']['price'] * $item['quantity']) }}</div>
-                                    </td>
-                                </tr>
-                            @endforeach
+                            @if (count($items))
+                                @foreach ($items as $key => $item)
+                                    <livewire:cart-item wire:key="cart-item-{{ $item['product']->id }}" :product="$item['product']" :quantity="$item['quantity']"/>
+                                @endforeach
+                            @endif
                         </tbody>
                     </table>
                     <div class="tf-page-cart-note">
@@ -86,7 +58,7 @@
                         </div> --}}
                         <div class="tf-cart-totals-discounts">
                             <h3 class="tw:font-yekan">@lang('Subtotal')</h3>
-                            <span class="total-value">{{ format_price(App\Facades\Cart::sums()['subtotal']) }}</span>
+                            <span class="total-value">{{ format_price($sums['subtotal']) }}</span>
                         </div>
                         <p class="tf-cart-tax">
                             هزینه ارسال در مرحله تسویه حساب اعمال می گردد.
