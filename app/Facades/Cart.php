@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static array sums()
  * @method static int count()
  * @method static array toArray()
+ * @method static void setMeta(string $key, mixed $value)
  */
 class Cart extends Facade
 {

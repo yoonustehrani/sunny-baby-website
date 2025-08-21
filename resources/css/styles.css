@@ -13473,7 +13473,8 @@ blockquote .text {
   margin-bottom: 10px;
   position: relative;
 }
-.form-checkout label::after {
+.form-checkout label:has(+ input:required)::after,
+.form-checkout label:has(+ textarea:required)::after {
   content: "*";
   position: absolute;
   color: var(--primary);

@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\ShowCheckout;
 use App\Livewire\Pages\ShowCart;
 use Database\Seeders\CategorySeeder;
 use Illuminate\Support\Facades\Route;
@@ -18,5 +19,5 @@ Route::prefix('/payment')->name('payment.')->group(function() {
     Route::view('/failed', 'payment.failed')->name('failed');
 });
 
-Route::view('/checkout', 'cart.checkout')->name('checkout');
+Route::get('/checkout', ShowCheckout::class)->name('checkout');
 Route::get('/cart', ShowCart::class)->name('cart');

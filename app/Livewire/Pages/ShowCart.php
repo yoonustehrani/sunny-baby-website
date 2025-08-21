@@ -3,6 +3,8 @@
 namespace App\Livewire\Pages;
 
 use App\Facades\Cart;
+use App\Livewire\Forms\CartForm;
+use App\Livewire\ShowCheckout;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -12,6 +14,7 @@ class ShowCart extends Component
     public Collection $items;
     public bool $isEmpty;
     public array $sums;
+    public CartForm $form;
 
     public function mount()
     {
@@ -26,16 +29,15 @@ class ShowCart extends Component
         $this->sums = Cart::sums();
     }
 
-    // #[On('removeItem')]
-    // public function removeItem($id)
-    // {
-    //     \Log::alert($id);
-    //     // Cart::remove($id);
-    // }
+
+    public function checkout()
+    {
+        $this->form->save();
+        $this->redirect(ShowCheckout::class);
+    }
 
     public function render()
     {
-        \Log::alert($this->sums);
         return view('livewire.pages.cart')->title(__('Cart'));
     }
 }

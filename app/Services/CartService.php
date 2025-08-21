@@ -12,7 +12,7 @@ class CartService
 {
     public const SESSION_KEY = 'user-cart';
     public Collection $items;
-    // public Collection $options;
+    public array $meta;
     /**
      * Create a new class instance.
      */
@@ -21,15 +21,15 @@ class CartService
     )
     {
         $this->items = collect($cart['items']);
-        // $this->options = collect($cart['options']);
+        $this->meta = $cart['meta'];
     }
 
     public static function getInstance(): static
     {
         return new self(
             Session::get(self::SESSION_KEY, [
-                'items' => collect(),
-                'options' => collect()
+                'items' => [],
+                'meta' => []
             ])
         );
     }
@@ -90,7 +90,11 @@ class CartService
         $subtotal = $all->sum(fn($item) => $item['quantity'] * $item['product']->price);
         $total_discount = $all->sum(fn($item) => $item['quantity'] * $item['product']->getDiscountedPrice());
         $total = $subtotal - $total_discount;
-        return compact('subtotal', 'total_discount', 'total');
+        return compact(
+            'subtotal',
+            'total_discount',
+            'total'
+        );
     }
 
     public function count(): int
@@ -98,11 +102,17 @@ class CartService
         return $this->items->sum();
     }
 
+    public function setMeta(string $key, mixed $value): void
+    {
+        $this->meta[$key] = $value;
+        $this->saveCartToSession();
+    }
+
     public function toArray(): array
     {
         return [
             'items' => $this->items->toArray(),
-            // 'options' => $this->options->toArray()
+            'meta' => $this->meta
         ];
     }
 }

@@ -29,7 +29,7 @@
                     </table>
                     <div class="tf-page-cart-note">
                         <label for="cart-note">@lang('Add Order Note')</label>
-                        <textarea name="note" id="cart-note"></textarea>
+                        <textarea wire:model.live.debounce.300ms='form.note' id="cart-note"></textarea>
                     </div>
                 </form>
             </div>
@@ -71,7 +71,7 @@
                             </p>
                         </div>
                         <div class="cart-checkout-btn">
-                            <button class="tf-btn w-100 btn-fill animate-hover-btn radius-3 justify-content-center">
+                            <button type="button" wire:click='checkout' class="tf-btn w-100 btn-fill animate-hover-btn radius-3 justify-content-center">
                                 <span>@lang('Check out')</span>
                             </button>
                         </div>
