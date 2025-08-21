@@ -2987,7 +2987,7 @@ header.header-bg {
 .tf-slideshow {
   overflow: hidden;
 }
-.tf-slideshow .wrap-pagination {
+.taf-slideshow .wrap-pagination {
   position: absolute;
   z-index: 10;
   bottom: 57px;
@@ -7158,10 +7158,10 @@ header.header-bg {
   color: var(--white);
   margin: 0;
 }
-.collection-item .collection-title:hover {
-  background-color: var(--main);
+/* .collection-item .collection-title:hover {
+  background-color: var(--main) !important;
   color: var(--white);
-}
+} */
 .collection-item.style-left .collection-content {
   left: 0;
   transform: unset;
@@ -16204,7 +16204,7 @@ blockquote .text {
   .wrap-slider .box-content p {
     margin-bottom: 32px;
   }
-  .tf-slideshow .sw-absolute-2 .sw-dots {
+  .taf-slideshow .sw-absolute-2 .sw-dots {
     justify-content: center;
   }
   .tf-slideshow .card-box {
@@ -16220,11 +16220,11 @@ blockquote .text {
   .tf-slideshow .card-box .heading br {
     display: none;
   }
-  .tf-slideshow .sw-absolute-3 {
+  .taf-slideshow .sw-absolute-3 {
     left: 0;
     right: 0;
   }
-  .tf-slideshow .sw-absolute-3 .sw-dots {
+  .taf-slideshow .sw-absolute-3 .sw-dots {
     flex-direction: row;
     justify-content: center;
   }
@@ -16597,7 +16597,7 @@ blockquote .text {
   .my-account-content {
     padding: 0 30px;
   }
-  .tf-slideshow .wrap-pagination {
+  .taf-slideshow .wrap-pagination {
     bottom: 20px;
   }
   .card-product .list-product-btn .box-icon .tooltip {

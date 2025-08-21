@@ -1,5 +1,9 @@
 <?php
 
+use App\Facades\Shipping;
+use App\Models\Address;
+use App\Services\Shipping\Carrier;
+
 if (! function_exists('farsi_numbers')) {
     function farsi_numbers(int|string $number) {
         if (is_integer($number)) {
@@ -81,5 +85,12 @@ if (! function_exists('buildCategoryTree')) {
         }
 
         return $branch;
+    }
+}
+
+if (! function_exists('getCarrier')) {
+    function get_carrier(string $class, Address $address): Carrier
+    {
+        return Shipping::carrier($class)->setAddress($address);
     }
 }

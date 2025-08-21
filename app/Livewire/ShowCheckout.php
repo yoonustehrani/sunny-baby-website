@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Facades\Cart;
 use App\Livewire\Forms\CheckoutForm;
+use App\Livewire\Pages\ShowCart;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -13,6 +14,9 @@ class ShowCheckout extends Component
 
     public function mount()
     {
+        if (Cart::count() == 0) {
+            $this->redirect(ShowCart::class);
+        }
         if ($this->form->note == '') {
             $this->form->note = Cart::toArray()['meta']['note'] ?? '';
         }
@@ -45,6 +49,7 @@ class ShowCheckout extends Component
 
     public function render()
     {
-        return view('livewire.show-checkout')->title(__('Check out'));
+        $total = Cart::sums()['total'];
+        return view('livewire.show-checkout', compact('total'))->title(__('Check out'));
     }
 }

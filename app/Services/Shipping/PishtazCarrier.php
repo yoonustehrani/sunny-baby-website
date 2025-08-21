@@ -2,23 +2,25 @@
 
 namespace App\Services\Shipping;
 
-use App\Models\Address;
-
-class PishtazCarrier implements CarrierContract
+class PishtazCarrier extends Carrier
 {
-    use CarrierHelpers;
-
     public function __construct()
     {
         $this->name = 'پست پیشتاز';
         $this->description = 'تحویل ۲ الی ۷ روز کاری';
-        $this->logo_url = '/';
+        $this->logo_url = asset('images/logo/ips-logo.png');
     }
 
-    public function calculate(array $cart, Address $address): ?int
+    public function calculate(): int
     {
-        return null;
+        return 0;
     }
+
+    public function getPriceLabel(): string
+    {
+        return 'پس کرایه';
+    }
+    
     public function isActive(): bool
     {
         return true;

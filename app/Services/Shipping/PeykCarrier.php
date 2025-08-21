@@ -2,25 +2,30 @@
 
 namespace App\Services\Shipping;
 
-use App\Models\Address;
+use App\Models\City;
 
-class PeykCarrier implements CarrierContract
+class PeykCarrier extends Carrier
 {
-    use CarrierHelpers;
-
     public function __construct()
     {
         $this->name = 'پیک موتوری';
         $this->description = 'مخصوص مشهد';
-        $this->logo_url = '/';
+        $this->logo_url = asset('images/logo/snappbox-logo.svg');
     }
 
-    public function calculate(array $cart, Address $address): ?int
+    public function calculate(): int
     {
-        return null;
+        return 0;
     }
+
+    public function getPriceLabel(): string
+    {
+        return 'پس کرایه';
+    }
+
     public function isActive(): bool
     {
-        return true;
+        $mashhadId = City::whereName('مشهد')->firstOrFail()->getKey();
+        return $this->address->city_id == $mashhadId;
     }
 }

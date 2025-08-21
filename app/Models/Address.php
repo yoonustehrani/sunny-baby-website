@@ -9,6 +9,7 @@ class Address extends Model
 {
     /** @use HasFactory<\Database\Factories\AddressFactory> */
     use HasFactory;
+    protected $fillable = ['city_id', 'zip', 'phone_number', 'fullname', 'text'];
 
     public function city()
     {

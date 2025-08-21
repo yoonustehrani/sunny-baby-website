@@ -25,6 +25,10 @@
                         </fieldset> --}}
                     </div>
                     <fieldset class="box fieldset">
+                        <label for="zip">@lang('Zip')</label>
+                        <input type="text" wire:model.live.blur='form.zip' id="zip">
+                    </fieldset>
+                    <fieldset class="box fieldset">
                         <label for="address">@lang('Address')</label>
                         <input type="text" wire:model.live.blur='form.address' id="address">
                     </fieldset>
@@ -43,7 +47,9 @@
                     <h5 class="fw-5 mb_20">@lang('Your order')</h5>
                     <form class="tf-page-cart-checkout widget-wrap-checkout">
                         <ul class="wrap-checkout-product">
-                            <x-checkout.order-item />
+                            @foreach (\App\Facades\Cart::all() as $key => $item)
+                                <x-checkout.order-item wire:key="cart-item-{{ $item['product']->id }}" :product="$item['product']" :quantity="$item['quantity']"/>
+                            @endforeach
                         </ul>
                         <div class="coupon-box">
                             <input type="text" placeholder="@lang('Discount code')">
@@ -51,8 +57,31 @@
                         </div>
                         <div class="d-flex justify-content-between line pb_20">
                             <h6 class="fw-5">@lang('Total')</h6>
-                            <h6 class="total fw-5">$122.00</h6>
+                            <h6 class="total fw-5">{{ format_price($total) }}</h6>
                         </div>
+                        @if ($form->getAddressForShipment())
+                            <div class="tw:flex tw:flex-col tw:gap-y-8">
+                                @foreach (\App\Facades\Shipping::carriers() as $carrierClass)
+                                    @php
+                                        $carrier = get_carrier($carrierClass, $form->getAddressForShipment());
+                                    @endphp
+                                    @if ($carrier->isActive())
+                                        <div class="tw:flex tw:items-center tw:justify-between tw:p-4 tw:border tw:rounded-md tw:border-black/10 tw:shadow-sm">
+                                            <div class="tw:flex tw:gap-4 tw:items-center">
+                                                <div class="tw:flex tw:flex-col tw:gap-2">
+                                                    <h4 class="tw:text-base tw:font-bold">{{ $carrier->getName() }}</h4>
+                                                    <p class="tw:text-xs">{{ $carrier->getDescription() }}</p>
+                                                </div>
+                                                <span>-</span>
+                                                <span>{{ $carrier->getPriceLabel() }}</span>
+                                            </div>
+                                            <img class="tw:h-12 tw:w-auto" src="{{ $carrier->getLogoUrl() }}" alt="{{ $carrier->getName() }}">
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                            <hr class="tw:border-gray-400/80">
+                        @endif
                         <div class="wd-check-payment">
                             <div class="fieldset-radio mb_20">
                                 <input type="radio" name="payment" id="bank" class="tf-check" checked>

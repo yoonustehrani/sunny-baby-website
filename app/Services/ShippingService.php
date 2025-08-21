@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Services\Shipping\PeykCarrier;
+use App\Facades\Cart;
 
 class ShippingService
 {
@@ -21,8 +21,8 @@ class ShippingService
         return $this->carriers;
     }
 
-    public function carrier($carrier)
+    public function carrier(string $carrier)
     {
-        return new $carrier;
+        return app($carrier);
     }
 }
