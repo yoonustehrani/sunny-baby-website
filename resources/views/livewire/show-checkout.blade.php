@@ -26,11 +26,11 @@
                     </div>
                     <fieldset class="box fieldset">
                         <label for="zip">@lang('Zip')</label>
-                        <input type="text" wire:model.live.blur='form.zip' id="zip">
+                        <input type="text" wire:model.live.blur='form.zip' id="zip" placeholder="اگر کد پستی ندارید خالی بگذارید.">
                     </fieldset>
                     <fieldset class="box fieldset">
                         <label for="address">@lang('Address')</label>
-                        <input type="text" wire:model.live.blur='form.address' id="address">
+                        <textarea required wire:model.live.blur='form.address' id="address"></textarea>
                     </fieldset>
                     {{-- <fieldset class="box fieldset">
                         <label for="email">@lang('Email')</label>

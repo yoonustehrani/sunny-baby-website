@@ -8,6 +8,7 @@ use App\Livewire\Pages\ShowCart;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
+#[On('cart-updated')]
 class ShowCheckout extends Component
 {
     public CheckoutForm $form;
