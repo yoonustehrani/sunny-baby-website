@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Discount;
 use App\Models\Product;
 use App\Models\Variable;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -17,7 +18,8 @@ class ProductSeeder extends Seeder
     {
         $this->call(CategorySeeder::class);
         $this->call(VariableSeeder::class);
-        Product::factory(5)->create();
+        // Product::factory(12)->create();
+        Product::factory(5)->for(Discount::factory(), 'discount')->create();
         // try {
         //     DB::beginTransaction();
         //     $variable = Variable::whereName('رنگ')->first();

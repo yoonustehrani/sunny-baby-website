@@ -9,7 +9,12 @@
         @foreach ($product->variables as $item)
             <div class="meta-variant">{{ $item->value }}</div>
         @endforeach
-        <div class="price fw-6">{{ format_price($product->price) }}</div>
+        @if ($product->is_discounted)
+            <div class="tw:text-gray-400 tw:line-through fw-6">{{ format_price($product->price) }}</div>
+            <div class="price fw-6">{{ format_price($product->discounted_price) }}</div>
+        @else
+            <div class="price fw-6">{{ format_price($product->price) }}</div>
+        @endif
         <div class="tf-mini-cart-btns">
             <div class="wg-quantity small">
                 <span class="btn-quantity minus-btn" wire:click='sub'>-</span>

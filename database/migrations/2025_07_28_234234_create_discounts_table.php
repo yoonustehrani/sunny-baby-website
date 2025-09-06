@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('target', 1);
             $table->bigInteger('value')->unsigned();
             $table->bigInteger('max_discount_amount')->unsigned()->nullable();
-            $table->boolean('is_active');
+            $table->boolean('is_active')->default(true);
             $table->boolean('is_exclusive')->default(false); // If TRUE, it cannot be combined with other discounts in one order.
             $table->timestamp('activates_at')->useCurrent();
             $table->timestamp('expires_at')->nullable();

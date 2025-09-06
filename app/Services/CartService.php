@@ -88,7 +88,7 @@ class CartService
     {
         $all = $this->all();
         $subtotal = $all->sum(fn($item) => $item['quantity'] * $item['product']->price);
-        $total_discount = $all->sum(fn($item) => $item['quantity'] * $item['product']->getDiscountedPrice());
+        $total_discount = $all->sum(fn($item) => $item['quantity'] * $item['product']->discount_amount);
         $total = $subtotal - $total_discount;
         return compact(
             'subtotal',

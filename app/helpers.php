@@ -34,7 +34,7 @@ if (! function_exists('round_price')) {
     {
         return intval(
             round(intval($price) / 1000, 1)
-        );
+        ) * 1000;
     }
 }
 

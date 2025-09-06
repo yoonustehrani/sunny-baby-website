@@ -104,9 +104,17 @@
                         </div>
                     </div>
                     <div class="tf-mini-cart-bottom-wrap">
-                        <div class="tf-cart-totals-discounts">
+                        {{-- <div class="tf-cart-totals-discounts">
                             <div class="tf-cart-total">@lang('Subtotal')</div>
                             <div class="tf-totals-total-value fw-6">{{ format_price($sums['subtotal']) }}</div>
+                        </div>
+                        <div class="tf-cart-totals-discounts">
+                            <div class="tf-cart-total">@lang('Total Discount')</div>
+                            <div class="tf-totals-total-value fw-6">{{ format_price($sums['total_discount']) }}</div>
+                        </div> --}}
+                        <div class="tf-cart-totals-discounts">
+                            <div class="tf-cart-total">@lang('Total')</div>
+                            <div class="tf-totals-total-value fw-6">{{ format_price($sums['total']) }}</div>
                         </div>
                         <div class="tf-cart-tax">@lang("Taxes and shipping calculated at checkout")</div>
                         <div class="tf-mini-cart-line"></div>
@@ -125,7 +133,7 @@
                         <div class="tf-mini-cart-view-checkout">
                             <a href="{{ route('cart') }}"
                                 class="tf-btn btn-outline radius-3 link w-100 justify-content-center">@lang("View cart")</a>
-                            <a href="checkout.html"
+                            <a href="{{ route('checkout') }}"
                                 class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"><span>@lang("Check out")</span></a>
                         </div>
                     </div>

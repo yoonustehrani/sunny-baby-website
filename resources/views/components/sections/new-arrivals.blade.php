@@ -7,7 +7,7 @@
         </div>
         <div class="grid-layout loadmore-item" data-grid="grid-4">
             @foreach (\App\Models\Product::with('discount', 'variables.values')->take(12)->latest()->get() as $product)
-                <x-cards.new-product :product="$product"/>
+                <x-cards.product-card :$product class="tw:bg-white! tw:p-2! tw:rounded-xl style-4 fl-item tw:flex tw:flex-col"/>
             @endforeach
         </div>
         <div class="tf-pagination-wrap view-more-button text-center">

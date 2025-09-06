@@ -1,4 +1,4 @@
-<div class="card-product tw:bg-white! tw:p-2! tw:rounded-xl style-4 fl-item">
+<div {{ $attributes->merge(['class' => 'card-product']) }}>
     <div class="card-product-wrapper">
         <a href="product-detail.html" class="product-img">
             <img class="lazyload img-product" data-src="{{ asset('images/products/photo-6.jpg') }}" src="{{ asset('images/products/photo-6.jpg') }}" alt="image-product">
@@ -20,17 +20,27 @@
                 <span class="tooltip">Quick View</span>
             </a>
         </div>
-        <div class="size-list">
-            <span>S</span>
-            <span>M</span>
-            <span>L</span>
-            <span>XL</span>
-        </div>
+        @unless(is_null($product->discount->expires_at))
+            <div class="countdown-box">
+                <div class="js-countdown" dir="rtl" data-timer="{{ $product->discount->expires_at->timestamp - now()->timestamp }}" data-labels="d :,h :,m"></div>
+            </div>
+            @endunless
+            @if ($product->is_discounted)
+            <div class="on-sale-wrap text-end">
+                <div class="on-sale-item" dir="ltr">-{{ $product->discount_in_percent }}%</div>
+            </div>
+        @endif
+        @if ($product->is_discounted)
+            <div class="on-sale-wrap text-end">
+                <div class="on-sale-item" dir="ltr">-{{ $product->discount_in_percent }}%</div>
+            </div>
+            @endif
+        {{-- <x-product-item.size-list /> --}}
         <livewire:add-to-cart-button :$product style='hover'/>
     </div>
-    <div class="card-product-info tw:px-2!" x-data='{}'>
+    <div class="card-product-info tw:px-2! tw:grow" x-data='{}'>
         <a href="#" class="title link tw:text-sm tw:md:text-base tw:mx-auto tw:font-normal">{{ $product->title }}</a>
-        <span class="price tw:text-sm tw:mx-auto tw:font-normal tw:text-caramel">{{ format_price($product->price) }}</span>
+        <x-product-price :$product/>
         <livewire:add-to-cart-button :$product/>
         {{-- <ul class="list-color-product">
             <li class="list-color-item color-swatch active">

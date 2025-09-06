@@ -19,7 +19,7 @@ Util.setAttributes = function (el, attrs) {
         this.days = this.element.getElementsByClassName('js-countdown__value--0')[0];
         this.hours = this.element.getElementsByClassName('js-countdown__value--1')[0];
         this.mins = this.element.getElementsByClassName('js-countdown__value--2')[0];
-        this.secs = this.element.getElementsByClassName('js-countdown__value--3')[0];
+        // this.secs = this.element.getElementsByClassName('js-countdown__value--3')[0];
         this.endTime = this.getEndTime();
         //init counter
         this.initCountDown();
@@ -36,17 +36,17 @@ Util.setAttributes = function (el, attrs) {
         var wrapper = document.createElement("div");
         Util.setAttributes(wrapper, {'aria-hidden': 'true', 'class': 'countdown__timer'});
 
-        for (var i = 0; i < 4; i++) {
+        for (var i = 0; i < 3; i++) {
             var timeItem = document.createElement("span"),
                 timeValue = document.createElement("span"),
                 timeLabel = document.createElement('span');
 
             timeItem.setAttribute('class', 'countdown__item');
+            timeItem.setAttribute('dir', 'rtl');
             timeValue.setAttribute('class', 'countdown__value countdown__value--' + i + ' js-countdown__value--' + i);
             timeItem.appendChild(timeValue);
-
             if (this.labels && this.labels.length > 0) {
-                timeLabel.textContent = this.labels[i].trim();
+                timeLabel.textContent = this.labels[i].trim().replace('d', 'روز').replace('m', 'د').replace('h', 'س').replace('s', 'ث');
                 timeLabel.setAttribute('class', 'countdown__label');
                 timeItem.appendChild(timeLabel);
             }
@@ -68,7 +68,7 @@ Util.setAttributes = function (el, attrs) {
         var self = this;
         this.intervalId = setInterval(function () {
             self.updateCountDown(false);
-        }, 1000);
+        }, 30 * 1000);
         this.updateCountDown(true);
     };
 
@@ -102,7 +102,7 @@ Util.setAttributes = function (el, attrs) {
         this.days.textContent = days;
         this.hours.textContent = this.getTimeFormat(hours);
         this.mins.textContent = this.getTimeFormat(mins);
-        this.secs.textContent = this.getTimeFormat(seconds);
+        // this.secs.textContent = this.getTimeFormat(seconds);
     };
 
     CountDown.prototype.getTimeFormat = function (time) {

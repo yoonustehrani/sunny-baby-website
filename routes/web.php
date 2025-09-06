@@ -2,10 +2,12 @@
 
 use App\Livewire\ShowCheckout;
 use App\Livewire\Pages\ShowCart;
+use App\Models\Product;
 use Database\Seeders\CategorySeeder;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
+    // return Product::whereNotNull('discount_id')->with('discount')->get()->append(['discounted_price', 'discount_amount']);
     return view('home');
 })->name('home');
 
