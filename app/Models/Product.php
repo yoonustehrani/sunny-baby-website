@@ -21,7 +21,9 @@ class Product extends Model
 
     public function discount()
     {
-        return $this->belongsTo(Discount::class)->where('target', DiscountTargetType::PRODUCT);
+        return $this->belongsTo(Discount::class)->where('target', DiscountTargetType::PRODUCT)->where(function(Builder $q) {
+            $q->whereNull('expires_at')->orWhere('expires_at', '>', now());
+        });
     }
 
     public function reviews()

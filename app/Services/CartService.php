@@ -36,6 +36,9 @@ class CartService
 
     public function all()
     {
+        if ($this->items->isEmpty()) {
+            return $this->items;
+        }
         $products = Product::with('discount', 'variables.values')->whereIn('id', $this->items->keys())->get()->keyBy('id');
         return $this->items->map(function(int $quantity, $productId) use(&$products) {
             /**
@@ -88,7 +91,7 @@ class CartService
     {
         $all = $this->all();
         $subtotal = $all->sum(fn($item) => $item['quantity'] * $item['product']->price);
-        $total_discount = $all->sum(fn($item) => $item['quantity'] * $item['product']->discount_amount);
+        $total_discount = $all->filter(fn($item) => !is_null($item['product']->discount))->sum(fn($item) => $item['quantity'] * $item['product']->discount_amount);
         $total = $subtotal - $total_discount;
         return compact(
             'subtotal',

@@ -38,12 +38,14 @@ class AddToCartButton extends Component
 
     public function add()
     {
+        sleep(1);
         Cart::update($this->product->id, $this->getQuantity() + 1);
         $this->dispatchEvents();
     }
 
     public function sub()
     {
+        sleep(1);
         Cart::update($this->product->id, $this->getQuantity() - 1);
         $this->dispatchEvents();
     }

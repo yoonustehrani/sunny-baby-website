@@ -88,7 +88,7 @@ if (! function_exists('buildCategoryTree')) {
     }
 }
 
-if (! function_exists('getCarrier')) {
+if (! function_exists('get_carrier')) {
     function get_carrier(string $class, Address $address): Carrier
     {
         return Shipping::carrier($class)->setAddress($address);

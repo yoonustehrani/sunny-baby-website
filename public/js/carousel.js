@@ -451,16 +451,16 @@ if ($(".tf-sw-product-sell-1").length > 0) {
   });
 }
 
-if ($(".tf-sw-product-sell").length > 0) {
-  var preview = $(".tf-sw-product-sell").data("preview");
-  var tablet = $(".tf-sw-product-sell").data("tablet");
-  var mobile = $(".tf-sw-product-sell").data("mobile");
-  var spacingLg = $(".tf-sw-product-sell").data("space-lg");
-  var spacingMd = $(".tf-sw-product-sell").data("space-md");
-  var perGroup = $(".tf-sw-product-sell").data("pagination");
-  var perGroupMd = $(".tf-sw-product-sell").data("pagination-md");
-  var perGroupLg = $(".tf-sw-product-sell").data("pagination-lg");
-  var swiper = new Swiper(".tf-sw-product-sell", {
+function productCarousel(query) {
+  var preview = $(query).data("preview");
+  var tablet = $(query).data("tablet");
+  var mobile = $(query).data("mobile");
+  var spacingLg = $(query).data("space-lg");
+  var spacingMd = $(query).data("space-md");
+  var perGroup = $(query).data("pagination");
+  var perGroupMd = $(query).data("pagination-md");
+  var perGroupLg = $(query).data("pagination-lg");
+  var swiper = new Swiper(query, {
     slidesPerView: mobile,
     spaceBetween: spacingMd,
     speed: 1000,
@@ -487,6 +487,11 @@ if ($(".tf-sw-product-sell").length > 0) {
       },
     },
   });
+  return swiper;
+}
+
+if ($(".tf-sw-product-sell").length > 0) {
+  productCarousel(".tf-sw-product-sell")
 }
 
 if ($(".tf-sw-recent").length > 0) {

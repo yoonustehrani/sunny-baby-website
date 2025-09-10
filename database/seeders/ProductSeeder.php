@@ -2,10 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use App\Models\Discount;
 use App\Models\Product;
 use App\Models\Variable;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -18,25 +20,35 @@ class ProductSeeder extends Seeder
     {
         $this->call(CategorySeeder::class);
         $this->call(VariableSeeder::class);
-        // Product::factory(12)->create();
-        Product::factory(5)->for(Discount::factory(), 'discount')->create();
-        // try {
-        //     DB::beginTransaction();
-        //     $variable = Variable::whereName('رنگ')->first();
-        //     $colors = $variable->values()->get();
-        //     $variable_products = Product::factory(5)->variable()->has(
-        //         Product::factory(count($colors))->variation(),
-        //         'variations'
-        //     )->create();
-        //     foreach ($variable_products as $vp) {
-        //         $vp->variations->each(function(Product $p, int $i) use(&$variable, &$colors) {
-        //             $p->variables()->attach($variable, ['variable_value_id' => $colors[$i]->id]);
-        //         });
-        //     }
-        //     DB::commit();
-        // } catch (\Throwable $th) {
-        //     DB::rollBack();
-        //     throw $th;
-        // }
+        try {
+            DB::beginTransaction();
+            $categories = Category::whereNull('parent_id')->inRandomOrder()->get()->pluck('id')->toArray();
+            $products = collect();
+             // discounted product
+            $products->push(...Product::factory(random_int(5, 7))->forDiscount()->create());
+            // normal product
+            $products->push(...Product::factory(random_int(6, 12))->create());
+
+            // creating variable products
+            // $variable = Variable::whereName('رنگ')->first();
+            // $colors = $variable->values()->get();
+            // $variable_products = Product::factory(random_int(6, 12))->variable()->has(
+            //     Product::factory(count($colors))->variation(),
+            //     'variations'
+            // )->create();
+            // $products->push(...$variable_products);
+            // foreach ($variable_products as $vp) {
+            //     $vp->variations->each(function(Product $p, int $i) use(&$variable, &$colors) {
+            //         $p->variables()->attach($variable, ['variable_value_id' => $colors[$i]->id]);
+            //     });
+            // }
+            foreach ($products as $p) {
+                $p->categories()->attach(fake()->randomElement($categories));
+            }
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+        }
     }
 }

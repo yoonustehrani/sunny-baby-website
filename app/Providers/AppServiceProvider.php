@@ -19,14 +19,14 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(TelescopeServiceProvider::class);
         }
         if ($this->app->environment('production')) {
-            Livewire::setUpdateRoute(function ($handle) {
-                $path = config('app.path').'/livewire/update';
-                return Route::post($path, $handle)->middleware('web');
-            });
-            Livewire::setScriptRoute(function ($handle) {
-                $path = config('app.path').'/livewire/livewire.js';
-                return Route::get($path, $handle)->middleware('web');
-            });
+            // Livewire::setUpdateRoute(function ($handle) {
+            //     $path = config('app.path').'/livewire/update';
+            //     return Route::post($path, $handle)->middleware('web');
+            // });
+            // Livewire::setScriptRoute(function ($handle) {
+            //     $path = config('app.path').'/livewire/livewire.js';
+            //     return Route::get($path, $handle)->middleware('web');
+            // });
             URL::forceRootUrl(config('app.url'));
             URL::forceScheme('https');
         }

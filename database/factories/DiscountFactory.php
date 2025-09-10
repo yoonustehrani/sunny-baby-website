@@ -28,7 +28,7 @@ class DiscountFactory extends Factory
             'method' => $method,
             'target' => DiscountTargetType::PRODUCT,
             'value' => $amount,
-            'expires_at' => now()->addDays(30),
+            'expires_at' => fake()->randomElement([null, now()->addDays(random_int(1, 7))]),
             // 'max_usage' => fake()->numberBetween(1, 3),
             // 'max_user_usage' => 1
         ];

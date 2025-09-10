@@ -20,21 +20,16 @@
                 <span class="tooltip">Quick View</span>
             </a>
         </div>
-        @unless(is_null($product->discount->expires_at))
+        @if ($product->is_discounted)
+            @unless(is_null($product->discount->expires_at))
             <div class="countdown-box">
                 <div class="js-countdown" dir="rtl" data-timer="{{ $product->discount->expires_at->timestamp - now()->timestamp }}" data-labels="d :,h :,m"></div>
             </div>
             @endunless
-            @if ($product->is_discounted)
             <div class="on-sale-wrap text-end">
                 <div class="on-sale-item" dir="ltr">-{{ $product->discount_in_percent }}%</div>
             </div>
         @endif
-        @if ($product->is_discounted)
-            <div class="on-sale-wrap text-end">
-                <div class="on-sale-item" dir="ltr">-{{ $product->discount_in_percent }}%</div>
-            </div>
-            @endif
         {{-- <x-product-item.size-list /> --}}
         <livewire:add-to-cart-button :$product style='hover'/>
     </div>
