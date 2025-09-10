@@ -129,4 +129,8 @@ Util.setAttributes = function (el, attrs) {
   /*      }, 1000);*/
 
     });
+
+    window.launchCountdown = (element) => {
+        return new CountDown(element);
+    }
 }());

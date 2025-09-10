@@ -3,7 +3,7 @@
     <x-header />
     <x-sections.slider />
     <x-sections.categories />
-    <x-sections.new-arrivals />
+    <livewire:new-arrivals-section lazy/>
     <livewire:category-products-row :category="$categories[0]" lazy/>
     <x-sections.brands />
     <livewire:category-products-row :category="$categories[1]" lazy/>

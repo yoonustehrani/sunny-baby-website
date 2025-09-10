@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Product::class)->constrained()->cascadeOnDelete();
             $table->text('url');
+            $table->text('thumbnail_url');
             $table->boolean('is_main')->default(false);
         });
     }

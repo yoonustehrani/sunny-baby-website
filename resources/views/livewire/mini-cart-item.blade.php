@@ -1,7 +1,9 @@
 <div class="tf-mini-cart-item">
     <div class="tf-mini-cart-image">
         <a href="product-detail.html">
-            <img src="{{ asset('images/products/photo-4.jpg') }}" alt="">
+            @isset($product->images[0])
+                <img class="lazyload" data-src="{{ asset($product->images[0]->url) }}" src="{{ asset($product->images[0]->thumbnail_url) }}" alt="">
+            @endisset
         </a>
     </div>
     <div class="tf-mini-cart-info">

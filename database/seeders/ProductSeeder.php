@@ -5,7 +5,9 @@ namespace Database\Seeders;
 use App\Models\Category;
 use App\Models\Discount;
 use App\Models\Product;
+use App\Models\ProductImage;
 use App\Models\Variable;
+use Database\Factories\ProductImageFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
@@ -44,6 +46,8 @@ class ProductSeeder extends Seeder
             // }
             foreach ($products as $p) {
                 $p->categories()->attach(fake()->randomElement($categories));
+                ProductImage::factory()->main()->for($p)->create();
+                ProductImage::factory()->for($p)->create();
             }
             DB::commit();
         } catch (\Throwable $th) {

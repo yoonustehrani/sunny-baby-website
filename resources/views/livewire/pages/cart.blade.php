@@ -56,9 +56,18 @@
                                 <span>Do you want a gift wrap?</span> Only <span class="fw-5">$5.00</span>
                             </label>
                         </div> --}}
-                        <div class="tf-cart-totals-discounts">
+                        <div class="tf-cart-totals-discounts tw:text-gray-400!">
                             <h3 class="tw:font-yekan">@lang('Subtotal')</h3>
                             <span class="total-value">{{ format_price($sums['subtotal']) }}</span>
+                        </div>
+                        <div class="tf-cart-totals-discounts tw:text-gray-400!">
+                            <h3 class="tw:font-yekan">@lang('Total Discount')</h3>
+                            <span class="total-value">{{ format_price($sums['total_discount']) }}</span>
+                        </div>
+                        <hr>
+                        <div class="tf-cart-totals-discounts">
+                            <h3 class="tw:font-yekan">@lang('Total')</h3>
+                            <span class="total-value">{{ format_price($sums['total']) }}</span>
                         </div>
                         <p class="tf-cart-tax">
                             هزینه ارسال در مرحله تسویه حساب اعمال می گردد.

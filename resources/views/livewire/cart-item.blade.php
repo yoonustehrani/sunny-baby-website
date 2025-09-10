@@ -1,7 +1,9 @@
 <tr class="tf-cart-item file-delete">
     <td class="tf-cart-item_product">
-        <a href="product-detail.html" class="img-box">
-            <img src="images/products/white-2.jpg" alt="img-product">
+        <a href="product-detail.html" class="img-box tw:ml-3">
+            @isset($product->images[0])
+                <img class="lazyload" data-src="{{ asset($product->images[0]->url) }}" src="{{ asset($product->images[0]->thumbnail_url) }}" alt="">
+            @endisset
         </a>
         <div class="cart-info">
             <a href="product-detail.html" class="cart-title link">{{ $product->title }}</a>
@@ -12,7 +14,14 @@
         </div>
     </td>
     <td class="tf-cart-item_price" cart-data-title="Price">
-        <div class="cart-price">{{ format_price($product->price) }}</div>
+        <div class="tw:flex tw:flex-col tw:gap-2 tw:items-center">
+            @if ($product->is_discounted)
+                <div class="tw:text-gray-400 tw:line-through">{{ format_price($product->price) }}</div>
+                <div class="cart-price">{{ format_price($product->discounted_price) }}</div>
+            @else
+                <div class="cart-price">{{ format_price($product->price) }}</div>
+            @endif
+        </div>
     </td>
     <td class="tf-cart-item_quantity" cart-data-title="Quantity">
         <div class="cart-quantity">
@@ -28,6 +37,10 @@
         </div>
     </td>
     <td class="tf-cart-item_total" cart-data-title="Total">
-        <div class="cart-total">{{ format_price($product->price * $quantity) }}</div>
+        @if ($product->is_discounted)
+            <div class="cart-total">{{ format_price($product->discounted_price * $quantity) }}</div>
+        @else
+            <div class="cart-total">{{ format_price($product->price * $quantity) }}</div>
+        @endif
     </td>
 </tr>

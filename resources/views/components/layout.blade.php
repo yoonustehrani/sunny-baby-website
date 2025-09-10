@@ -1177,22 +1177,5 @@
     <script type="text/javascript" src="{{ asset('js/wow.min.js') }}"></script>   
     <script type="text/javascript" src="{{ asset('js/multiple-modal.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/main.js') }}"></script>
-    {{-- <script>
-        document.addEventListener('livewire:init', () => {
-            Livewire.hook('component.hydrated', ({component, cleanup}) => {
-                if (component.name == 'category-products-row') {
-                    // let target = component.el.querySelector('.tf-sw-product-sell')
-                    setTimeout(() => {
-                        console.log(component.el.querySelector('.tf-sw-product-sell'));
-                    }, 2000);
-                    
-                    // if (target) {
-                    //     productCarousel(target)
-                    //     // cleanup()
-                    // }
-                }
-            })
-        });
-    </script> --}}
 </body>
 </html>

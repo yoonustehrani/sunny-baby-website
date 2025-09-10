@@ -16,7 +16,7 @@ class CategoryProductsRow extends Component
     {
         $this->hasProducts = $this->category->products()->count() > 0;
         if ($this->hasProducts) {
-            $this->products = $this->category->products()->with('discount')->latest()->take(10)->get();
+            $this->products = $this->category->products()->with('discount', 'images')->latest()->take(10)->get();
         }
     }
 

@@ -1,8 +1,12 @@
 <div {{ $attributes->merge(['class' => 'card-product']) }}>
     <div class="card-product-wrapper">
         <a href="product-detail.html" class="product-img">
-            <img class="lazyload img-product" data-src="{{ asset('images/products/photo-6.jpg') }}" src="{{ asset('images/products/photo-6.jpg') }}" alt="image-product">
-            <img class="lazyload img-hover" data-src="{{ asset('images/products/photo-7.jpg') }}" src="{{ asset('images/products/photo-7.jpg') }}" alt="image-product">
+            @isset($product->images[0])
+                <img class="lazyload img-product" data-src="{{ asset($product->images[0]->url) }}" src="{{ asset($product->images[0]->thumbnail_url) }}" alt="image-product">    
+            @endisset
+            @isset($product->images[1])
+                <img class="lazyload img-hover" data-src="{{ asset($product->images[1]->url) }}" src="{{ asset($product->images[1]->thumbnail_url) }}" alt="image-product">
+            @endisset
         </a>
         <div class="list-product-btn column-right">
             <a href="javascript:void(0);" class="box-icon wishlist bg_white round btn-icon-action">
@@ -23,7 +27,7 @@
         @if ($product->is_discounted)
             @unless(is_null($product->discount->expires_at))
             <div class="countdown-box">
-                <div class="js-countdown" dir="rtl" data-timer="{{ $product->discount->expires_at->timestamp - now()->timestamp }}" data-labels="d :,h :,m"></div>
+                <div x-init='launchCountdown($el)' class="js-countdown" dir="rtl" data-timer="{{ $product->discount->expires_at->timestamp - now()->timestamp }}" data-labels="d :,h :,m"></div>
             </div>
             @endunless
             <div class="on-sale-wrap text-end">
