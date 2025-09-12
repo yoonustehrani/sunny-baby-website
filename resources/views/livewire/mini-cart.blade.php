@@ -7,11 +7,13 @@
         <div class="wrap">
             <div class="tf-mini-cart-threshold">
                 <div class="tf-progress-bar">
-                    <span style="width: 50%;"></span>
+                    @php
+                        $percentage = $sums['total'] / 1_000_000;
+                    @endphp
+                    <span style="width: {{ $percentage > 1 ? 100 : intval($percentage * 100) }}%;"></span>
                 </div>
                 <div class="tf-progress-msg">
-                    @lang('Buy :amount more to enjoy :feature', ['amount' => '۱ میلیون تومان', 'feature' => __('Free
-                    Shipping')]).
+                    @lang('Buy :amount more to enjoy :feature', ['amount' => '۱ میلیون تومان', 'feature' => __('Free Shipping')]).
                     {{-- Buy <span class="price fw-6">$75.00</span> more to enjoy <span class="fw-6">Free
                         Shipping</span> --}}
                 </div>
@@ -25,7 +27,7 @@
                                 :quantity="$item['quantity']" />
                             @endforeach
                         </div>
-                        <div class="tf-minicart-recommendations">
+                        {{-- <div class="tf-minicart-recommendations">
                             <div class="tf-minicart-recommendations-heading">
                                 <div class="tf-minicart-recommendations-title">You may also like</div>
                                 <div class="sw-dots small style-2 cart-slide-pagination"></div>
@@ -70,7 +72,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="tf-mini-cart-bottom">
