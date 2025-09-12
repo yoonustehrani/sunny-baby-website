@@ -1,6 +1,6 @@
 <div {{ $attributes->merge(['class' => 'card-product']) }}>
     <div class="card-product-wrapper">
-        <a href="product-detail.html" class="product-img">
+        <a href="{{ route('products.show', ['slug' => $product->slug]) }}" class="product-img">
             @isset($product->images[0])
                 <img class="lazyload img-product" data-src="{{ asset($product->images[0]->url) }}" src="{{ asset($product->images[0]->thumbnail_url) }}" alt="image-product">    
             @endisset
@@ -38,7 +38,7 @@
         <livewire:add-to-cart-button :$product style='hover'/>
     </div>
     <div class="card-product-info tw:px-2! tw:grow" x-data='{}'>
-        <a href="#" class="title link tw:text-sm tw:md:text-base tw:mx-auto tw:font-normal">{{ $product->title }}</a>
+        <a href="{{ route('products.show', ['slug' => $product->slug]) }}" class="title link tw:text-sm tw:md:text-base tw:mx-auto tw:font-normal">{{ $product->title }}</a>
         <x-product-price :$product/>
         <livewire:add-to-cart-button :$product/>
         {{-- <ul class="list-color-product">

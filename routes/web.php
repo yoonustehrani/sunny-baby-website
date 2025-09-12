@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ShowProductController;
 use App\Livewire\ShowCheckout;
 use App\Livewire\Pages\ShowCart;
 use App\Models\Product;
@@ -13,7 +14,7 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-
+Route::get('/products/{slug}', ShowProductController::class)->name('products.show');
 Route::name('pages.')->group(function() {
     Route::view('/contact-us', 'pages.contact')->name('contact');
 });

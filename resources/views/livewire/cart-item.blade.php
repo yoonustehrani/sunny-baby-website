@@ -1,12 +1,12 @@
 <tr class="tf-cart-item file-delete">
     <td class="tf-cart-item_product">
-        <a href="product-detail.html" class="img-box tw:ml-3">
+        <a href="{{ route('products.show', ['slug' => $product->slug]) }}" class="img-box tw:ml-3">
             @isset($product->images[0])
                 <img class="lazyload" data-src="{{ asset($product->images[0]->url) }}" src="{{ asset($product->images[0]->thumbnail_url) }}" alt="">
             @endisset
         </a>
         <div class="cart-info">
-            <a href="product-detail.html" class="cart-title link">{{ $product->title }}</a>
+            <a href="{{ route('products.show', ['slug' => $product->slug]) }}" class="cart-title link">{{ $product->title }}</a>
             @if ($product->type === App\Enums\ProductType::VARIATION)
                 <div class="cart-meta-variant">White / M</div>
             @endif

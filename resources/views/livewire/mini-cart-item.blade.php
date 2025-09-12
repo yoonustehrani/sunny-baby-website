@@ -1,13 +1,13 @@
 <div class="tf-mini-cart-item">
     <div class="tf-mini-cart-image">
-        <a href="product-detail.html">
+        <a href="{{ route('products.show', ['slug' => $product->slug]) }}">
             @isset($product->images[0])
                 <img class="lazyload" data-src="{{ asset($product->images[0]->url) }}" src="{{ asset($product->images[0]->thumbnail_url) }}" alt="">
             @endisset
         </a>
     </div>
     <div class="tf-mini-cart-info">
-        <a class="title link" href="product-detail.html">{{ $product->name }}</a>
+        <a class="title link" href="{{ route('products.show', ['slug' => $product->slug]) }}">{{ $product->name }}</a>
         @foreach ($product->variables as $item)
             <div class="meta-variant">{{ $item->value }}</div>
         @endforeach
