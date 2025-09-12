@@ -27,9 +27,13 @@ class ProductSeeder extends Seeder
             $categories = Category::whereNull('parent_id')->inRandomOrder()->get()->pluck('id')->toArray();
             $products = collect();
              // discounted product
-            $products->push(...Product::factory(random_int(5, 7))->forDiscount()->create());
+            $products->push(
+                ...Product::factory(random_int(5, 7))->withDiscount()->create()
+            );
             // normal product
-            $products->push(...Product::factory(random_int(6, 12))->create());
+            $products->push(
+                ...Product::factory(random_int(6, 12))->create()
+            );
 
             // creating variable products
             // $variable = Variable::whereName('رنگ')->first();

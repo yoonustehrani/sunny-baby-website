@@ -19,10 +19,7 @@ class DiscountFactory extends Factory
     public function definition(): array
     {
         $method = fake()->randomElement(DiscountMethod::cases());
-        $amount = match ($method) {
-            DiscountMethod::PERCENTAGE => fake()->numberBetween(1, 10) * 10,
-            DiscountMethod::FIXED_AMOUNT => fake()->numberBetween(1, 50) * 100 * 100,
-        };
+        $amount = $this->getAmountByMethod($method);
         return [
             'name' => fake()->colorName(),
             'method' => $method,
@@ -32,6 +29,22 @@ class DiscountFactory extends Factory
             // 'max_usage' => fake()->numberBetween(1, 3),
             // 'max_user_usage' => 1
         ];
+    }
+
+    public function byMethod(DiscountMethod $method)
+    {
+        return $this->state(fn() => [
+            'method' => $method,
+            'value' => $this->getAmountByMethod($method)
+        ]);
+    }
+
+    protected function getAmountByMethod(DiscountMethod $method)
+    {
+        return match ($method) {
+            DiscountMethod::PERCENTAGE => fake()->numberBetween(1, 10) * 10,
+            DiscountMethod::FIXED_AMOUNT => fake()->numberBetween(1, 50) * 100 * 100,
+        };
     }
 
     public function withCode(): static

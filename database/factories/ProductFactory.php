@@ -2,8 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Enums\DiscountMethod;
 use App\Enums\ProductType;
 use App\Models\Category;
+use App\Models\Discount;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -53,6 +55,12 @@ class ProductFactory extends Factory
             'title' => null,
             'description' => null,
             'slug' => null
+        ]);
+    }
+    public function withDiscount()
+    {
+        return $this->state(fn () => [
+            'discount_id' => Discount::factory()->byMethod(DiscountMethod::PERCENTAGE)
         ]);
     }
 }
