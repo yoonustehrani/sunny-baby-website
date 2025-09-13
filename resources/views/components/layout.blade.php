@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{{ asset('fonts/font-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/swiper-bundle.min.css') }}">
-    @vite(['resources/css/app.css', 'resources/css/theme.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/css/theme.css'])
     {{-- Favicon and Touch Icons --}}
     <link rel="shortcut icon" href="{{ asset('images/logo/favicon.png') }}">
     <link rel="apple-touch-icon-precomposed" href="{{ asset('images/logo/favicon.png') }}">
@@ -26,10 +26,10 @@
         </div>
     </div>
     <!-- /preload -->
-    <div id="wrapper" class="tw:w-full tw:overflow-x-hidden">
+    <main id="wrapper" class="tw:w-full tw:overflow-x-hidden">
         {{ $slot }}
         <x-footer />
-    </div>
+    </main>
     <!-- gotop -->
     <div class="progress-wrap">
         <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
@@ -1170,12 +1170,9 @@
     <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/swiper-bundle.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/carousel.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/lazysize.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/count-down.js') }}"></script>   
-    <script type="text/javascript" src="{{ asset('js/wow.min.js') }}"></script>   
-    <script type="text/javascript" src="{{ asset('js/multiple-modal.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/main.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/wow.min.js') }}"></script>
+    @vite(['resources/js/app.js'])
 </body>
 </html>

@@ -1,8 +1,8 @@
 <div class="tf-mini-cart-item">
     <div class="tf-mini-cart-image">
         <a href="{{ route('products.show', ['slug' => $product->slug]) }}">
-            @isset($product->images[0])
-                <img class="lazyload" data-src="{{ asset($product->images[0]->url) }}" src="{{ asset($product->images[0]->thumbnail_url) }}" alt="">
+            @isset($product->main_image)
+                <img class="lazyload" data-src="{{ asset($product->main_image->url) }}" src="{{ asset($product->main_image->thumbnail_url) }}" alt="">
             @endisset
         </a>
     </div>
