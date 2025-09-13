@@ -35,7 +35,7 @@ trait DiscountMethods
 
     public function isDiscounted(): Attribute
     {
-        return Attribute::make(get: fn() => ! is_null($this->discount_id));
+        return Attribute::make(get: fn() => ! is_null($this->discount_id) && ! is_null($this->discount));
     }
 
     public function getDiscountedPriceAttribute(): int|null
