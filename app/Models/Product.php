@@ -2,17 +2,12 @@
 
 namespace App\Models;
 
-use App\Enums\DiscountMethod;
-use App\Enums\DiscountTargetType;
 use App\Enums\ProductType;
 use App\Traits\DiscountMethods;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Attributes\Scope;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
-use function PHPUnit\Framework\returnSelf;
 
 class Product extends Model
 {
@@ -21,9 +16,7 @@ class Product extends Model
 
     public function discount()
     {
-        return $this->belongsTo(Discount::class)->where('target', DiscountTargetType::PRODUCT)->where(function(Builder $q) {
-            $q->whereNull('expires_at')->orWhere('expires_at', '>', now());
-        });
+        return $this->belongsTo(Discount::class)->forProduct()->active()->unexpired();
     }
 
     public function reviews()
