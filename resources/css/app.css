@@ -64,7 +64,13 @@ body, html {
 
 @layer base {
     input, textarea, select, h4, h5, h6 {
-        @apply tw:font-yekan;
+      @apply tw:font-yekan;
+    }
+    .checkbox:checked {
+      border: none !important;
+    }
+    .checkbox:checked + .check-icon {
+      display: flex !important;
     }
     
     /* :root {

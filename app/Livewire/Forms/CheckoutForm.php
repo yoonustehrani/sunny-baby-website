@@ -34,6 +34,9 @@ class CheckoutForm extends Form
     #[Session]
     public ?int $cityId = null;
 
+    #[Session]
+    public ?string $carrier_class = null;
+
     public function getAddressForShipment(): ?Address
     {
         if ($this->provinceId && $this->cityId) {

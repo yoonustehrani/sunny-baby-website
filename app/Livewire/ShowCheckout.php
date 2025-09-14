@@ -48,6 +48,11 @@ class ShowCheckout extends Component
         $this->form->cityId = null;
     }
 
+    public function setCarrierClass(?string $class = null)
+    {
+        $this->form->carrier_class = $class;
+    }
+
     public function render()
     {
         $total = Cart::sums()['total'];

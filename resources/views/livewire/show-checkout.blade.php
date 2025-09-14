@@ -59,27 +59,30 @@
                             <h6 class="fw-5">@lang('Total')</h6>
                             <h6 class="total fw-5">{{ format_price($total) }}</h6>
                         </div>
+                        <div>{{ $form->carrier_class }}</div>
                         @if ($form->getAddressForShipment())
-                            <div class="tw:flex tw:flex-col tw:gap-y-8">
-                                @foreach (\App\Facades\Shipping::carriers() as $carrierClass)
-                                    @php
-                                        $carrier = get_carrier($carrierClass, $form->getAddressForShipment());
-                                    @endphp
-                                    @if ($carrier->isActive())
-                                        <div class="tw:flex tw:items-center tw:justify-between tw:p-4 tw:border tw:rounded-md tw:border-black/10 tw:shadow-sm">
-                                            <div class="tw:flex tw:gap-4 tw:items-center">
-                                                <div class="tw:flex tw:flex-col tw:gap-2">
-                                                    <h4 class="tw:text-base tw:font-bold">{{ $carrier->getName() }}</h4>
-                                                    <p class="tw:text-xs">{{ $carrier->getDescription() }}</p>
-                                                </div>
-                                                <span>-</span>
-                                                <span>{{ $carrier->getPriceLabel() }}</span>
+                            @foreach (\App\Facades\Shipping::carriers() as $carrierClass)
+                                @php
+                                    $carrier = get_carrier($carrierClass, $form->getAddressForShipment());
+                                @endphp
+                                @if ($carrier->isActive())
+                                    <div wire:click="setCarrierClass('{{ str_replace('\\', '\\\\', $carrierClass) }}')" class="tw:flex tw:cursor-pointer tw:items-center tw:justify-between tw:p-4 tw:border tw:rounded-md tw:border-black/10 tw:shadow-sm">
+                                        <div class="tw:flex tw:gap-4 tw:items-center">
+                                            <div class="tw:bg-white tw:dark:bg-gray-100 tw:rounded-full tw:w-4 tw:h-4 tw:flex tw:flex-shrink-0 tw:justify-center tw:items-center tw:relative">
+                                                <input @checked($form->carrier_class == $carrierClass) type="radio" class="checkbox tw:appearance-none tw:focus:opacity-100 tw:focus:ring-2 tw:focus:ring-offset-2 tw:focus:ring-indigo-700 tw:focus:outline-none tw:border tw:rounded-full tw:border-gray-400 tw:absolute tw:cursor-pointer tw:w-full tw:h-full tw:checked:border-none" />
+                                                <div class="check-icon tw:hidden tw:border-4 tw:border-indigo-700 tw:rounded-full tw:w-full tw:h-full tw:z-1"></div>
                                             </div>
-                                            <img class="tw:h-12 tw:w-auto" src="{{ $carrier->getLogoUrl() }}" alt="{{ $carrier->getName() }}">
+                                            <div class="tw:flex tw:flex-col tw:gap-2">
+                                                <h4 class="tw:text-base tw:font-bold">{{ $carrier->getName() }}</h4>
+                                                <p class="tw:text-xs">{{ $carrier->getDescription() }}</p>
+                                            </div>
+                                            <span>-</span>
+                                            <span>{{ $carrier->getPriceLabel() }}</span>
                                         </div>
-                                    @endif
-                                @endforeach
-                            </div>
+                                        <img class="tw:h-12 tw:w-auto" src="{{ $carrier->getLogoUrl() }}" alt="{{ $carrier->getName() }}">
+                                    </div>
+                                @endif
+                            @endforeach
                             <hr class="tw:border-gray-400/80">
                         @endif
                         <div class="wd-check-payment">
