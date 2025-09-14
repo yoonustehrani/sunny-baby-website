@@ -4069,6 +4069,11 @@ header.header-bg {
 .tf-field .tf-input::placeholder {
   color: transparent;
 }
+
+.tf-field .tf-input:focus::placeholder {
+  direction: rtl;
+  text-align: right;
+}
 .tf-field .tf-field-label {
   position: absolute;
   top: 50%;
@@ -4078,16 +4083,15 @@ header.header-bg {
   cursor: text;
 }
 .tf-field.style-1 .tf-input {
-  padding: 25px 18px 6px;
-  height: 50px;
   border: 1px solid var(--line) !important;
 }
 .tf-field.style-1 .tf-input:not(:placeholder-shown) ~ .tf-field-label, .tf-field.style-1 .tf-input:focus ~ .tf-field-label {
-  top: 4px;
-  left: 14px;
+  top: -8px;
+  left: 7px;
   transform: scale(0.8);
-  background-color: transparent;
-  padding: 0;
+  background-color: white;
+  border-radius: 9999px;
+  padding: 0 10px;
   font-size: 14px;
 }
 .tf-field.style-1 .tf-field-label {
