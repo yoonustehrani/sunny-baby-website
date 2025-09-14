@@ -13,7 +13,7 @@
             <button type="button" wire:click='update(0)' class="remove-cart link">@lang('Remove')</button>
         </div>
     </td>
-    <td class="tf-cart-item_price" cart-data-title="Price">
+    <td class="tf-cart-item_price" cart-data-title="@lang('Price')">
         <div class="tw:flex tw:flex-col tw:gap-2 tw:items-center">
             @if ($product->is_discounted)
                 <div class="tw:text-gray-400 tw:line-through">{{ format_price($product->price) }}</div>
@@ -23,7 +23,7 @@
             @endif
         </div>
     </td>
-    <td class="tf-cart-item_quantity" cart-data-title="Quantity">
+    <td class="tf-cart-item_quantity" cart-data-title="@lang('Quantity')">
         <div class="cart-quantity">
             <div class="wg-quantity">
                 <button type="button" wire:click='update({{ $quantity - 1 }})' class="btn-quantity minus-btn">
@@ -36,7 +36,7 @@
             </div>
         </div>
     </td>
-    <td class="tf-cart-item_total" cart-data-title="Total">
+    <td class="tf-cart-item_total" cart-data-title="@lang('Total')">
         @if ($product->is_discounted)
             <div class="cart-total">{{ format_price($product->discounted_price * $quantity) }}</div>
         @else
