@@ -19,7 +19,7 @@
             <div class="col-xl-3 col-md-4 col-3">
                 <ul class="nav-icon d-flex justify-content-end align-items-center gap-20">
                     <li class="nav-search"><a href="index.html#canvasSearch" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft" class="nav-icon-item"><i class="icon icon-search"></i></a></li>
-                    <li class="nav-account"><a href="index.html#login" data-bs-toggle="modal" class="nav-icon-item"><i class="icon icon-account"></i></a></li>
+                    <livewire:user-icon />
                     <li class="nav-wishlist"><a href="wishlist.html" class="nav-icon-item"><i class="icon icon-heart"></i><span class="count-box">0</span></a></li>
                     <livewire:cart-icon />
                 </ul>

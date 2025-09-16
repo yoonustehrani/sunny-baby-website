@@ -19,10 +19,6 @@
                         @if ($form->provinceId)
                             <livewire:search-model-input required where="province_id='{{ $form->provinceId }}'" modelClass='\App\Models\City' :value='$form->cityId' name='city' :label='__("City") . "/" . __("Town")'/>
                         @endif
-                        {{-- <fieldset class="fieldset">
-                            <label for="city">@lang('City')/@lang('Town')</label>
-                            <input @disabled(! is_null($form->province)) type="text">
-                        </fieldset> --}}
                     </div>
                     <fieldset class="box fieldset">
                         <label for="zip">@lang('Zip')</label>
@@ -32,10 +28,6 @@
                         <label for="address">@lang('Address')</label>
                         <textarea required wire:model.live.blur='form.address' id="address"></textarea>
                     </fieldset>
-                    {{-- <fieldset class="box fieldset">
-                        <label for="email">@lang('Email')</label>
-                        <input type="email" id="email">
-                    </fieldset> --}}
                     <fieldset class="box fieldset">
                         <label for="note">@lang('Order notes') (@lang('optional'))</label>
                         <textarea wire:model.live.blur='form.note' id="note"></textarea>
@@ -52,8 +44,8 @@
                             @endforeach
                         </ul>
                         <div class="coupon-box">
-                            <input type="text" placeholder="@lang('Discount code')">
-                            <a href="checkout.html#" class="tf-btn btn-sm radius-3 btn-fill btn-icon animate-hover-btn">@lang('Apply')</a>
+                            <input type="text" wire:model.blur='discount_code' placeholder="@lang('Discount code')">
+                            <button wire:click='applyDiscountCode' type="button" class="tf-btn btn-sm radius-3 btn-fill btn-icon animate-hover-btn">@lang('Apply')</button>
                         </div>
                         <div class="d-flex justify-content-between line pb_20">
                             <h6 class="fw-5">@lang('Total')</h6>

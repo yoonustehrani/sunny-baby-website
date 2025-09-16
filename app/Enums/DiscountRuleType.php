@@ -9,10 +9,8 @@ enum DiscountRuleType
 {
     use EnumHelpers;
 
-    #[TitleFa('حداقل سبد')]
-    case CART_MIN; //  = 'CMN';
-    #[TitleFa('حداکثر سبد')]
-    case CART_MAX; //  = 'CMX';
+    #[TitleFa('مجموع سبد')]
+    case CART_TOTAL; //  = 'CAT';
     #[TitleFa('دسته بندی مشتری')]
     case CUSTOMER_SEGMENT; //  = 'CSG';
     #[TitleFa('تعداد سفارشات قبلی')]

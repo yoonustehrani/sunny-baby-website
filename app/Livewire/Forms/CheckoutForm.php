@@ -3,6 +3,7 @@
 namespace App\Livewire\Forms;
 
 use App\Models\Address;
+use App\Models\Discount;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Session;
 use Livewire\Attributes\Validate;
@@ -36,6 +37,9 @@ class CheckoutForm extends Form
 
     #[Session]
     public ?string $carrier_class = null;
+
+    #[Session]
+    public ?Discount $discount;
 
     public function getAddressForShipment(): ?Address
     {

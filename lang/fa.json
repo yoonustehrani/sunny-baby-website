@@ -64,5 +64,9 @@
     "Zip": "کدپستی",
     "Total Discount": "مجموع تخفیف",
     "people are viewing this right now": "نفر در حال بازدید از این محصول هستند",
-    "Login": "ورود"
+    "Login": "ورود",
+    "OTP code is expired. Ask for a new one and try again.": "کد اعتبار سنجی منقضی شده است. مجددا درخواست ارسال کد اعتبار سنجی کنید.",
+    "To be paid": "قابل پرداخت",
+    "Invalid code": "کد نامعتبر",
+    "OTP code": "کد ارسال شده"
 }

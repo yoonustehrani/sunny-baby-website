@@ -27,4 +27,6 @@ enum ComparingOperatorType
     case LESS_OR_EQUAL;
     #[TitleFa('برابر با')]
     case EQUAL;
+    #[TitleFa('برابر نباشد با')]
+    case NOT_EQUAL;
 }

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Discount extends Model
 {
@@ -33,6 +34,20 @@ class Discount extends Model
         return $this->hasMany(DiscountRule::class);
     }
 
+    public function isApplicable(): Attribute
+    {
+        return Attribute::make(
+            get: function() {
+                if ($this->max_usage && $this->usages()->count() >= $this->max_usage) {
+                    return false;
+                }
+                if ($this->max_user_usage && $this->usages()->whereUserId()->count() >= $this->max_user_usage) {
+                    return false;
+                }
+            }
+        );
+    }
+
     #[Scope]
     public function unexpired(Builder $query)
     {
@@ -44,7 +59,7 @@ class Discount extends Model
     #[Scope]
     public function active(Builder $query)
     {
-        $query->where('is_active', true);
+        $query->where('is_active', true)->where('activates_at', '<=', now());
     }
 
     #[Scope]
