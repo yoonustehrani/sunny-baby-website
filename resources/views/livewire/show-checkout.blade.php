@@ -4,7 +4,7 @@
             <div class="tf-page-cart-item">
                 <h5 class="fw-5 mb_20">@lang('Billing details')</h5>
                 @auth
-                    {{ auth()->user()->phone_number }}
+                    {{ $user->phone_number }}
                 @endauth
                 <form class="form-checkout">
                     <div class="box grid-2">
@@ -54,7 +54,6 @@
                             <h6 class="fw-5">@lang('Total')</h6>
                             <h6 class="total fw-5">{{ format_price($total) }}</h6>
                         </div>
-                        <div>{{ $form->carrier_class }}</div>
                         @if ($form->getAddressForShipment())
                             @foreach (\App\Facades\Shipping::carriers() as $carrierClass)
                                 @php

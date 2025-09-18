@@ -373,7 +373,7 @@
         <div class="canvas-wrapper">
             <header class="tf-search-head">
                 <div class="title fw-5">
-                    Search our site
+                    @lang('Search among products')
                     <div class="close">
                         <span class="icon-close icon-close-popup" data-bs-dismiss="offcanvas" aria-label="Close"></span>
                     </div>
@@ -381,7 +381,7 @@
                 <div class="tf-search-sticky">
                     <form class="tf-mini-search-frm">
                         <fieldset class="text">
-                            <input type="text" placeholder="Search" class="" name="text" tabindex="0" value="" aria-required="true" required="">
+                            <input type="text" placeholder="@lang('Search')" class="" name="text" tabindex="0" value="" aria-required="true" required="">
                         </fieldset>
                         <button class="" type="submit"><i class="icon-search"></i></button>
                     </form>

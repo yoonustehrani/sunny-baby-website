@@ -7,6 +7,7 @@ use App\Facades\Cart;
 use App\Livewire\Forms\CheckoutForm;
 use App\Livewire\Pages\ShowCart;
 use App\Models\Discount;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Session;
@@ -17,6 +18,7 @@ use Livewire\Component;
 class ShowCheckout extends Component
 {
     public CheckoutForm $form;
+    public ?User $user;
     protected $listeners = ['user-logged-in' => '$refresh'];
 
     #[Session]
@@ -33,6 +35,14 @@ class ShowCheckout extends Component
         }
         if (! Auth::check()) {
             $this->dispatch('semi-protected-route');
+        } else {
+            $this->user = Auth::user();
+            if (! $this->form->phone) {
+                $this->form->phone = $this->user?->phone_number;
+            }
+            if (! $this->form->fullname && $this->user?->name) {
+                $this->form->fullname = $this->user->name;
+            }
         }
     }
 
