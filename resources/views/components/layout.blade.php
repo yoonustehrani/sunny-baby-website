@@ -653,7 +653,7 @@
     <div class="modal modalCentered fade form-sign-in modal-part-content" id="login">
         <livewire:login-modal />
     </div>
-
+    {{-- semi-protected-route --}}
     <!-- /toolbarShopmb -->
     <div class="modal fullRight fade modal-shopping-cart" id="shoppingCart">
         <livewire:mini-cart />

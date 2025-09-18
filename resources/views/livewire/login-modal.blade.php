@@ -20,10 +20,10 @@
                     <label class="tf-field-label tw:text-gray-700!" for="login-phone-number">@lang($final ? 'OTP code' : 'Phone Number') *</label>
                 </div>
                 @error('code')
-                    <p>{{ $message }}</p>
+                    <p class="tw:p-2 tw:text-red-500">{{ $message }}</p>
                 @enderror
                 @error('phone_number')
-                    <p>{{ $message }}</p>
+                    <p class="tw:p-2 tw:text-red-500">{{ $message }}</p>
                 @enderror
                 <div class="bottom"> 
                     <div class="w-100">

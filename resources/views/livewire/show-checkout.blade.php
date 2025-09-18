@@ -3,6 +3,9 @@
         <div class="tf-page-cart-wrap layout-2">
             <div class="tf-page-cart-item">
                 <h5 class="fw-5 mb_20">@lang('Billing details')</h5>
+                @auth
+                    {{ auth()->user()->phone_number }}
+                @endauth
                 <form class="form-checkout">
                     <div class="box grid-2">
                         <fieldset class="fieldset">

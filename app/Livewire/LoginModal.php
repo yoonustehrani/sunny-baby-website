@@ -61,6 +61,11 @@ class LoginModal extends Component
         );
     }
 
+    public function resendCode()
+    {
+        $this->getFreshAuthCode();
+    }
+
     public function render()
     {
         return view('livewire.login-modal');

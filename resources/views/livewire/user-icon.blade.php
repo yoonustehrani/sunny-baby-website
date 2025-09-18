@@ -8,5 +8,13 @@
         <i class="icon icon-account"></i>
     </a>
     {{-- Visible when guest --}}
-    <a x-show="!loggedIn" x-cloak href="index.html#login" data-bs-toggle="modal" class="nav-icon-item"><i class="icon icon-account"></i></a>
+    <button x-show="!loggedIn" 
+        type="button"
+        class="nav-icon-item" 
+        data-bs-toggle="modal" 
+        data-bs-target="#login"
+        x-on:semi-protected-route.window='$el.click()'
+        >
+        <i class="icon icon-account"></i>
+    </button>
 </li>

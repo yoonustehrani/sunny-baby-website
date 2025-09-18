@@ -7,6 +7,7 @@ use App\Facades\Cart;
 use App\Livewire\Forms\CheckoutForm;
 use App\Livewire\Pages\ShowCart;
 use App\Models\Discount;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Session;
 use Livewire\Attributes\Validate;
@@ -16,6 +17,7 @@ use Livewire\Component;
 class ShowCheckout extends Component
 {
     public CheckoutForm $form;
+    protected $listeners = ['user-logged-in' => '$refresh'];
 
     #[Session]
     #[Validate(['string', 'alpha_dash:ascii'])]
@@ -28,6 +30,9 @@ class ShowCheckout extends Component
         }
         if ($this->form->note == '') {
             $this->form->note = Cart::toArray()['meta']['note'] ?? '';
+        }
+        if (! Auth::check()) {
+            $this->dispatch('semi-protected-route');
         }
     }
 
@@ -108,6 +113,7 @@ class ShowCheckout extends Component
     public function render()
     {
         $total = Cart::sums()['total'];
-        return view('livewire.show-checkout', compact('total'))->title(__('Check out'));
+        return view('livewire.show-checkout', compact('total'))
+            ->title(__('Check out'));
     }
 }
