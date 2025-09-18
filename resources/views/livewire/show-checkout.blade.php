@@ -54,6 +54,10 @@
                             <h6 class="fw-5">@lang('Total')</h6>
                             <h6 class="total fw-5">{{ format_price($total) }}</h6>
                         </div>
+                        <div class="d-flex justify-content-between line pb_20">
+                            <h6 class="fw-5">@lang('Total weight')</h6>
+                            <h6 class="total fw-5">{{ \App\Facades\Cart::getTotalWeight() }}g</h6>
+                        </div>
                         @if ($form->getAddressForShipment())
                             @foreach (\App\Facades\Shipping::carriers() as $carrierClass)
                                 @php

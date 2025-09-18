@@ -87,6 +87,11 @@ class CartService
         return $this;
     }
 
+    public function getTotalWeight()
+    {
+        return $this->all()->sum(fn($item) => $item['quantity'] * $item['product']->weight);
+    }
+
     public function sums()
     {
         $all = $this->all();
