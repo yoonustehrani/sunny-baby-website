@@ -18,8 +18,11 @@ use Livewire\Component;
 class ShowCheckout extends Component
 {
     public CheckoutForm $form;
-    public ?User $user;
-    protected $listeners = ['user-logged-in' => '$refresh'];
+    protected $listeners = [
+        'user-logged-in' => '$refresh',
+        'user-logged-out' => '$refresh',
+        'cart-updated' => '$refresh'
+    ];
 
     #[Session]
     #[Validate(['string', 'alpha_dash:ascii'])]
@@ -36,12 +39,11 @@ class ShowCheckout extends Component
         if (! Auth::check()) {
             $this->dispatch('semi-protected-route');
         } else {
-            $this->user = Auth::user();
             if (! $this->form->phone) {
-                $this->form->phone = $this->user?->phone_number;
+                $this->form->phone = Auth::user()?->phone_number;
             }
-            if (! $this->form->fullname && $this->user?->name) {
-                $this->form->fullname = $this->user->name;
+            if (! $this->form->fullname && Auth::user()?->name) {
+                $this->form->fullname = Auth::user()->name;
             }
         }
     }
@@ -122,8 +124,13 @@ class ShowCheckout extends Component
 
     public function render()
     {
-        $total = Cart::sums()['total'];
-        return view('livewire.show-checkout', compact('total'))
+        $data = [
+            'total' => Cart::sums()['total']
+        ];
+        if (Auth::check()) {
+            $data['user'] = Auth::user();
+        }
+        return view('livewire.show-checkout', $data)
             ->title(__('Check out'));
     }
 }

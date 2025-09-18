@@ -6,6 +6,7 @@ use App\Models\AuthCode;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session as LaravelSession;
 use Livewire\Attributes\Session;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -27,7 +28,6 @@ class LoginModal extends Component
         if (! $this->final && ! $this->code && $this->validateOnly('phone_number')) {
             $this->final = true;
             $authCodeModel = $this->getFreshAuthCode();
-            Log::alert('code: ' . $authCodeModel->code);
             return;
         }
         $this->validate();
@@ -49,15 +49,19 @@ class LoginModal extends Component
         $user = User::firstOrCreate(
             ['phone_number' => $this->phone_number]
         );
+        $this->reset();
         Auth::login($user);
+        LaravelSession::regenerate();
         $this->dispatch('user-logged-in');
     }
 
     protected function getFreshAuthCode(): AuthCode
     {
+        $code = generate_otp_code();
+        Log::alert('code: ' . $code);
         return AuthCode::query()->updateOrCreate(
             ['phone_number' => $this->phone_number],
-            ['code' => generate_otp_code(), 'expires_at' => now()->addMinutes(2)]
+            ['code' => $code, 'expires_at' => now()->addMinutes(2)]
         );
     }
 

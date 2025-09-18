@@ -1,4 +1,4 @@
-<x-layout title="{{ $product->title }}">
+<x-layouts.default title="{{ $product->title }}">
     <x-header absolute/>
     <!-- breadcrumb -->
     <div class="tf-breadcrumb tw:mt-20">
@@ -299,4 +299,4 @@
     </section>
     <!-- /default -->
     <!-- /breadcrumb -->
-</x-layout>
+</x-layouts.default>

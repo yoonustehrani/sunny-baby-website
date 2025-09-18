@@ -1,4 +1,4 @@
-<x-layout title="Contact Us">
+<x-layouts.default title="Contact Us">
     <x-header />
     <!-- page-title -->
     <div class="tf-page-title">
@@ -29,4 +29,4 @@
         </div>
     </section>
     <!-- page-cart -->
-</x-layout>
+</x-layouts.default>

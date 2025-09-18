@@ -70,5 +70,14 @@
     "Invalid code": "کد نامعتبر",
     "OTP code": "کد ارسال شده",
     "Search among products": "در بین محصولات جستجو کنید",
-    "Total weight": "مجموع وزن"
+    "Total weight": "مجموع وزن",
+    "Logout": "خروج",
+    "Dashboard": "داشبورد",
+    "My Orders": "سفارش های من",
+    "My Addresses": "آدرس های من",
+    "Account Details": "مشخصات حساب کاربری",
+    "Order": "سفارش",
+    "Date": "تاریخ",
+    "Status": "وضعیت",
+    ":amount for :number items": ":amount برای :number کالا"
 }

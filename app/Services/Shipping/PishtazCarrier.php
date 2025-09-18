@@ -38,8 +38,6 @@ class PishtazCarrier extends Carrier
 				$cost = 80;
 				break;
 			case $weight > 2:
-				// $this->name = 'پس کرایه - پست پیشتاز';
-				// 
 				$cost = 0;
 				break;
 		}

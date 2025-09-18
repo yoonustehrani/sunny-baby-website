@@ -2,10 +2,13 @@
 
 use App\Http\Controllers\ShowProductController;
 use App\Livewire\ShowCheckout;
+use App\Livewire\UserAccount;
 use App\Livewire\Pages\ShowCart;
 use App\Models\Product;
 use Database\Seeders\CategorySeeder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 Route::get('/', function () {
     // return Product::whereNotNull('discount_id')->with('discount')->get()->append(['discounted_price', 'discount_amount']);
@@ -28,3 +31,14 @@ Route::prefix('/payment')->name('payment.')->group(function() {
 
 Route::get('/checkout', ShowCheckout::class)->name('checkout');
 Route::get('/cart', ShowCart::class)->name('cart');
+
+Route::post('/logout', function() {
+    Auth::logout();
+    Session::flush();
+    return redirect(route('home'));
+})->name('logout')->middleware('auth');
+
+Route::middleware(['auth'])->name('user-account.')->prefix('/my-account')->group(function() {
+    Route::get('/', UserAccount\Dashboard::class)->name('dashboard');
+    Route::get('/orders', UserAccount\Orders::class)->name('orders');
+});

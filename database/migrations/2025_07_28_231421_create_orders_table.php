@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Address;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(User::class);
             $table->char('status', 2);
             $table->bigInteger('subtotal');
             $table->bigInteger('total_discount');
