@@ -58,7 +58,11 @@ class LoginModal extends Component
     protected function getFreshAuthCode(): AuthCode
     {
         $code = generate_otp_code();
-        Log::alert('code: ' . $code);
+        if (config('services.sms.enabled')) {
+            send_otp($this->phone_number, $code);
+        } else {
+            Log::alert('code: ' . $code);
+        }
         return AuthCode::query()->updateOrCreate(
             ['phone_number' => $this->phone_number],
             ['code' => $code, 'expires_at' => now()->addMinutes(2)]

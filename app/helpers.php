@@ -4,6 +4,7 @@ use App\Enums\ComparingOperatorType;
 use App\Facades\Shipping;
 use App\Models\Address;
 use App\Services\Shipping\Carrier;
+use App\Services\SMSService;
 
 if (! function_exists('farsi_numbers')) {
     function farsi_numbers(int|string $number) {
@@ -138,5 +139,12 @@ if (! function_exists('dynamic_compare')) {
             default:
                 throw new Exception('Operator does not exists');
         }
+    }
+}
+
+if (! function_exists('send_otp')) {
+    function send_otp(string $phone_number, string $code)
+    {
+        return new SMSService()->sendPattern($phone_number, env('FARAZSMS_OTP_PATTERN_CODE'), compact('code'));
     }
 }

@@ -5,6 +5,7 @@ use App\Livewire\ShowCheckout;
 use App\Livewire\UserAccount;
 use App\Livewire\Pages\ShowCart;
 use App\Models\Product;
+use App\Services\SMSService;
 use Database\Seeders\CategorySeeder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
