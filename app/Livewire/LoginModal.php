@@ -51,7 +51,6 @@ class LoginModal extends Component
         );
         $this->reset();
         Auth::login($user);
-        LaravelSession::regenerate();
         $this->dispatch('user-logged-in');
     }
 

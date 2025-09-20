@@ -42,4 +42,5 @@ Route::post('/logout', function() {
 Route::middleware(['auth'])->name('user-account.')->prefix('/my-account')->group(function() {
     Route::get('/', UserAccount\Dashboard::class)->name('dashboard');
     Route::get('/orders', UserAccount\Orders::class)->name('orders');
+    Route::get('/addresses', UserAccount\Addresses::class)->name('addresses');
 });

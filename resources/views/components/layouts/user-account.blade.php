@@ -7,7 +7,7 @@
                         @foreach ([
                                 'dashboard' => __('Dashboard'),
                                 'orders' => __('My Orders'),
-                                // 'addresses' => __('My Addresses'),
+                                'addresses' => __('My Addresses'),
                                 // 'details' => __('Account Details'),
                                 // 'wishlist' => __('Wishlist'),
                         ] as $subroute => $text)

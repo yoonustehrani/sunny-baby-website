@@ -109,12 +109,14 @@ class ShowCheckout extends Component
     public function citySelected(int $id)
     {
         $this->form->cityId = $id;
+        $this->setCarrierClass(null);
     }
 
     #[On('unselect.option.city')]
     public function cityUnselected()
     {
         $this->form->cityId = null;
+        $this->setCarrierClass(null);
     }
 
     public function setCarrierClass(?string $class = null)
@@ -125,8 +127,10 @@ class ShowCheckout extends Component
     public function render()
     {
         $data = [
-            'total' => Cart::sums()['total']
+            'cart_total' => Cart::sums()['total'],
+            'shipping_total' => $this->form->carrier_class && $this->form->getAddressForShipment() ? get_carrier($this->form->carrier_class, $this->form->getAddressForShipment())->calculate() : 0
         ];
+        $data['total'] = array_sum($data);
         if (Auth::check()) {
             $data['user'] = Auth::user();
         }

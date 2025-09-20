@@ -79,5 +79,6 @@
     "Order": "سفارش",
     "Date": "تاریخ",
     "Status": "وضعیت",
-    ":amount for :number items": ":amount برای :number کالا"
+    ":amount for :number items": ":amount برای :number کالا",
+    "Shipping fare": "هزینه ارسال"
 }

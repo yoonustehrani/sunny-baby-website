@@ -46,42 +46,61 @@
                                 <x-checkout.order-item wire:key="cart-item-{{ $item['product']->id }}" :product="$item['product']" :quantity="$item['quantity']"/>
                             @endforeach
                         </ul>
-                        <div class="coupon-box">
+                        {{-- <div class="coupon-box">
                             <input type="text" wire:model.blur='discount_code' placeholder="@lang('Discount code')">
                             <button wire:click='applyDiscountCode' type="button" class="tf-btn btn-sm radius-3 btn-fill btn-icon animate-hover-btn">@lang('Apply')</button>
-                        </div>
+                        </div> --}}
                         <div class="d-flex justify-content-between line pb_20">
                             <h6 class="fw-5">@lang('Total')</h6>
-                            <h6 class="total fw-5">{{ format_price($total) }}</h6>
-                        </div>
-                        <div class="d-flex justify-content-between line pb_20">
-                            <h6 class="fw-5">@lang('Total weight')</h6>
-                            <h6 class="total fw-5">{{ \App\Facades\Cart::getTotalWeight() }}g</h6>
+                            <h6 class="total fw-5">{{ format_price($cart_total) }}</h6>
                         </div>
                         @if ($form->getAddressForShipment())
-                            @foreach (\App\Facades\Shipping::carriers() as $carrierClass)
-                                @php
-                                    $carrier = get_carrier($carrierClass, $form->getAddressForShipment());
-                                @endphp
-                                @if ($carrier->isActive())
-                                    <div wire:click="setCarrierClass('{{ str_replace('\\', '\\\\', $carrierClass) }}')" class="tw:flex tw:cursor-pointer tw:items-center tw:justify-between tw:p-4 tw:border tw:rounded-md tw:border-black/10 tw:shadow-sm">
-                                        <div class="tw:flex tw:gap-4 tw:items-center">
-                                            <div class="tw:bg-white tw:dark:bg-gray-100 tw:rounded-full tw:w-4 tw:h-4 tw:flex tw:flex-shrink-0 tw:justify-center tw:items-center tw:relative">
-                                                <input @checked($form->carrier_class == $carrierClass) type="radio" class="checkbox tw:appearance-none tw:focus:opacity-100 tw:focus:ring-2 tw:focus:ring-offset-2 tw:focus:ring-indigo-700 tw:focus:outline-none tw:border tw:rounded-full tw:border-gray-400 tw:absolute tw:cursor-pointer tw:w-full tw:h-full tw:checked:border-none" />
-                                                <div class="check-icon tw:hidden tw:border-4 tw:border-indigo-700 tw:rounded-full tw:w-full tw:h-full tw:z-1"></div>
-                                            </div>
-                                            <div class="tw:flex tw:flex-col tw:gap-2">
-                                                <h4 class="tw:text-base tw:font-bold">{{ $carrier->getName() }}</h4>
-                                                <p class="tw:text-xs">{{ $carrier->getDescription() }}</p>
-                                            </div>
-                                            <span>-</span>
-                                            <span>{{ $carrier->getPriceLabel() }}</span>
+                            @php
+                                $active_carriers = collect(\App\Facades\Shipping::carriers())
+                                    ->map(fn($x) => get_carrier($x, $form->getAddressForShipment()))
+                                    ->filter(fn($x) => $x->isActive())
+                                    ->keyBy(fn($x) => $x::class);
+                            @endphp
+                            <div>{{ $form->carrier_class }}</div>
+                            @foreach ($active_carriers as $carrierClass => $carrier)
+                                <label for="{{ str_replace('\\', '-', $carrierClass) }}" class="tw:flex tw:cursor-pointer tw:items-center tw:justify-between tw:p-4 tw:border tw:rounded-md tw:border-black/10 tw:shadow-sm">
+                                    <div class="tw:flex tw:gap-4 tw:items-center">
+                                        <div class="tw:bg-white tw:dark:bg-gray-100 tw:rounded-full tw:w-4 tw:h-4 tw:flex tw:flex-shrink-0 tw:justify-center tw:items-center tw:relative">
+                                            {{-- || $active_carriers->count() == 1 --}}
+                                            <input id="{{ str_replace('\\', '-', $carrierClass) }}" wire:model.live='form.carrier_class' value='{{ $carrierClass }}' type="radio" class="checkbox tw:appearance-none tw:focus:opacity-100 tw:focus:ring-2 tw:focus:ring-offset-2 tw:focus:ring-indigo-700 tw:focus:outline-none tw:border tw:rounded-full tw:border-gray-400 tw:absolute tw:cursor-pointer tw:w-full tw:h-full tw:checked:border-none" />
+                                            <div class="check-icon tw:hidden tw:border-4 tw:border-indigo-700 tw:rounded-full tw:w-full tw:h-full tw:z-1"></div>
                                         </div>
-                                        <img class="tw:h-12 tw:w-auto" src="{{ $carrier->getLogoUrl() }}" alt="{{ $carrier->getName() }}">
+                                        <div class="tw:flex tw:flex-col tw:gap-2">
+                                            <h4 class="tw:text-base tw:font-bold">{{ $carrier->getName() }}</h4>
+                                            <p class="tw:text-xs">{{ $carrier->getDescription() }}</p>
+                                        </div>
+                                        <span>-</span>
+                                        <span>{{ $carrier->getPriceLabel() }}</span>
                                     </div>
-                                @endif
+                                    <img class="tw:h-12 tw:w-auto" src="{{ $carrier->getLogoUrl() }}" alt="{{ $carrier->getName() }}">
+                                </label>
                             @endforeach
-                            <hr class="tw:border-gray-400/80">
+                            {{-- <hr class="tw:border-gray-400/80"> --}}
+                            <div class="d-flex justify-content-between line pb_20 tw:mt-3">
+                                <h6 class="tw:text-sm">@lang('Total weight')</h6>
+                                <h6 class="total tw:text-sm">{{ number_format(\App\Facades\Cart::getTotalWeight()) }} گرم</h6>
+                            </div>
+                            @if ($form->carrier_class)
+                                <div class="tw:flex tw:flex-col tw:gap-4 line pb_20">
+                                    <div class="d-flex justify-content-between">
+                                        <h6 class="tw:text-sm">@lang('Subtotal')</h6>
+                                        <h6 class="total tw:text-sm">{{ format_price($cart_total) }}</h6>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <h6 class="tw:text-sm">@lang('Shipping fare')</h6>
+                                        <h6 class="total tw:text-sm">{{ get_carrier($form->carrier_class, $form->getAddressForShipment())->getPriceLabel() }}</h6>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <h6 class="fw-5">@lang('To be paid')</h6>
+                                        <h6 class="total fw-5">{{ format_price($total) }}</h6>
+                                    </div>
+                                </div>
+                            @endif
                         @endif
                         <div class="wd-check-payment">
                             <div class="fieldset-radio mb_20">

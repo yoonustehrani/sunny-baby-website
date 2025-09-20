@@ -13,9 +13,9 @@
                 @endif
                 <div class="tf-field style-1">
                     @if ($final)
-                        <input wire:model.blur='code' length='4' dir="ltr" id="login-code" placeholder="کد چهار رقمی ارسال شده به شماره همراه شما" class="tw:text-gray-700! tw:placeholder:text-base tw:focus:placeholder:text-gray-500! tf-field tf-input tw:text-left tw:text-xl tw:p-4" type="text">
+                        <input wire:model.change='code' minlength="4" maxlength='4' dir="ltr" id="login-code" placeholder="کد چهار رقمی ارسال شده به شماره همراه شما" class="tw:text-gray-700! tw:placeholder:text-base tw:focus:placeholder:text-gray-500! tf-field tf-input tw:text-left tw:text-xl tw:p-4" type="text">
                     @else
-                        <input wire:model.blur='phone_number' length='11' dir="ltr" id="login-phone-number" placeholder="شماره تلفن همراه با صفر" class="tw:text-gray-700! tw:placeholder:text-base tw:focus:placeholder:text-gray-500! tf-field tf-input tw:text-left tw:text-xl tw:p-4" type="text">
+                        <input wire:model.change='phone_number' minlength="11" maxlength='11' dir="ltr" id="login-phone-number" placeholder="شماره تلفن همراه با صفر" class="tw:text-gray-700! tw:placeholder:text-base tw:focus:placeholder:text-gray-500! tf-field tf-input tw:text-left tw:text-xl tw:p-4" type="text">
                     @endif
                     <label class="tf-field-label tw:text-gray-700!" for="login-phone-number">@lang($final ? 'OTP code' : 'Phone Number') *</label>
                 </div>
