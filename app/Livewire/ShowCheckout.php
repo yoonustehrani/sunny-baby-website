@@ -126,6 +126,9 @@ class ShowCheckout extends Component
 
     public function render()
     {
+        if (Cart::count() == 0) {
+            $this->redirect(ShowCart::class);
+        }
         $data = [
             'cart_total' => Cart::sums()['total'],
             'shipping_total' => $this->form->carrier_class && $this->form->getAddressForShipment() ? get_carrier($this->form->carrier_class, $this->form->getAddressForShipment())->calculate() : 0

@@ -6,7 +6,7 @@
                 @auth
                     {{ $user->phone_number }}
                 @endauth
-                <form class="form-checkout">
+                <div class="form-checkout">
                     <div class="box grid-2">
                         <fieldset class="fieldset">
                             <label for="fullname">@lang('Fullname')</label>
@@ -35,7 +35,7 @@
                         <label for="note">@lang('Order notes') (@lang('optional'))</label>
                         <textarea wire:model.live.blur='form.note' id="note"></textarea>
                     </fieldset>
-                </form>
+                </div>
             </div>
             <div class="tf-page-cart-footer">
                 <div class="tf-cart-footer-inner">

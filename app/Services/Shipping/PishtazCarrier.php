@@ -10,7 +10,7 @@ class PishtazCarrier extends Carrier
     {
         $this->name = 'پست پیشتاز';
         $this->description = 'تحویل ۲ الی ۷ روز کاری';
-        if (Cart::getTotalWeight() > 2) {
+        if (Cart::getTotalWeight() > 2000) {
             $this->description = 'هزینه ارسال درب منزل دریافت می شود.';
         }
         $this->logo_url = asset('images/logo/ips-logo.png');
