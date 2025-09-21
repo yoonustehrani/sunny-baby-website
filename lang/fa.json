@@ -80,5 +80,6 @@
     "Date": "تاریخ",
     "Status": "وضعیت",
     ":amount for :number items": ":amount برای :number کالا",
-    "Shipping fare": "هزینه ارسال"
+    "Shipping fare": "هزینه ارسال",
+    "and :number more errors": "و :number خطای دیگر"
 }

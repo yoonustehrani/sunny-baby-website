@@ -5,7 +5,7 @@ namespace App\Enums;
 use App\Attributes\TitleFa;
 use App\Traits\EnumHelpers;
 
-enum OrderStatus: int
+enum OrderStatus: string
 {
     use EnumHelpers;
     

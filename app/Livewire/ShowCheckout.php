@@ -3,12 +3,17 @@
 namespace App\Livewire;
 
 use App\Enums\DiscountRuleType;
+use App\Enums\OrderStatus;
 use App\Facades\Cart;
 use App\Livewire\Forms\CheckoutForm;
 use App\Livewire\Pages\ShowCart;
 use App\Models\Discount;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\Shipment;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Session;
 use Livewire\Attributes\Validate;
@@ -38,13 +43,6 @@ class ShowCheckout extends Component
         }
         if (! Auth::check()) {
             $this->dispatch('semi-protected-route');
-        } else {
-            if (! $this->form->phone) {
-                $this->form->phone = Auth::user()?->phone_number;
-            }
-            if (! $this->form->fullname && Auth::user()?->name) {
-                $this->form->fullname = Auth::user()->name;
-            }
         }
     }
 
@@ -123,6 +121,46 @@ class ShowCheckout extends Component
     {
         $this->form->carrier_class = $class;
     }
+    
+    public function submit()
+    {
+        $this->form->validate();
+        $order_items = Cart::all()->map(fn($item) => new OrderItem([
+            'product_id' => $item['product']->id,
+            'quantity' => $item['quantity'],
+            'unit_price' => $item['product']->price,
+            'unit_discount' => $item['product']->is_discounted ? $item['product']->discount_amount : 0
+        ]));
+        $shipping_total = get_carrier($this->form->carrier_class, $this->form->getAddressForShipment())->calculate();
+        $sums = Cart::sums();
+        $sums['total'] += $shipping_total;
+        try {
+            DB::beginTransaction();
+            $user = Auth::user();
+            if ($user == null) {
+                $user = User::firstOrCreate(
+                    ['phone_number' => $this->form->phone]
+                );
+            }
+            $order = $user->orders()->save(new Order(array_merge(
+                $sums, ['status' => OrderStatus::PENDING]
+            )));
+            $order->items()->saveMany($order_items);
+            $address = $user->addresses()->save($this->form->getAddress());
+            $order->shipment()->save(new Shipment([
+                'address_id' => $address->id,
+                'carrier_class' => $this->form->carrier_class,
+                'cost' => $shipping_total
+            ]));
+            DB::commit();
+            $this->form->reset();
+            Cart::clear();
+            $this->redirectRoute('orders.pay', ['order' => $order->getKey(), 'gateway' => 'zp']);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+        }
+    }
 
     public function render()
     {
@@ -136,6 +174,12 @@ class ShowCheckout extends Component
         $data['total'] = array_sum($data);
         if (Auth::check()) {
             $data['user'] = Auth::user();
+            if (! $this->form->phone) {
+                $this->form->phone = Auth::user()?->phone_number;
+            }
+            if (! $this->form->fullname && Auth::user()?->name) {
+                $this->form->fullname = Auth::user()->name;
+            }
         }
         return view('livewire.show-checkout', $data)
             ->title(__('Check out'));

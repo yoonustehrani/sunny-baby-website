@@ -44,6 +44,6 @@ Route::middleware(['auth'])->name('user-account.')->prefix('/my-account')->group
     Route::get('/addresses', UserAccount\Addresses::class)->name('addresses');
 });
 
-Route::post('/orders/{order}/pay', OrderPaymentController::class);
+Route::get('/orders/{order}/pay', OrderPaymentController::class)->name('orders.pay');
 
 Route::get('/transactions/{transaction}/validate', [TransactionController::class, 'validate'])->name('transactions.validate');

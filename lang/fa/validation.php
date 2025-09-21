@@ -137,14 +137,14 @@ return [
     'prohibited_unless' => ':attribute field is prohibited unless :other is in :values.',
     'prohibits' => ':attribute field prohibits :other from being present.',
     'regex' => ':attribute معتبر نیست.',
-    'required' => ':attribute field is required.',
+    'required' => ':attribute اجباری است.',
     'required_array_keys' => ':attribute field must contain entries for: :values.',
     'required_if' => ':attribute field is required when :other is :value.',
     'required_if_accepted' => ':attribute field is required when :other is accepted.',
     'required_if_declined' => ':attribute field is required when :other is declined.',
     'required_unless' => ':attribute field is required unless :other is in :values.',
     'required_with' => ':attribute field is required when :values is present.',
-    'required_with_all' => ':attribute field is required when :values are present.',
+    'required_with_all' => 'وقتی مقادیر :values مشخص شده اند، :attribute اجباری است.',
     'required_without' => ':attribute field is required when :values is not present.',
     'required_without_all' => ':attribute field is required when none of :values are present.',
     'same' => ':attribute field must match :other.',
@@ -194,7 +194,13 @@ return [
 
     'attributes' => [
         'phone_number' => 'شماره تلفن',
-        'code' => 'کد'
+        'code' => 'کد',
+        'phone' => 'شماره تلفن',
+        'fullname' => 'نام و نام خانوادگی',
+        'provinceId' => 'استان',
+        'cityId' => 'شهر',
+        'zip' => 'کد پستی',
+        'carrier_class' => 'شیوه ارسال محصول'
     ],
 
 ];
