@@ -1,12 +1,16 @@
 <?php
 
+use App\Http\Controllers\OrderPaymentController;
 use App\Http\Controllers\ShowProductController;
+use App\Http\Controllers\TransactionController;
 use App\Livewire\ShowCheckout;
 use App\Livewire\UserAccount;
 use App\Livewire\Pages\ShowCart;
+use App\Models\Order;
 use App\Models\Product;
-use App\Services\SMSService;
-use Database\Seeders\CategorySeeder;
+use App\Models\Transaction;
+use App\Services\Payment\ZarinpalGateway;
+use App\Services\PaymentService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -25,11 +29,6 @@ Route::name('pages.')->group(function() {
 
 Route::get('categories/{category}/products', fn() => '')->name('categories.show');
 
-Route::prefix('/payment')->name('payment.')->group(function() {
-    Route::view('/confirmed', 'payment.confirmed')->name('confirmed');
-    Route::view('/failed', 'payment.failed')->name('failed');
-});
-
 Route::get('/checkout', ShowCheckout::class)->name('checkout');
 Route::get('/cart', ShowCart::class)->name('cart');
 
@@ -44,3 +43,7 @@ Route::middleware(['auth'])->name('user-account.')->prefix('/my-account')->group
     Route::get('/orders', UserAccount\Orders::class)->name('orders');
     Route::get('/addresses', UserAccount\Addresses::class)->name('addresses');
 });
+
+Route::post('/orders/{order}/pay', OrderPaymentController::class);
+
+Route::get('/transactions/{transaction}/validate', [TransactionController::class, 'validate'])->name('transactions.validate');

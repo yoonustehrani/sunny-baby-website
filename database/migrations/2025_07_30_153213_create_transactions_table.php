@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->string('method');
+            $table->bigInteger('amount')->unsigned();
             $table->morphs('payable');
             $table->tinyInteger('status');
             $table->json('meta')->default(json_encode([]));
