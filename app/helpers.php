@@ -3,6 +3,8 @@
 use App\Enums\ComparingOperatorType;
 use App\Facades\Shipping;
 use App\Models\Address;
+use App\Models\Transaction;
+use App\Services\PaymentService;
 use App\Services\Shipping\Carrier;
 use App\Services\SMSService;
 
@@ -146,5 +148,12 @@ if (! function_exists('send_otp')) {
     function send_otp(string $phone_number, string $code)
     {
         return new SMSService()->sendPattern($phone_number, env('FARAZSMS_OTP_PATTERN_CODE'), compact('code'));
+    }
+}
+
+if (! function_exists('get_payment_gateway')) {
+    function get_payment_gateway(string $gatewayClass, Transaction $transaction)
+    {
+        return app($gatewayClass, compact('transaction'));
     }
 }

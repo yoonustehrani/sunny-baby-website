@@ -1,4 +1,4 @@
-<x-layouts.default title="Contact Us">
+<x-layouts.default :title="__('Payment Failure')">
     <x-header />
     <!-- page-title -->
     <div class="tf-page-title">
@@ -19,10 +19,10 @@
                             <h5 class="fw-5">@lang('Payment Failure')</h5>
                         </div>
                         <p class="mb_20">پرداخت شما ناموفق بوده است.</p>
-                        <a href="checkout.html" class="tf-btn mb_20 w-100 btn-fill animate-hover-btn radius-3 justify-content-center">
+                        <a href="{{ route('orders.pay', ['order' => $transaction->payable_id, 'gateway' => 'zp']) }}" class="tf-btn mb_20 w-100 btn-fill animate-hover-btn radius-3 justify-content-center">
                             <span>تلاش مجدد</span>
                         </a>
-                        <p>@lang('Have a question?') <a href="contact-1.html" class="text_primary">@lang('Contact Support')</a></p>
+                        <p>@lang('Have a question?') <a href="{{ route('pages.contact') }}" class="text_primary">@lang('Contact Support')</a></p>
                     </div>
                 </div>
             </div>

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->morphs('payable');
             $table->tinyInteger('status');
             $table->json('meta')->default(json_encode([]));
+            $table->timestamp('paid_at')->nullable();
             $table->timestamps();
         });
     }

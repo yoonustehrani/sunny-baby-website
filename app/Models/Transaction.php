@@ -9,7 +9,14 @@ class Transaction extends Model
 {
     use HasMetaProperty;
 
-    protected $fillable = ['method', 'payable', 'status', 'amount'];
+    protected $fillable = ['method', 'payable', 'status', 'amount', 'paid_at'];
+
+    public function casts(): array
+    {
+        return [
+            'paid_at' => 'datetime'
+        ];
+    }
 
     public function user()
     {

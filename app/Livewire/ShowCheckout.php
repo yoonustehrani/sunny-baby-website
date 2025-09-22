@@ -142,6 +142,9 @@ class ShowCheckout extends Component
                     ['phone_number' => $this->form->phone]
                 );
             }
+            if (! $user->name) {
+                $user->name = $this->form->fullname;
+            }
             $order = $user->orders()->save(new Order(array_merge(
                 $sums, ['status' => OrderStatus::PENDING]
             )));

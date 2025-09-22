@@ -9,12 +9,15 @@ use ZarinPal\Sdk\Options;
 use ZarinPal\Sdk\ZarinPal;
 use ZarinPal\Sdk\ClientBuilder;
 use Http\Client\Common\Plugin\HeaderDefaultsPlugin;
+use Illuminate\Support\Facades\DB;
 use ZarinPal\Sdk\Endpoint\PaymentGateway\RequestTypes\RequestRequest;
 use ZarinPal\Sdk\Endpoint\PaymentGateway\RequestTypes\VerifyRequest;
 use ZarinPal\Sdk\HttpClient\Exception\ResponseException;
 
 class ZarinpalGateway extends PaymentGateway
 {
+    public string $name = 'زرین پال';
+    
     public function getPaymentLib()
     {
         $clientBuilder = new ClientBuilder();
@@ -83,28 +86,36 @@ class ZarinpalGateway extends PaymentGateway
 
                 try {
                     $response = $zarinpal->paymentGateway()->verify($verifyRequest);
-
+                    DB::beginTransaction();
                     if ($response->code === 100) {
                         $this->transaction->addToMeta('trx', [
                             'Reference ID' => $response->ref_id,
                             'Card PAN' => $response->card_pan,
                             'Fee' => $response->fee
                         ]);
-                        $this->transaction->update([
-                            'status' => TransactionStatus::PAID
-                        ]);
+                        $this->transaction->status = TransactionStatus::PAID;
+                        if (! $this->transaction->paid_at) {
+                            $this->transaction->payable->increment('total_paid', $this->transaction->amount);
+                            $this->transaction->paid_at = now();
+                        }
+                        $this->transaction->save();
+                        DB::commit();
                         return true;
                     } else if ($response->code === 101) {
                         $this->transaction->update([
                             'status' => TransactionStatus::PAID
                         ]);
+                        DB::commit();
                         return true;
                     } else {
                         $reason = "Transaction failed with code: " . $response->code;
                     }
+                    DB::commit();
                 } catch (ResponseException $e) {
+                    DB::rollBack();
                     $reason = 'Payment Verification Failed: ' . $e->getErrorDetails()['errors']['message'];
                 } catch (\Exception $e) {
+                    DB::rollBack();
                     $reason = 'Payment Error: ' . $e->getMessage();
                 }
             } else {

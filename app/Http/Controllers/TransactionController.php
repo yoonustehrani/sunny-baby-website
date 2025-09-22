@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\OrderStatus;
 use App\Models\Transaction;
 use App\Services\Payment\ZarinpalGateway;
 use App\Services\PaymentService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TransactionController extends Controller
 {
@@ -19,8 +21,9 @@ class TransactionController extends Controller
         $result = app($gateway, ['transaction' => $transaction])->validateTransaction();
         $transaction->refresh();
         if ($result === true) {
-            return view('payment.confirmed');
+            $transaction->load('payable');
+            return view('payment.confirmed', compact('transaction'));
         }
-        return view('payment.failed');
+        return view('payment.failed', compact('transaction'));
     }
 }
