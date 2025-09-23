@@ -1,4 +1,4 @@
-<x-layouts.default title="سانی بی بی">
+<x-layouts.main :$title>
     <x-topbar />
     <x-header />
     <x-sections.slider />
@@ -10,4 +10,4 @@
     <x-sections.sex />
     <livewire:category-products-row :category="$categories[2]" lazy/>
     <x-sections.colors />
-</x-layouts.default>
+</x-layouts.main>

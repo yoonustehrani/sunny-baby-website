@@ -6,6 +6,8 @@ use App\Enums\DiscountMethod;
 use App\Enums\ProductType;
 use App\Models\Category;
 use App\Models\Discount;
+use App\Models\Image;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -62,5 +64,25 @@ class ProductFactory extends Factory
         return $this->state(fn () => [
             'discount_id' => Discount::factory()->byMethod(DiscountMethod::PERCENTAGE)
         ]);
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (Product $product) {
+            $product->categories()->attach(
+                Category::whereNull('parent_id')->inRandomOrder()->first()->id
+            );
+            // main image
+            $product->images()->attach(
+                Image::factory()->create()->id,
+                ['is_main' => true]
+            );
+
+            // non-main image
+            $product->images()->attach(
+                Image::factory()->create()->id,
+                ['is_main' => false]
+            );
+        });
     }
 }

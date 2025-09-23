@@ -19,7 +19,26 @@
             <div class="col-xl-3 col-md-4 col-3">
                 <ul class="nav-icon d-flex justify-content-end align-items-center gap-20">
                     <li class="nav-search"><a href="index.html#canvasSearch" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft" class="nav-icon-item"><i class="icon icon-search"></i></a></li>
-                    <livewire:user-icon />
+                    <li class="nav-account"
+                        x-data="{ loggedIn: @json(auth()->check()) }"
+                        x-on:user-logged-in.window="loggedIn = true;"
+                        x-on:user-logged-out.window="loggedIn = false"
+                        >
+                        {{-- Visible when logged in --}}
+                        <a href="{{ route('user-account.dashboard') }}" class="tw:h-5" x-show="loggedIn" x-cloak>
+                            <i class="icon icon-account"></i>
+                        </a>
+                        {{-- Visible when guest --}}
+                        <button x-show="!loggedIn" 
+                            type="button"
+                            class="nav-icon-item" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#login"
+                            x-on:semi-protected-route.window='$el.click()'
+                            >
+                            <i class="icon icon-account"></i>
+                        </button>
+                    </li>
                     <li class="nav-wishlist"><a href="wishlist.html" class="nav-icon-item"><i class="icon icon-heart"></i><span class="count-box">0</span></a></li>
                     <livewire:cart-icon />
                 </ul>

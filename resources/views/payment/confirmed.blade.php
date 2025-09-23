@@ -1,4 +1,4 @@
-<x-layouts.default :title="__('Payment confirmation')">
+<x-layouts.main :title="__('Payment confirmation')">
     <x-header />
     <!-- page-title -->
     <div class="tf-page-title">
@@ -53,4 +53,4 @@
         </div>
     </section>
     <!-- page-cart -->
-</x-layouts.default>
+</x-layouts.main>

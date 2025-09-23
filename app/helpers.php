@@ -7,6 +7,7 @@ use App\Models\Transaction;
 use App\Services\PaymentService;
 use App\Services\Shipping\Carrier;
 use App\Services\SMSService;
+use Illuminate\Support\Str;
 
 if (! function_exists('farsi_numbers')) {
     function farsi_numbers(int|string $number) {
@@ -155,5 +156,14 @@ if (! function_exists('get_payment_gateway')) {
     function get_payment_gateway(string $gatewayClass, Transaction $transaction)
     {
         return app($gatewayClass, compact('transaction'));
+    }
+}
+
+if (!function_exists('get_initials')) {
+    function get_initials(string $string): string
+    {
+        $words = preg_split('/\s+/u', trim($string), -1, PREG_SPLIT_NO_EMPTY);
+
+        return Str::substr($words[0], 0, 1);
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProductImage>
  */
-class ProductImageFactory extends Factory
+class ImageFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -23,10 +23,10 @@ class ProductImageFactory extends Factory
         ];
     }
 
-    public function main()
-    {
-        return $this->state([
-            'is_main' => true
-        ]);
-    }
+    // public function main()
+    // {
+    //     return $this->state([
+    //         'is_main' => true
+    //     ]);
+    // }
 }

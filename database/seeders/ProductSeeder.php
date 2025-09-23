@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Discount;
+use App\Models\Image;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\Variable;
@@ -24,7 +25,6 @@ class ProductSeeder extends Seeder
         $this->call(VariableSeeder::class);
         try {
             DB::beginTransaction();
-            $categories = Category::whereNull('parent_id')->inRandomOrder()->get()->pluck('id')->toArray();
             $products = collect();
              // discounted product
             $products->push(
@@ -48,11 +48,6 @@ class ProductSeeder extends Seeder
             //         $p->variables()->attach($variable, ['variable_value_id' => $colors[$i]->id]);
             //     });
             // }
-            foreach ($products as $p) {
-                $p->categories()->attach(fake()->randomElement($categories));
-                ProductImage::factory()->main()->for($p)->create();
-                ProductImage::factory()->for($p)->create();
-            }
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
