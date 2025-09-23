@@ -4,7 +4,7 @@
     x-on:user-logged-out.window="loggedIn = false"
     >
     {{-- Visible when logged in --}}
-    <a href="/my-account" x-show="loggedIn" x-cloak>
+    <a href="{{ route('user-account.dashboard') }}" class="tw:h-5" x-show="loggedIn" x-cloak>
         <i class="icon icon-account"></i>
     </a>
     {{-- Visible when guest --}}

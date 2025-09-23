@@ -6,6 +6,7 @@ use App\Http\Controllers\TransactionController;
 use App\Livewire\ShowCheckout;
 use App\Livewire\UserAccount;
 use App\Livewire\Pages\ShowCart;
+use App\Livewire\Pages\ShowLogin;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Transaction;
@@ -37,6 +38,8 @@ Route::post('/logout', function() {
     Session::flush();
     return redirect(route('home'));
 })->name('logout')->middleware('auth');
+
+Route::get('/login', ShowLogin::class)->name('login')->middleware('guest');
 
 Route::middleware(['auth'])->name('user-account.')->prefix('/my-account')->group(function() {
     Route::get('/', UserAccount\Dashboard::class)->name('dashboard');

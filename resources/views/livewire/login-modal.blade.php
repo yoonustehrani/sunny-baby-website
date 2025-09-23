@@ -1,7 +1,7 @@
 <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
         <div class="header">
-            <div class="demo-title">@lang('Login')</div>
+            <div class="demo-title">@lang('Login')/@lang('Register')</div>
             <span class="icon-close icon-close-popup" data-bs-dismiss="modal"></span>
         </div>
         @guest
