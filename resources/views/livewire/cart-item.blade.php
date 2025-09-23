@@ -7,7 +7,7 @@
         </a>
         <div class="cart-info">
             <a href="{{ route('products.show', ['slug' => $product->slug]) }}" class="cart-title link">{{ $product->title }}</a>
-            @if ($product->type === App\Enums\ProductType::VARIATION)
+            @if ($product->type === App\Enums\ProductType::VARIABLE)
                 <div class="cart-meta-variant">White / M</div>
             @endif
             <button type="button" wire:click='update(0)' class="remove-cart link">@lang('Remove')</button>

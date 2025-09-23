@@ -22,7 +22,7 @@
                             August 1, 2024
                         </td>
                         <td>
-                            {{ $order->status }}
+                            {{ $order->status->getTitleFa() }}
                         </td>
                         <td>
                             @lang(":amount for :number items", ['amount' => format_price($order->total), 'number' => $order->items_count])

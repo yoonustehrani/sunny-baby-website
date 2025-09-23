@@ -85,11 +85,15 @@
                                 <div class="tf-product-info-price">
                                     <div class="price-on-sale">{{ format_price($product->discounted_price) }}</div>
                                 </div>
+                                @else
+                                <div class="tf-product-info-price">
+                                    <p class="price">{{ format_price($product->price) }}</p>
+                                </div>
                                 @endif
-                                <div class="tf-product-info-liveview">
+                                {{-- <div class="tf-product-info-liveview">
                                     <div class="liveview-count">20</div>
                                     <p class="fw-6">@lang('people are viewing this right now')</p>
-                                </div>
+                                </div> --}}
                                 @if ($product->is_discounted && $product->discount->expires_at)
                                     <div class="tf-product-info-countdown">
                                         <div class="countdown-wrap">
@@ -103,6 +107,7 @@
                                         </div>
                                     </div>
                                 @endif
+                                @if ($product->type === App\Enums\ProductType::VARIABLE)
                                 <div class="tf-product-info-variant-picker">
                                     <div class="variant-picker-item">
                                         <div class="variant-picker-label">
@@ -158,8 +163,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                @endif
                                 <div class="tf-product-info-quantity">
-                                    <div class="quantity-title fw-6">Quantity</div>
+                                    <div class="quantity-title fw-6">@lang('Quantity')</div>
                                     <div class="wg-quantity">
                                         <span class="btn-quantity minus-btn">-</span>
                                         <input type="text" name="number" value="1">
@@ -168,7 +174,10 @@
                                 </div>
                                 <div class="tf-product-info-buy-button">
                                     <form class="">
-                                        <a href="product-detail.html#" class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn "><span>Add to cart -&nbsp;</span><span class="tf-qty-price">$8.00</span></a>
+                                        <a href="product-detail.html#" class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn ">
+                                            <span>@lang('Add to cart') -&nbsp;</span>
+                                            <span class="tf-qty-price">{{ $product->is_discounted ? format_price($product->discounted_price) : format_price($product->price) }}</span>
+                                        </a>
                                         <a href="javascript:void(0);" class="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action">
                                             <span class="icon icon-heart"></span>
                                             <span class="tooltip">Add to Wishlist</span>
@@ -179,13 +188,13 @@
                                             <span class="tooltip">Add to Compare</span>
                                             <span class="icon icon-check"></span>
                                         </a>
-                                        <div class="w-100">
+                                        {{-- <div class="w-100">
                                             <a href="product-detail.html#" class="btns-full">Buy with <img src="images/payments/paypal.png" alt=""></a>
                                             <a href="product-detail.html#" class="payment-more-option">More payment options</a>
-                                        </div>
+                                        </div> --}}
                                     </form>
                                 </div>
-                                <div class="tf-product-info-extra-link">
+                                {{-- <div class="tf-product-info-extra-link">
                                     <a href="product-detail.html#compare_color" data-bs-toggle="modal" class="tf-product-extra-icon">
                                         <div class="icon">
                                             <img src="images/item/compare.svg" alt="">
@@ -210,8 +219,8 @@
                                         </div>
                                         <div class="text fw-6">Share</div>
                                     </a>
-                                </div>
-                                <div class="tf-product-info-delivery-return">
+                                </div> --}}
+                                {{-- <div class="tf-product-info-delivery-return">
                                     <div class="row">
                                         <div class="col-xl-6 col-12">
                                             <div class="tf-product-delivery">
@@ -230,8 +239,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="tf-product-info-trust-seal">
+                                </div> --}}
+                                {{-- <div class="tf-product-info-trust-seal">
                                     <div class="tf-product-trust-mess">
                                         <i class="icon-safe"></i>
                                         <p class="fw-6">Guarantee Safe <br> Checkout</p>
@@ -243,7 +252,7 @@
                                         <img src="images/payments/img-3.png" alt="">
                                         <img src="images/payments/img-4.png" alt="">
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -255,12 +264,13 @@
                 <div class="tf-height-observer w-100 d-flex align-items-center">
                     <div class="tf-sticky-atc-product d-flex align-items-center">
                         <div class="tf-sticky-atc-img">
-                            <img class="lazyloaded" data-src="images/shop/products/p-d1.png" alt="" src="images/shop/products/p-d1.png">
+                            <img class="lazyloaded" data-src="{{ asset($product->main_image->url) }}" alt="" src="{{ asset($product->main_image->thumbnail_url) }}">
                         </div>
-                        <div class="tf-sticky-atc-title fw-5 d-xl-block d-none">Cotton jersey top</div>
+                        <div class="tf-sticky-atc-title fw-5 d-xl-block d-none">{{ $product->title }}</div>
                     </div>
                     <div class="tf-sticky-atc-infos">
                         <form class="">
+                            @if ($product->type === App\Enums\ProductType::VARIABLE)
                             <div class="tf-sticky-atc-variant-price text-center">
                                 <select class="tf-select">
                                     <option selected="selected">Beige / S - $8.00</option>
@@ -281,6 +291,7 @@
                                     <option>White / XL - $8.00</option>
                                 </select>
                             </div>
+                            @endif
                             <div class="tf-sticky-atc-btns">
                                 <div class="tf-product-info-quantity">
                                     <div class="wg-quantity">
@@ -289,7 +300,7 @@
                                         <span class="btn-quantity plus-btn">+</span>
                                     </div>
                                 </div>
-                                <a href="product-detail.html#" class="tf-btn btn-fill radius-3 justify-content-center fw-6 fs-14 flex-grow-1 animate-hover-btn "><span>Add to cart</a>
+                                <a href="product-detail.html#" class="tf-btn btn-fill radius-3 justify-content-center fw-6 fs-14 flex-grow-1 animate-hover-btn "><span>@lang('Add to cart')</a>
                             </div>
                         </form>
                     </div>

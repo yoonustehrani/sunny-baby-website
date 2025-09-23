@@ -27,7 +27,9 @@
                 @enderror
                 <div class="bottom"> 
                     <div class="w-100">
-                        <button type="submit" @if(strlen($phone_number) < 11) disabled @endif class="tw:disabled:bg-gray-300 tw:disabled:bg-gray-200 tw:disabled:border-0 tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"><span>@lang('Login')</span></button>
+                        <button type="submit" @if(strlen($phone_number) < 11) disabled @endif class="tw:disabled:bg-gray-300 tw:disabled:bg-gray-200 tw:disabled:border-0 tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center">
+                            <span>{{ $final ? __('Login') : __('Request OTP') }}</span>
+                        </button>
                     </div>
                     {{-- <div class="w-100">
                         <a href="index.html#register" data-bs-toggle="modal" class="btn-link fw-6 w-100 link">
