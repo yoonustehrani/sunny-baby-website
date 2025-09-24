@@ -99,7 +99,7 @@
                                         <div class="countdown-wrap">
                                             <div class="countdown-title">
                                                 <i class="icon-time tf-ani-tada"></i>
-                                                <p>HURRY UP! SALE ENDS IN:</p>
+                                                <p>@lang('HURRY UP! SALE ENDS IN'):</p>
                                             </div>
                                             <div class="tf-countdown style-1">
                                                 <div class="js-countdown" dir="rtl" data-timer="{{ $product->discount->expires_at->timestamp - now()->timestamp }}" data-labels="Days :,Hours :,Mins"></div>
@@ -164,36 +164,7 @@
                                     </div>
                                 </div>
                                 @endif
-                                <div class="tf-product-info-quantity">
-                                    <div class="quantity-title fw-6">@lang('Quantity')</div>
-                                    <div class="wg-quantity">
-                                        <span class="btn-quantity minus-btn">-</span>
-                                        <input type="text" name="number" value="1">
-                                        <span class="btn-quantity plus-btn">+</span>
-                                    </div>
-                                </div>
-                                <div class="tf-product-info-buy-button">
-                                    <form class="">
-                                        <a href="product-detail.html#" class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn ">
-                                            <span>@lang('Add to cart') -&nbsp;</span>
-                                            <span class="tf-qty-price">{{ $product->is_discounted ? format_price($product->discounted_price) : format_price($product->price) }}</span>
-                                        </a>
-                                        <a href="javascript:void(0);" class="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action">
-                                            <span class="icon icon-heart"></span>
-                                            <span class="tooltip">Add to Wishlist</span>
-                                            <span class="icon icon-delete"></span>
-                                        </a>
-                                        <a href="product-detail.html#compare" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft" class="tf-product-btn-wishlist hover-tooltip box-icon bg_white compare btn-icon-action">
-                                            <span class="icon icon-compare"></span>
-                                            <span class="tooltip">Add to Compare</span>
-                                            <span class="icon icon-check"></span>
-                                        </a>
-                                        {{-- <div class="w-100">
-                                            <a href="product-detail.html#" class="btns-full">Buy with <img src="images/payments/paypal.png" alt=""></a>
-                                            <a href="product-detail.html#" class="payment-more-option">More payment options</a>
-                                        </div> --}}
-                                    </form>
-                                </div>
+                                <livewire:advanced-add-to-cart-section :$product/>
                                 {{-- <div class="tf-product-info-extra-link">
                                     <a href="product-detail.html#compare_color" data-bs-toggle="modal" class="tf-product-extra-icon">
                                         <div class="icon">

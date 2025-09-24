@@ -29,12 +29,9 @@ class Product extends Model
         return $this->belongsToMany(Image::class, 'product_image')->withPivot('is_main');
     }
 
-    public function main_image()
+    public function getMainImageAttribute()
     {
-        return $this->hasOne(Image::class, 'id', 'id')
-            ->join('product_image', 'images.id', '=', 'product_image.image_id')
-            ->where('product_image.is_main', true)
-            ->select('images.*', 'product_image.product_id');
+        return $this->images->firstWhere('pivot.is_main', true);
     }
 
     public function categories()
