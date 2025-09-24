@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Traits;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Casts\Attribute as CastsAttribute;
 
 trait HasMetaProperty
 {
-    public function meta(): Attribute
+    public function meta(): CastsAttribute
     {
         return new Attribute(
             get: fn() => json_decode($this->attributes['meta']),

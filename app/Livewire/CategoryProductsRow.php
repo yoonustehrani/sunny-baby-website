@@ -14,9 +14,10 @@ class CategoryProductsRow extends Component
 
     public function mount()
     {
-        $this->hasProducts = $this->category->products()->count() > 0;
+        $query = $this->category->products()->notVariants()->latest()->take(10);
+        $this->hasProducts = $query->count() > 0;
         if ($this->hasProducts) {
-            $this->products = $this->category->products()->with('discount', 'images')->latest()->take(10)->get();
+            $this->products = $query->with('discount', 'variants', 'images')->get();
         }
     }
 

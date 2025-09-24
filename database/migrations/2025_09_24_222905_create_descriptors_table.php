@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\VariableType;
+use App\Models\Product;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,11 +12,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('variables', function (Blueprint $table) {
+        Schema::create('descriptors', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->char('type', 1)->default(VariableType::SIMPLE);
-            $table->timestamps();
+            $table->foreignIdFor(Product::class)->constrained()->cascadeOnDelete();
+            $table->string('label');
+            $table->string('content');
         });
     }
 
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('variables');
+        Schema::dropIfExists('descriptors');
     }
 };

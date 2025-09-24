@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Casts\Attribute as CastsAttribute;
 use Illuminate\Database\Eloquent\Model;
 
 class AuthCode extends Model
@@ -19,9 +19,9 @@ class AuthCode extends Model
         ];
     }
 
-    public function isExpired(): Attribute
+    public function isExpired(): CastsAttribute
     {
-        return Attribute::make(
+        return CastsAttribute::make(
             get: fn() => $this->expires_at->lt(now())
         );
     }

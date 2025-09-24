@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Casts\Attribute as CastsAttribute;
 
 class Discount extends Model
 {
@@ -34,9 +34,9 @@ class Discount extends Model
         return $this->hasMany(DiscountRule::class);
     }
 
-    public function isApplicable(): Attribute
+    public function isApplicable(): CastsAttribute
     {
-        return Attribute::make(
+        return CastsAttribute::make(
             get: function() {
                 if ($this->max_usage && $this->usages()->count() >= $this->max_usage) {
                     return false;

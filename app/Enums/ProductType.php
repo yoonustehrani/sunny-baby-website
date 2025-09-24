@@ -14,7 +14,7 @@ enum ProductType: string
     #[TitleFa('دارای متغیر')]
     case VARIABLE = 'C';
     #[TitleFa('متغیر')]
-    case VARIATION = 'V';
+    case VARIANT = 'V';
     // case BUNDLE = 'B';
     // case GROUP = 'G';
 }

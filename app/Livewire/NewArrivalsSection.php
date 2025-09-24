@@ -13,7 +13,7 @@ class NewArrivalsSection extends Component
     public function mount()
     {
         $this->products = Cache::remember('new-arrivals', 60 * 60, function() {
-            return \App\Models\Product::with('discount', 'variables.values', 'images')->take(12)->latest()->get();
+            return \App\Models\Product::notVariants()->with('discount', 'variants', 'images')->take(12)->latest()->get();
         });
     }
 

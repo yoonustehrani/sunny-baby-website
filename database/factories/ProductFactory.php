@@ -53,7 +53,7 @@ class ProductFactory extends Factory
     public function variation()
     {
         return $this->state(fn(array $state) => [
-            'type' => ProductType::VARIATION,
+            'type' => ProductType::VARIANT,
             'title' => null,
             'description' => null,
             'slug' => null

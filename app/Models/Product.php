@@ -6,6 +6,7 @@ use App\Enums\ProductType;
 use App\Traits\DiscountMethods;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Casts\Attribute as CastsAttribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +14,28 @@ class Product extends Model
 {
     /** @use HasFactory<\Database\Factories\ProductFactory> */
     use HasFactory, DiscountMethods;
+
+    public $appends = ['price_label'];
+
+    public function casts(): array
+    {
+        return [
+            'type' => ProductType::class
+        ];
+    }
+
+    public function getPriceLabelAttribute()
+    {
+        $price = $this->price;
+        if ($this->type === ProductType::VARIABLE) {
+            $prices = $this->variants->pluck('price')->unique()->sort();
+            if ($prices->count() > 1) {
+                return number_format($prices->first()) . " - " . format_price($prices->last());
+            }
+            $price = $prices->first();
+        }
+        return format_price($price);
+    }
 
     public function discount()
     {
@@ -42,15 +65,29 @@ class Product extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany<\App\Models\Product, $this>
      */
-    public function variations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function variants(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Product::class, 'parent_id')->whereType(ProductType::VARIATION);
+        return $this->hasMany(Product::class, 'parent_id')->whereType(ProductType::VARIANT);
     }
 
-    public function variables()
+    // public function variables()
+    // {
+    //     return $this->belongsToMany(Variable::class, 'product_variant_attribute')->withPivot(['variable_value_id']);
+    // }
+
+    public function attribute_options()
     {
-        return $this->belongsToMany(Variable::class, 'product_variant_attribute')->withPivot(['variable_value_id']);
+        return $this->belongsToMany(AttributeOption::class)
+            ->using(AttributeOptionProduct::class)
+            ->withPivot(['product_id', 'attribute_id', 'attribute_option_id']);
     }
+
+    public function attributes()
+    {
+        return $this->belongsToMany(Attribute::class, table: 'attribute_option_product')->using(AttributeOptionProduct::class)->withPivot(['product_id', 'attribute_id', 'attribute_option_id']);
+    }
+
+    // public function 
 
     #[Scope]
     protected function onlyVariable(Builder $query): void
@@ -59,8 +96,8 @@ class Product extends Model
     }
 
     #[Scope]
-    protected function notVariations(Builder $query): void
+    protected function notVariants(Builder $query): void
     {
-        $query->where('type', '<>', ProductType::VARIATION);
+        $query->where('type', '<>', ProductType::VARIANT);
     }
 }
