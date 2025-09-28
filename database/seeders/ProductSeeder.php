@@ -38,14 +38,17 @@ class ProductSeeder extends Seeder
             // creating variable products
             $sizeAttribute = Attribute::whereLabel('سایز')->first();
             $sizes = $sizeAttribute->options()->get();
+            $colorAttribute = Attribute::whereLabel('رنگ')->first();
+            $colors = $colorAttribute->options()->get();
             $variable_products = Product::factory(random_int(6, 12))->variable()->has(
                 Product::factory(count($sizes))->variation(),
                 'variants'
             )->create();
             foreach ($variable_products as $vp) {
                 $vp->attribute_options()->attach($sizes->pluck('id'), ['attribute_id' => $sizeAttribute->id]);
-                $vp->variants->each(function(Product $p, int $i) use(&$sizes) {
+                $vp->variants->each(function(Product $p, int $i) use(&$sizes, &$colors) {
                     $p->attribute_options()->attach($sizes[$i]->id, ['attribute_id' => $sizes[$i]['attribute_id']]);
+                    $p->attribute_options()->attach($colors[$i]->id, ['attribute_id' => $colors[$i]['attribute_id']]);
                 });
             }
             $products->push(...$variable_products);

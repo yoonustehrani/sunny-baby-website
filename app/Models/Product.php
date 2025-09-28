@@ -100,4 +100,9 @@ class Product extends Model
     {
         $query->where('type', '<>', ProductType::VARIANT);
     }
+
+    public function isVariable(): bool
+    {
+        return $this->type == ProductType::VARIABLE;
+    }
 }

@@ -24,4 +24,11 @@ class AttributeOption extends Model
             ]
         );
     }
+
+    public function label(): CastsAttribute
+    {
+        return CastsAttribute::make(
+            get: fn($label) => $label ?: $this->content
+        );
+    }
 }

@@ -21,4 +21,9 @@ class Attribute extends Model
             'option_content_type' => OptionContentType::class
         ];
     }
+
+    public function isColor(): bool
+    {
+        return $this->option_content_type == OptionContentType::COLOR;
+    }
 }

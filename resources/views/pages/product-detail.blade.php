@@ -79,7 +79,7 @@
                                 </div> --}}
                                 @if ($product->is_discounted)
                                 <div class="tf-product-info-price">
-                                    <div class="compare-at-price">{{ format_price($product->price) }}</div>
+                                    <div class="compare-at-price">{{ $product->price_label }}</div>
                                     <div class="badges-on-sale"><span>{{ $product->discount_in_percent }}</span>% OFF</div>
                                 </div>
                                 <div class="tf-product-info-price">
@@ -87,7 +87,7 @@
                                 </div>
                                 @else
                                 <div class="tf-product-info-price">
-                                    <p class="price">{{ format_price($product->price) }}</p>
+                                    <p class="price">{{ $product->price_label }}</p>
                                 </div>
                                 @endif
                                 {{-- <div class="tf-product-info-liveview">
@@ -106,63 +106,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                @endif
-                                @if ($product->type === App\Enums\ProductType::VARIABLE)
-                                <div class="tf-product-info-variant-picker">
-                                    <div class="variant-picker-item">
-                                        <div class="variant-picker-label">
-                                            Color: <span class="fw-6 variant-picker-label-value">Beige</span>
-                                        </div>
-                                        <div class="variant-picker-values">
-                                            <input id="values-beige" type="radio" name="color1" checked>
-                                            <label class="hover-tooltip radius-60" for="values-beige" data-value="Beige">
-                                                <span class="btn-checkbox bg-color-beige"></span>
-                                                <span class="tooltip">Beige</span>
-                                            </label>
-                                            <input id="values-black" type="radio" name="color1">
-                                            <label class=" hover-tooltip radius-60" for="values-black" data-value="Black">
-                                                <span class="btn-checkbox bg-color-black"></span>
-                                                <span class="tooltip">Black</span>
-                                            </label>
-                                            <input id="values-blue" type="radio" name="color1">
-                                            <label class="hover-tooltip radius-60" for="values-blue" data-value="Blue">
-                                                <span class="btn-checkbox bg-color-blue"></span>
-                                                <span class="tooltip">Blue</span>
-                                            </label>
-                                            <input id="values-white" type="radio" name="color1">
-                                            <label class="hover-tooltip radius-60" for="values-white" data-value="White">
-                                                <span class="btn-checkbox bg-color-white"></span>
-                                                <span class="tooltip">White</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="variant-picker-item">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="variant-picker-label">
-                                                Size: <span class="fw-6 variant-picker-label-value">S</span>
-                                            </div>
-                                            <a href="product-detail.html#find_size" data-bs-toggle="modal" class="find-size fw-6">Find your size</a>
-                                        </div>
-                                        <div class="variant-picker-values">
-                                            <input type="radio" name="size1" id="values-s" checked>
-                                            <label class="style-text" for="values-s" data-value="S">
-                                                <p>S</p>
-                                            </label>
-                                            <input type="radio" name="size1" id="values-m">
-                                            <label class="style-text" for="values-m" data-value="M">
-                                                <p>M</p>
-                                            </label>
-                                            <input type="radio" name="size1" id="values-l">
-                                            <label class="style-text" for="values-l" data-value="L">
-                                                <p>L</p>
-                                            </label>
-                                            <input type="radio" name="size1" id="values-xl">
-                                            <label class="style-text" for="values-xl" data-value="XL">
-                                                <p>XL</p>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
                                 @endif
                                 <livewire:advanced-add-to-cart-section :$product/>
                                 {{-- <div class="tf-product-info-extra-link">
