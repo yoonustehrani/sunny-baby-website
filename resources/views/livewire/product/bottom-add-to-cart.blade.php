@@ -11,7 +11,7 @@
                 <form class="tw:flex tw:items-center tw:gap-6">
                     @if ($product->type === App\Enums\ProductType::VARIABLE)
                     <div class="tf-sticky-atc-variant-price text-center">
-                        <select wire:model='selectedVariant' class="tf-select">
+                        <select wire:model='selectedVariant' class="tf-select tw:text-gray-700">
                             @foreach ($product->variants as $variant)
                                 <option>{{ $variant->variant_title }} - {{ format_price($variant->real_price) }}</option>
                             @endforeach
