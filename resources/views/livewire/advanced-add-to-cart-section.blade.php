@@ -73,26 +73,35 @@
             </div> --}}
         </div>
     @endif
+    @if (!$product->isVariable() || !is_null($variant))
     <div class="tf-product-info-quantity">
         <div class="quantity-title fw-6">@lang('Quantity')</div>
-        <div class="wg-quantity">
-            <span class="btn-quantity minus-btn">-</span>
-            <input type="text" name="number" wire:model='n'>
-            <span class="btn-quantity plus-btn">+</span>
+        <div class="tw:flex tw:gap-4 tw:items-center">
+                <div class="wg-quantity">
+                    <button type="button" class="btn-quantity minus-btn">-</button>
+                    <input type="text" name="number" wire:model='n'>
+                    <button type="button" class="btn-quantity plus-btn">+</button>
+                </div>
+            <p>
+                @if ($product->isVariable())
+                    @if (!is_null($variant))
+                        @lang('Stock'):
+                        <span class="tw:py-1 tw:px-2 tw:rounded-md tw:bg-gray-200">{{ $variant->stock }}</span>
+                    @endif
+                @else
+                    @lang('Stock'):
+                    <span class="tw:py-1 tw:px-2 tw:rounded-md tw:bg-gray-200">{{ $product->stock }}</span>
+                @endif
+            </p>
         </div>
     </div>
+    @endif
     <div class="tf-product-info-buy-button">
         <div class="tw:w-full tw:py-3 tw:flex tw:gap-3">
             @if ($product->isVariable())
-                <button @disabled(is_null($variant)) class="tw:disabled:text-gray-500 tw:disabled:bg-gray-300 tw:disabled:border-gray-300 tf-btn btn-fill tw:grow justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn ">
-                    <span>@lang('Add to cart')</span>
-                    {{-- <span class="tf-qty-price"> -&nbsp; {{ $product->is_discounted ? format_price($product->discounted_price) : format_price($product->price) }}</span> --}}
-                </button>
+                <x-buttons.add-to-cart :product='$variant' :disabled='is_null($variant) || $variant->stock == 0'/>
             @else
-                <button class="tf-btn btn-fill tw:grow justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn ">
-                    <span>@lang('Add to cart') -&nbsp;</span>
-                    <span class="tf-qty-price">{{ $product->is_discounted ? format_price($product->discounted_price) : format_price($product->price) }}</span>
-                </button>
+                <x-buttons.add-to-cart :$product />
             @endif
             <a href="javascript:void(0);" class="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action">
                 <span class="icon icon-heart"></span>

@@ -66,7 +66,7 @@ class AdvancedAddToCartSection extends Component
     public function render()
     {
         return view('livewire.advanced-add-to-cart-section', [
-            'features' => $this->getVariableAttributesAndOptions()
+            'features' => $this->product->isVariable() ? $this->getVariableAttributesAndOptions() : collect([])
         ]);
     }
 

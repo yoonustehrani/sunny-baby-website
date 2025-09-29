@@ -24,6 +24,11 @@ class Product extends Model
         ];
     }
 
+    public function getRealPriceAttribute(): int
+    {
+        return $this->is_discounted ? $this->discounted_price : $this->price;
+    }
+
     public function getPriceLabelAttribute()
     {
         $price = $this->price;
@@ -104,5 +109,10 @@ class Product extends Model
     public function isVariable(): bool
     {
         return $this->type == ProductType::VARIABLE;
+    }
+
+    public function getVariantTitleAttribute(): string
+    {
+        return $this->title ?: $this->attribute_options->map(fn(AttributeOption $ap) => $ap->label)->implode(' / ');
     }
 }
