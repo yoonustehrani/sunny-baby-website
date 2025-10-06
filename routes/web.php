@@ -4,6 +4,7 @@ use App\Http\Controllers\OrderPaymentController;
 use App\Http\Controllers\ShowHomeController;
 use App\Http\Controllers\ShowProductController;
 use App\Http\Controllers\TransactionController;
+use App\Livewire\Pages\Shop;
 use App\Livewire\ShowCheckout;
 use App\Livewire\UserAccount;
 use App\Livewire\Pages\ShowCart;
@@ -17,6 +18,7 @@ Route::get('/', ShowHomeController::class)->name('home');
 Route::get('/products/{slug}', ShowProductController::class)->name('products.show');
 Route::name('pages.')->group(function() {
     Route::view('/contact-us', 'pages.contact')->name('contact');
+    Route::get('/shop', Shop::class)->name('shop');
 });
 
 Route::get('categories/{category}/products', fn() => '')->name('categories.show');

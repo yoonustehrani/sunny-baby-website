@@ -40,7 +40,7 @@
     <div class="card-product-info tw:px-2! tw:grow" x-data='{}'>
         <a href="{{ route('products.show', ['slug' => $product->slug]) }}" class="title link tw:text-sm tw:md:text-base tw:mx-auto tw:font-normal">{{ $product->title }}</a>
         <x-product-price :$product/>
-        <livewire:add-to-cart-button :$product/>
+        <livewire:add-to-cart-button :key="'add-to-cart-main-' . $product->id" :$product/>
         {{-- <ul class="list-color-product">
             <li class="list-color-item color-swatch active">
                 <span class="tooltip">Grey</span>
