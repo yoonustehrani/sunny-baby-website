@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\ProductType;
 use App\Models\Attribute;
 use App\Models\Category;
 use App\Models\Discount;
@@ -23,6 +24,7 @@ class ProductSeeder extends Seeder
     public function run(): void
     {
         $this->call(CategorySeeder::class);
+        $this->call(BrandSeeder::class);
         $this->call(AttributeSeeder::class);
         try {
             DB::beginTransaction();
@@ -35,30 +37,32 @@ class ProductSeeder extends Seeder
             $products->push(
                 ...Product::factory(random_int(6, 12))->create()
             );
-            // creating variable products
+
+            
             $sizeAttribute = Attribute::whereLabel('سایز')->first();
             $sizes = $sizeAttribute->options()->get();
             $colorAttribute = Attribute::whereLabel('رنگ')->first();
             $colors = $colorAttribute->options()->get();
-            $variable_products = Product::factory(random_int(6, 12))->variable()->has(
-                Product::factory(count($sizes))->variation(),
-                'variants'
-            )->create();
+
+            $attributes = Attribute::with('options')->where('id', '<>', $sizeAttribute->id)->get();
+            foreach ($attributes as $attr) {
+                foreach ($products->filter(fn(Product $p) => $p->type == ProductType::SIMPLE) as $p) {
+                    $p->attribute_options()->attach(fake()->randomElement($attr->options)->id, ['attribute_id' => $attr->id]);
+                }
+            }
+
+            // creating variable products
+            $variable_products = Product::factory(random_int(6, 12))->variable()->create();
             foreach ($variable_products as $vp) {
-                $vp->attribute_options()->attach($sizes->pluck('id'), ['attribute_id' => $sizeAttribute->id]);
+                $vp->variants()->saveMany(Product::factory()->count(rand(2, 3))->variation()->make());
+                $vp->attribute_options()->attach($sizes->take($vp->variants->count())->pluck('id'), ['attribute_id' => $sizeAttribute->id]);
+                $vp->attribute_options()->attach($colors->take($vp->variants->count())->pluck('id'), ['attribute_id' => $colorAttribute->id]);
                 $vp->variants->each(function(Product $p, int $i) use(&$sizes, &$colors) {
                     $p->attribute_options()->attach($sizes[$i]->id, ['attribute_id' => $sizes[$i]['attribute_id']]);
                     $p->attribute_options()->attach($colors[$i]->id, ['attribute_id' => $colors[$i]['attribute_id']]);
                 });
             }
             $products->push(...$variable_products);
-
-            $attributes = Attribute::with('options')->where('id', '<>', $sizeAttribute->id)->get();
-            foreach ($attributes as $attr) {
-                foreach ($products as $p) {
-                    $p->attribute_options()->attach(fake()->randomElement($attr->options)->id, ['attribute_id' => $attr->id]);
-                }
-            }
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();

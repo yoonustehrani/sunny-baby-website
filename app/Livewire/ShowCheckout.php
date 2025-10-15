@@ -121,6 +121,16 @@ class ShowCheckout extends Component
     {
         $this->form->carrier_class = $class;
     }
+
+    protected function getUserSuspendedOrders(): null|array
+    {
+        if(! Auth::check()) return null;
+        /**
+         * @var \App\Models\User $user
+         */
+        $user = Auth::user();
+        return $user->orders()->suspended()->mutable()->get();
+    }
     
     public function submit()
     {
@@ -183,6 +193,7 @@ class ShowCheckout extends Component
             if (! $this->form->fullname && Auth::user()?->name) {
                 $this->form->fullname = Auth::user()->name;
             }
+            $data['suspended_orders'] = $this->getUserSuspendedOrders();
         }
         return view('livewire.show-checkout', $data)
             ->title(__('Check out'));

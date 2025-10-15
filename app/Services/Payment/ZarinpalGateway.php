@@ -63,7 +63,6 @@ class ZarinpalGateway extends PaymentGateway
             return $url;
         } catch (ResponseException $e) {
             throw $e;
-            // var_dump();
         } catch (\Exception $e) {
             throw $e;
             // echo 'Payment Error: ' . $e->getMessage();
@@ -93,18 +92,11 @@ class ZarinpalGateway extends PaymentGateway
                             'Card PAN' => $response->card_pan,
                             'Fee' => $response->fee
                         ]);
-                        $this->transaction->status = TransactionStatus::PAID;
-                        if (! $this->transaction->paid_at) {
-                            $this->transaction->payable->increment('total_paid', $this->transaction->amount);
-                            $this->transaction->paid_at = now();
-                        }
-                        $this->transaction->save();
+                        $this->transaction->markAsPaid();
                         DB::commit();
                         return true;
                     } else if ($response->code === 101) {
-                        $this->transaction->update([
-                            'status' => TransactionStatus::PAID
-                        ]);
+                        $this->transaction->markAsPaid();
                         DB::commit();
                         return true;
                     } else {
@@ -124,9 +116,7 @@ class ZarinpalGateway extends PaymentGateway
         } else {
             $reason = 'Transaction was cancelled or failed.';
         }
-        $this->transaction->addToMeta('reason', $reason);
-        $this->transaction->status = TransactionStatus::ERROR;
-        $this->transaction->save();
+        $this->transaction->markAsCancelled($reason);
         return false;
     }
 }

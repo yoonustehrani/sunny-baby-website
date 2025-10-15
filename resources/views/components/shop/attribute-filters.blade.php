@@ -21,7 +21,7 @@
                             @default
                                 <input wire:change.live='toggleFilter({{ $attribute->id }}, {{ $option->id }})' type="checkbox" name="{{ $attribute->id }}" class="tf-check" id="attr-op-{{ $option->id }}">
                         @endswitch
-                        <span>{{ $option->label }}&nbsp;<span>({{ $counts[$option->id] }})</span></span>
+                        <span @class(['tw:text-primary' => $this->isFilterSelected($attribute->id, $option->id)])>{{ $option->label }}&nbsp;<span>({{ $counts[$option->id] }})</span></span>
                         </label>
                     </li>
                 @endforeach

@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Enums\DiscountMethod;
 use App\Enums\ProductType;
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Discount;
 use App\Models\Image;
@@ -46,7 +47,7 @@ class ProductFactory extends Factory
         return $this->state(fn(array $state) => [
             'type' => ProductType::VARIABLE,
             'price' => null,
-            'reserved' => null,
+            'reserved' => 0,
             'weight' => null,
         ]);
     }
@@ -83,6 +84,8 @@ class ProductFactory extends Factory
                 Image::factory()->create()->id,
                 ['is_main' => false]
             );
+
+            $product->brand()->associate(Brand::query()->inRandomOrder()->first())->save();
         });
     }
 }

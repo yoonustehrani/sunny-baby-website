@@ -4,7 +4,6 @@ namespace App\Livewire\Pages;
 
 use App\Models\Attribute as ModelsAttribute;
 use App\Models\Product;
-use Attribute;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
@@ -17,12 +16,14 @@ class Shop extends Component
 {
     use WithPagination;
 
-    // #[Url]
     public $selectedFilters = [];
     protected $queryString = ['selectedFilters'];
 
-    #[Url]
-    public ?string $orderBy;
+    #[Url(except: false)]
+    public bool $onlyInStock = false;
+
+    #[Url(except: 'featured')]
+    public ?string $orderBy = 'featured';
 
     public function mount()
     {
@@ -34,17 +35,17 @@ class Shop extends Component
         }
     }
     
-    public function updatedSelectedFilters()
+    public function updatedSelectedFilters(): void
     {
         $this->resetPage(); // reset to page 1 when filters change
     }
 
-    public function setOrderBy(string $key)
+    public function setOrderBy(string $key): void
     {
         $this->orderBy = $key;
     }
 
-    public function toggleFilter($attributeId, $optionId)
+    public function toggleFilter($attributeId, $optionId): void
     {
         $options = $this->selectedFilters[$attributeId] ?? [];
 
@@ -60,26 +61,36 @@ class Shop extends Component
         }
     }
 
+    public function isFilterSelected($attributeId, $optionId): bool
+    {
+        return isset($this->selectedFilters[$attributeId]) && in_array($optionId, $this->selectedFilters[$attributeId]);
+    }
+
     protected function baseProductQuery(): Builder
     {
         $query = Product::query()
             ->notVariants();
-        if (! empty($this->selectedFilters)) {
-            $query->when($this->selectedFilters, function ($query) {
-                foreach ($this->selectedFilters as $options) {
-                    $query->where(function ($q) use ($options) {
-                        // parent attributes
-                        $q->whereHas('attribute_options', function ($sub) use ($options) {
-                            $sub->whereIn('attribute_options.id', $options);
-                        })
-                        // OR variant attributes
-                        ->orWhereHas('variants.attribute_options', function ($sub) use ($options) {
-                            $sub->whereIn('attribute_options.id', $options);
-                        });
-                    });
-                }
+        $query->when($this->onlyInStock, function ($query) {
+            $query->where(function ($q) {
+                // parent itself is in stock
+                $q->where('products.stock', '>', 0)
+                  // or has any in-stock variant
+                  ->orWhereHas('variants', fn($v) => $v->where('stock', '>', 0));
             });
-        }
+        })->when($this->selectedFilters, function ($query) {
+            foreach ($this->selectedFilters as $options) {
+                $query->where(function ($q) use ($options) {
+                    // parent attributes
+                    $q->whereHas('attribute_options', function ($sub) use ($options) {
+                        $sub->whereIn('attribute_options.id', $options);
+                    })
+                    // OR variant attributes
+                    ->orWhereHas('variants.attribute_options', function ($sub) use ($options) {
+                        $sub->whereIn('attribute_options.id', $options);
+                    });
+                });
+            }
+        });
         return $query;
     }
 
@@ -90,6 +101,12 @@ class Shop extends Component
          */
         $query = Product::query()
             ->notVariants()
+            ->when($this->onlyInStock, function ($query) {
+                $query->where(function ($q) {
+                    $q->where('products.stock', '>', 0)
+                    ->orWhereHas('variants', fn($v) => $v->where('stock', '>', 0));
+                });
+            })
             ->when($this->selectedFilters, function ($query) {
                 foreach ($this->selectedFilters as $options) {
                     $query->where(function ($q) use ($options) {
@@ -98,22 +115,24 @@ class Shop extends Component
                     });
                 }
             });
-        switch ($this->orderBy) {
-            case 'alpha-asc':
-                $query->orderBy('title', 'asc');
-                break;
-            case 'alpha-desc':
-                $query->orderBy('title', 'desc');
-                break;
-            case 'date-asc':
-                $query->orderBy('updated_at', 'asc');
-                break;
-            case 'date-desc':
-                $query->orderBy('updated_at', 'desc');
-                break;
-            default:
-                # code...
-                break;
+        if (isset($this->orderBy)) {
+            switch ($this->orderBy) {
+                case 'alpha-asc':
+                    $query->orderBy('title', 'asc');
+                    break;
+                case 'alpha-desc':
+                    $query->orderBy('title', 'desc');
+                    break;
+                case 'date-asc':
+                    $query->orderBy('updated_at', 'asc');
+                    break;
+                case 'date-desc':
+                    $query->orderBy('updated_at', 'desc');
+                    break;
+                default:
+                    # code...
+                    break;
+            }
         }
         return $query->with('discount', 'variants', 'images')->paginate(8);
     }

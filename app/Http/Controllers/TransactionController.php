@@ -18,10 +18,11 @@ class TransactionController extends Controller
         $gateway = match ($request->gateway) {
             'zp' => ZarinpalGateway::class,
         };
-        $result = app($gateway, ['transaction' => $transaction])->validateTransaction();
+        $validated = app($gateway, ['transaction' => $transaction])->validateTransaction();
         $transaction->refresh();
-        if ($result === true) {
+        if ($validated === true) {
             $transaction->load('payable');
+            // $transaction->payable;
             return view('payment.confirmed', compact('transaction'));
         }
         return view('payment.failed', compact('transaction'));

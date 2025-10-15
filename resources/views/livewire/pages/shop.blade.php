@@ -67,9 +67,9 @@
                         <div id="availability" class="collapse show">
                             <ul class="tf-filter-group current-scrollbar mb_36">
                                 <li class="list-item d-flex gap-12 align-items-center">
-                                    <input type="checkbox" name="availability" class="tf-check" id="availability-1">
+                                    <input wire:model.live='onlyInStock' type="checkbox" name="availability" class="tf-check" id="availability-1">
                                     <label for="availability-1" class="label">
-                                        <span>@lang('In stock')</span>&nbsp;<span>(14)</span>
+                                        <span>@lang('In stock')</span>
                                     </label>
                                 </li>
                             </ul>
@@ -100,33 +100,22 @@
                 </form>
             </div>
             <div class="tw:w-full">
-                <div class="grid-layout wrapper-shop" data-grid="grid-4">
-                    @foreach ($products as $product)
-                        <x-cards.product-card 
-                            wire:key='pr-result-{{ $product->id }}' 
-                            :$product 
-                            class="tw:bg-white! tw:p-2! tw:rounded-xl style-4 tw:flex-col"
-                        />
-                    @endforeach
-                </div>
-                <div class="tf-pagination-wrap tw:flex tw:items-center tw:justify-center tw:w-full">
-                    {{ $products->links() }}
-                    {{-- <ul class="wg-pagination justify-content-center">
-                        <li class="active">
-                            <div class="pagination-item">1</div>
-                        </li>
-                        <li>
-                            <a href="shop-filter-sidebar.html#" class="pagination-item animate-hover-btn">2</a>
-                        </li>
-                        <li>
-                            <a href="shop-filter-sidebar.html#" class="pagination-item animate-hover-btn">3</a>
-                        </li>
-                        <li>
-                            <a href="shop-filter-sidebar.html#" class="pagination-item animate-hover-btn"><i
-                                    class="icon-arrow-right"></i></a>
-                        </li>
-                    </ul> --}}
-                </div>
+                @if ($products->count() > 0)
+                    <div class="grid-layout wrapper-shop" data-grid="grid-4">
+                        @foreach ($products as $product)
+                            <x-cards.product-card 
+                                wire:key='pr-result-{{ $product->id }}' 
+                                :$product 
+                                class="tw:bg-white! tw:p-2! tw:rounded-xl style-4 tw:flex-col"
+                            />
+                        @endforeach
+                    </div>
+                    <div class="tf-pagination-wrap tw:flex tw:items-center tw:justify-center tw:w-full">
+                        {{ $products->links() }}
+                    </div>
+                @else
+                    <p class="tw:text-2xl tw:text-center tw:p-4">محصولی برای نمایش موجود نیست.</p>
+                @endif
             </div>
         </div>
     </div>

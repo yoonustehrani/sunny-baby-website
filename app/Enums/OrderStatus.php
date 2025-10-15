@@ -11,8 +11,8 @@ enum OrderStatus: string
     
     #[TitleFa('در انتظار پرداخت')]
     case PENDING = 'PE';
-    #[TitleFa('رزرو (سبد خرید)')]
-    case RESERVED = 'RV';
+    #[TitleFa('معلق')]
+    case SUSPENDED = 'SP';
     #[TitleFa('در حال پردازش')]
     case PROCESSING = 'PR';
     #[TitleFa('لغو شده')]
