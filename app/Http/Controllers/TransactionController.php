@@ -21,8 +21,26 @@ class TransactionController extends Controller
         $validated = app($gateway, ['transaction' => $transaction])->validateTransaction();
         $transaction->refresh();
         if ($validated === true) {
-            $transaction->load('payable');
-            // $transaction->payable;
+            $transaction->load('payable', 'user');
+            /**
+             * @var \App\Models\Order $order
+             */
+            $order = $transaction->payable;
+            if ($order->status == OrderStatus::PENDING) {
+                try {
+                    DB::transaction(function() use($order, $transaction) {
+                        $order->increment('total_paid', $transaction->amount);
+                        if ($order->total == $order->total_paid) {
+                            $order->update([
+                                'status' => $order->is_mutable ? OrderStatus::SUSPENDED : OrderStatus::PROCESSING
+                            ]);
+                        }
+                        $transaction->user->changeCredit(-1 * $transaction->amount, $transaction);
+                    });
+                } catch (\Throwable $th) {
+                    throw $th;
+                }
+            }
             return view('payment.confirmed', compact('transaction'));
         }
         return view('payment.failed', compact('transaction'));

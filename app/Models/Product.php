@@ -42,6 +42,11 @@ class Product extends Model
         return format_price($price);
     }
 
+    public function parent()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
     public function brand()
     {
         return $this->belongsTo(Brand::class);
@@ -92,10 +97,10 @@ class Product extends Model
             ->withPivot(['product_id', 'attribute_id', 'attribute_option_id']);
     }
 
-    public function attributes()
-    {
-        return $this->belongsToMany(Attribute::class, table: 'attribute_option_product')->using(AttributeOptionProduct::class)->withPivot(['product_id', 'attribute_id', 'attribute_option_id']);
-    }
+    // public function attributes()
+    // {
+    //     return $this->belongsToMany(Attribute::class, table: 'attribute_option_product')->using(AttributeOptionProduct::class)->withPivot(['product_id', 'attribute_id', 'attribute_option_id']);
+    // }
 
     // public function 
 

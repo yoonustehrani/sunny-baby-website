@@ -1,4 +1,5 @@
 {
+    "View": "مشاهده",
     "Shopping cart": "سبد خرید",
     "Free Shipping": "ارسال رایگان",
     "Buy :amount more to enjoy :feature": ":amount خرید کنید تا از :feature بهره مند شوید",
@@ -112,5 +113,9 @@
     "From your account dashboard you can": "از داشبورد حساب کاربری تان می توانید",
     "view your recent orders": "سفارشات اخیرتان را مشاهد کنید",
     "manage your addresses": "آدرس هایتان را مدیریت کنید",
-    "and": "و"
+    "and": "و",
+    "ID": "شناسه",
+    "Creation Date": "تاریخ ثبت",
+    "Description": "توضیحات",
+    "Attributes": "مشخصات"
 }

@@ -176,5 +176,47 @@
         <livewire:product.bottom-add-to-cart :$product/>
     </section>
     <!-- /default -->
-    <!-- /breadcrumb -->
+    <section class="flat-spacing-17 pt_0">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="widget-tabs style-has-border tw:bg-white">
+                        <ul class="widget-menu-tab">
+                            <li class="item-title active">
+                                <span class="inner">@lang('Description')</span>
+                            </li>
+                            <li class="item-title">
+                                <span class="inner">@lang('Attributes')</span>
+                            </li>
+                            {{-- <li class="item-title">
+                                <span class="inner">Shipping</span>
+                            </li>
+                            <li class="item-title">
+                                <span class="inner">Return Policies</span>
+                            </li> --}}
+                        </ul>
+                        <div class="widget-content-tab">
+                            <div class="widget-content-inner active">
+                                {!! $product->description !!}
+                            </div>
+                            <div class="widget-content-inner">
+                                <table class="tf-pr-attrs">
+                                    <tbody>
+                                        @foreach ($product->attribute_options->groupBy('attribute.label') as $group => $options)
+                                            <tr class="tf-attr-pa-color">
+                                                <th class="tf-attr-label">{{ $group }}</th>
+                                                <td class="tf-attr-value">
+                                                    <p>{{ implode('، ', $options->map(fn($x) => $x->label)->toArray()) }}</p>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </x-layouts.main>

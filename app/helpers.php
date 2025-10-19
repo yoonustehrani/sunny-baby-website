@@ -7,6 +7,7 @@ use App\Models\Transaction;
 use App\Services\PaymentService;
 use App\Services\Shipping\Carrier;
 use App\Services\SMSService;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 if (! function_exists('farsi_numbers')) {
@@ -165,5 +166,11 @@ if (!function_exists('get_initials')) {
         $words = preg_split('/\s+/u', trim($string), -1, PREG_SPLIT_NO_EMPTY);
 
         return Str::substr($words[0], 0, 1);
+    }
+}
+
+if (! function_exists('jalali')) {
+    function jalali(Carbon $date, string $format = '%Y/%m/%d') {
+        return \Morilog\Jalali\Jalalian::forge($date)->format($format);
     }
 }

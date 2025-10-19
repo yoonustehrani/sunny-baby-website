@@ -3,9 +3,9 @@
         <table>
             <thead>
                 <tr>
-                    <th class="fw-6">#</th>
-                    <th class="fw-6">@lang('Order')</th>
-                    <th class="fw-6">@lang('Date')</th>
+                    <th class="fw-6">ردیف</th>
+                    <th class="fw-6">@lang('ID')</th>
+                    <th class="fw-6">@lang('Creation Date')</th>
                     <th class="fw-6">@lang('Status')</th>
                     <th class="fw-6">@lang('Total')</th>
                     <th class="fw-6"></th>
@@ -19,7 +19,9 @@
                             {{ $order->id }}
                         </td>
                         <td>
-                            August 1, 2024
+                            {{ jalali($order->created_at) }}
+                            <br>
+                            {{ $order->created_at->format('H:i') }}
                         </td>
                         <td>
                             {{ $order->status->getTitleFa() }}

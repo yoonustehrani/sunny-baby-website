@@ -15,8 +15,7 @@ class ShowProductController extends Controller
         $product = Product::whereSlug($slug)->firstOrFail();
         $product->load('discount', 'images', 'categories')->append('main_image');
         $product->load(['variants.attribute_options.attribute']);
-        $product->load('attributes');
-        return $product;
+        $product->load('attribute_options.attribute');
         return view('pages.product-detail', compact('product'));
     }
 }

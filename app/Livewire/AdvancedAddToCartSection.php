@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Facades\Cart;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Collection as SupportCollection;
@@ -116,5 +117,12 @@ class AdvancedAddToCartSection extends Component
                     return $option;
                 });
         });
+    }
+
+    public function addToCart(string|int $productId)
+    {
+        Cart::update($productId, $this->n);
+        $this->dispatch('cart-updated');
+        $this->dispatch('cart-updated-product.'. $productId);
     }
 }
