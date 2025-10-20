@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Product;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Livewire\Livewire;
 
@@ -39,7 +40,11 @@ class CartService
         if ($this->items->isEmpty()) {
             return $this->items;
         }
-        $products = Product::with('discount', 'attribute_options.attribute', 'images', 'parent')->whereIn('id', $this->items->keys())->get()->keyBy('id');
+        static $products;
+        if (! $products) {
+            $products = Product::with('discount', 'attribute_options.attribute', 'images', 'parent')->whereIn('id', $this->items->keys())->get()->keyBy('id');
+        }
+        
         return $this->items->map(function(int $quantity, $productId) use(&$products) {
             /**
              * @var \App\Models\Product

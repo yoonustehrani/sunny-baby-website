@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Enums\CheckoutType;
 use App\Enums\DiscountRuleType;
 use App\Enums\OrderStatus;
 use App\Facades\Cart;
@@ -14,6 +15,7 @@ use App\Models\Product;
 use App\Models\Shipment;
 use App\Models\User;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\On;
@@ -124,7 +126,12 @@ class ShowCheckout extends Component
         $this->form->carrier_class = $class;
     }
 
-    protected function getUserSuspendedOrders(): null|array
+    public function setMutableOrderId(int $orderId)
+    {
+        $this->form->mutable_order_id = $orderId;
+    }
+
+    protected function getUserSuspendedOrders(): null|Collection
     {
         if(! Auth::check()) return null;
         /**
@@ -137,15 +144,21 @@ class ShowCheckout extends Component
     public function submit()
     {
         $this->form->validate();
-        $order_items = Cart::all()->map(fn($item) => new OrderItem([
-            'product_id' => $item['product']->id,
-            'quantity' => $item['quantity'],
-            'unit_price' => $item['product']->price,
-            'unit_discount' => $item['product']->is_discounted ? $item['product']->discount_amount : 0
-        ]));
-        $shipping_total = get_carrier($this->form->carrier_class, $this->form->getAddressForShipment())->calculate();
+        $cart_items = Cart::toArray()['items'];
+        $products = Product::whereIn('id', array_keys($cart_items))->lockForUpdate()->get();
+        foreach ($products as $product) {
+            if ($product->available_stock < $cart_items[$product->getKey()]) {
+                throw new Exception($product->id . " stock insufficient");
+            }
+            $product->increment('reserved', $cart_items[$product->getKey()]);
+        }
+        
         $sums = Cart::sums();
-        $sums['total'] += $shipping_total;
+        if ($this->form->finalize || $this->form->checkout_type = CheckoutType::DEFAULT) {
+            $shipping_total = get_carrier($this->form->carrier_class, $this->form->getAddressForShipment())->calculate();
+            $sums['total'] += $shipping_total;
+        }
+        
         try {
             DB::beginTransaction();
             $user = Auth::user();
@@ -157,18 +170,24 @@ class ShowCheckout extends Component
             if (! $user->name) {
                 $user->name = $this->form->fullname;
             }
-            $order = $user->orders()->save(new Order(array_merge(
-                $sums, ['status' => OrderStatus::PENDING]
-            )));
-            $order->items()->saveMany($order_items);
-            $cart_items = Cart::toArray()['items'];
-            $products = Product::whereIn('id', array_keys($cart_items))->lockForUpdate()->get();
-            foreach ($products as $product) {
-                if ($product->available_stock < $cart_items[$product->getKey()]) {
-                    throw new Exception($product->id . " stock insufficient");
-                }
-                $product->increment('reserved', $cart_items[$product->getKey()]);
+            if ($this->form->mutable_order_id && $this->form->checkout_type == CheckoutType::ADD_TO_PREVIOUS_ORDER) {
+                $order = $user->orders()->find($this->form->mutable_order_id);
+            } else {
+                $order = $user->orders()->save(new Order(
+                    array_merge(
+                        $sums,
+                        ['status' => OrderStatus::PENDING], 
+                        ['mutable_until' => $this->form->checkout_type == CheckoutType::MUTABLE_ORDER ? now()->addMonth() : null]
+                    )
+                ));
             }
+            $order_items = Cart::all()->map(fn($item) => new OrderItem([
+                'product_id' => $item['product']->id,
+                'quantity' => $item['quantity'],
+                'unit_price' => $item['product']->price,
+                'unit_discount' => $item['product']->is_discounted ? $item['product']->discount_amount : 0
+            ]));
+            $order->items()->saveMany($order_items);
             $address = $user->addresses()->save($this->form->getAddress());
             $order->shipment()->save(new Shipment([
                 'address_id' => $address->id,
@@ -182,6 +201,15 @@ class ShowCheckout extends Component
         } catch (\Throwable $th) {
             DB::rollBack();
             throw $th;
+        }
+    }
+
+    public function updated($property)
+    {
+        switch ($property) {
+            case 'form.checkout_type':
+                $this->form->mutable_order_id = null;
+                break;
         }
     }
 

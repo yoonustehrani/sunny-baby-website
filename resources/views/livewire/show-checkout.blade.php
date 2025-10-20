@@ -66,6 +66,15 @@
                 <div class="tf-cart-footer-inner">
                     <h5 class="fw-5 mb_20">@lang('Your order')</h5>
                     <div class="tf-page-cart-checkout widget-wrap-checkout">
+                        @auth
+                            <div class="tw:flex tw:gap-3 tw:items-center">
+                                <h5 class="fw-3">@lang('User')</h5>
+                                <div class="tw:border-r tw:border-gray-400 tw:px-4">
+                                    @if($user->name) {{ $user->name }} - @endif {{ $user->phone_number }}
+                                </div>
+                            </div>
+                            <hr class="tw:border-gray-400/80">
+                        @endauth
                         <ul class="wrap-checkout-product">
                             @foreach (\App\Facades\Cart::all() as $key => $item)
                                 <x-checkout.order-item wire:key="cart-item-{{ $item['product']->id }}" :product="$item['product']" :quantity="$item['quantity']"/>
@@ -79,7 +88,68 @@
                             <h6 class="fw-5">@lang('Total')</h6>
                             <h6 class="total fw-5">{{ format_price($cart_total) }}</h6>
                         </div>
-                        @if ($form->getAddressForShipment())
+                        <div class="tw:font-bold tw:text-lg">انتخاب شیوه ثبت سفارش</div>
+                        <x-error name='form.checkout_type'/>
+                        <div class="tw:flex tw:flex-col tw:gap-5">
+                            <label for="{{ str_replace('\\', '-', \App\Enums\CheckoutType::DEFAULT->name) }}" class="tw:flex tw:cursor-pointer tw:items-center tw:justify-between tw:p-4 tw:border tw:rounded-md tw:border-black/10 tw:shadow-sm">
+                                <div class="tw:flex tw:gap-4 tw:items-center">
+                                    <div class="tw:bg-white tw:dark:bg-gray-100 tw:rounded-full tw:w-4 tw:h-4 tw:flex tw:flex-shrink-0 tw:justify-center tw:items-center tw:relative">
+                                        <input id="{{ str_replace('\\', '-', \App\Enums\CheckoutType::DEFAULT->name) }}" wire:model.live='form.checkout_type' value='{{ \App\Enums\CheckoutType::DEFAULT->value }}' type="radio" class="checkbox tw:appearance-none tw:focus:opacity-100 tw:focus:ring-2 tw:focus:ring-offset-2 tw:focus:ring-indigo-700 tw:focus:outline-none tw:border tw:rounded-full tw:border-gray-400 tw:absolute tw:cursor-pointer tw:w-full tw:h-full tw:checked:border-none" />
+                                        <div class="check-icon tw:hidden tw:border-4 tw:border-indigo-700 tw:rounded-full tw:w-full tw:h-full tw:z-1"></div>
+                                    </div>
+                                    <div class="tw:flex tw:flex-col tw:gap-2">
+                                        <h4 class="tw:text-base tw:font-bold">ثبت سفارش عادی</h4>
+                                        <p class="tw:text-xs tw:font-normal">پس از پرداخت در مرحله پردازش قرار خواهد گرفت</p>
+                                    </div>
+                                </div>
+                            </label>
+                            <label for="{{ str_replace('\\', '-', \App\Enums\CheckoutType::MUTABLE_ORDER->name) }}" class="tw:flex tw:cursor-pointer tw:items-center tw:justify-between tw:p-4 tw:border tw:rounded-md tw:border-black/10 tw:shadow-sm">
+                                <div class="tw:flex tw:gap-4 tw:items-center">
+                                    <div class="tw:bg-white tw:dark:bg-gray-100 tw:rounded-full tw:w-4 tw:h-4 tw:flex tw:flex-shrink-0 tw:justify-center tw:items-center tw:relative">
+                                        <input @disabled(! isset($user)) id="{{ str_replace('\\', '-', \App\Enums\CheckoutType::MUTABLE_ORDER->name) }}" wire:model.live='form.checkout_type' value='{{ \App\Enums\CheckoutType::MUTABLE_ORDER->value }}' type="radio" class="checkbox tw:appearance-none tw:focus:opacity-100 tw:focus:ring-2 tw:focus:ring-offset-2 tw:focus:ring-indigo-700 tw:focus:outline-none tw:border tw:rounded-full tw:border-gray-400 tw:absolute tw:cursor-pointer tw:w-full tw:h-full tw:checked:border-none" />
+                                        <div class="check-icon tw:hidden tw:border-4 tw:border-indigo-700 tw:rounded-full tw:w-full tw:h-full tw:z-1"></div>
+                                    </div>
+                                    <div class="tw:flex tw:flex-col tw:gap-2">
+                                        <h4 class="tw:text-base tw:font-bold">ثبت سفارش به روش تشکیل سبد خرید</h4>
+                                        <p class="tw:text-xs tw:font-normal">سفارش شما به مدت یکماه نزد ما خواهد بود و میتوانید طی این مدت زمان به سفارش خود محصولات دیگری اضافه کنید</p>
+                                    </div>
+                                </div>
+                            </label>
+                            @auth
+                                <label for="{{ str_replace('\\', '-', \App\Enums\CheckoutType::ADD_TO_PREVIOUS_ORDER->name) }}" class="tw:flex tw:cursor-pointer tw:items-center tw:justify-between tw:p-4 tw:border tw:rounded-md tw:border-black/10 tw:shadow-sm">
+                                    <div class="tw:flex tw:gap-4 tw:items-center">
+                                        <div class="tw:bg-white tw:dark:bg-gray-100 tw:rounded-full tw:w-4 tw:h-4 tw:flex tw:flex-shrink-0 tw:justify-center tw:items-center tw:relative">
+                                            <input @disabled(! isset($user)) id="{{ str_replace('\\', '-', \App\Enums\CheckoutType::ADD_TO_PREVIOUS_ORDER->name) }}" wire:model.live='form.checkout_type' value='{{ \App\Enums\CheckoutType::ADD_TO_PREVIOUS_ORDER->value }}' type="radio" class="checkbox tw:appearance-none tw:focus:opacity-100 tw:focus:ring-2 tw:focus:ring-offset-2 tw:focus:ring-indigo-700 tw:focus:outline-none tw:border tw:rounded-full tw:border-gray-400 tw:absolute tw:cursor-pointer tw:w-full tw:h-full tw:checked:border-none" />
+                                            <div class="check-icon tw:hidden tw:border-4 tw:border-indigo-700 tw:rounded-full tw:w-full tw:h-full tw:z-1"></div>
+                                        </div>
+                                        <div class="tw:flex tw:flex-col tw:gap-2">
+                                            <h4 class="tw:text-base tw:font-bold">ثبت سفارش به روش افزودن به سبد خرید قبلی</h4>
+                                            <p class="tw:text-xs tw:font-normal">تنها اگر قبلا از روش تشکیل سبد خرید استفاده کرده اید می توانید با این گزینه به سفارش قبلی خود سفارش جاری را اضافه کنید.</p>
+                                        </div>
+                                    </div>
+                                </label>
+                                @if ($form->checkout_type == \App\Enums\CheckoutType::ADD_TO_PREVIOUS_ORDER)
+                                    <p class="tw:font-bold">انتخاب سبد خرید قبلی</p>
+                                    <x-error name='form.mutable_order_id'/>
+                                    <ul class="tw:flex tw:flex-col tw:gap-2 tw:bg-white tw:shadow-md tw:rounded-lg tw:p-3">
+                                        @foreach ($suspended_orders as $order)
+                                            <label for="order-p-{{ $order->getKey() }}" class="tw:cursor-pointer tw:flex tw:gap-2 tw:items-center">
+                                                <div class="tw:bg-white tw:dark:bg-gray-100 tw:rounded-full tw:w-4 tw:h-4 tw:flex tw:flex-shrink-0 tw:justify-center tw:items-center tw:relative">
+                                                    <input @disabled(! isset($user)) id="order-p-{{ $order->getKey() }}" wire:model.live='form.mutable_order_id' value='{{ $order->getKey() }}' type="radio" class="checkbox tw:appearance-none tw:focus:opacity-100 tw:focus:ring-2 tw:focus:ring-offset-2 tw:focus:ring-indigo-700 tw:focus:outline-none tw:border tw:rounded-full tw:border-gray-400 tw:absolute tw:cursor-pointer tw:w-full tw:h-full tw:checked:border-none" />
+                                                    <div class="check-icon tw:hidden tw:border-4 tw:border-indigo-700 tw:rounded-full tw:w-full tw:h-full tw:z-1"></div>
+                                                </div>
+                                                <span class="tw:font-normal">سفارش به شناسه {{ $order->id }}</span>
+                                            </label>
+                                            @if (! $loop->last)
+                                                <hr>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                @endif
+                            @endauth
+                        </div>
+                        <hr class="tw:border-gray-400/80">
+                        @if ($form->getAddressForShipment() && $form->checkout_type != \App\Enums\CheckoutType::MUTABLE_ORDER)
                             <div class="tw:font-bold tw:text-lg">انتخاب شیوه ارسال محصول</div>
                             @php
                                 $active_carriers = collect(\App\Facades\Shipping::carriers())

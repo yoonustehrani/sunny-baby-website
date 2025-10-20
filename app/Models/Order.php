@@ -39,6 +39,11 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function sms_reminder_log()
+    {
+        return $this->morphOne(SmsReminderLog::class, 'remindable');
+    }
+
     public function getIsMutableAttribute(): bool
     {
         return !is_null($this->mutable_until) && $this->mutable_until->gt(now());

@@ -2,8 +2,11 @@
 
 namespace App\Livewire\Forms;
 
+use App\Enums\CheckoutType;
 use App\Models\Address;
 use App\Models\Discount;
+use App\Models\Order;
+use Illuminate\Validation\Rule;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Session;
 use Livewire\Attributes\Validate;
@@ -12,39 +15,56 @@ use Livewire\Form;
 class CheckoutForm extends Form
 {
     #[Session]
-    #[Validate('required|string|min:3')]
     public string $fullname = '';
 
     #[Session]
-    #[Validate('required|numeric|regex:/09[0-9]{9}/')]
     public string $phone = '';
 
     #[Session]
-    #[Validate('required|string|min:6')]
     public string $address = '';
 
     #[Session]
-    #[Validate('numeric|digits:10')]
     public string $zip = '';
 
     #[Session]
-    #[Validate('string|min:3')]
     public string $note = '';
 
     #[Session]
-    #[Validate('required|exists:provinces,id')]
     public ?int $provinceId = null;
 
     #[Session]
-    #[Validate('required|exists:cities,id')]
     public ?int $cityId = null;
 
     #[Session]
-    #[Validate('required_with_all:provinceId,cityId')]
     public ?string $carrier_class = null;
 
     #[Session]
     public ?Discount $discount;
+
+    #[Session]
+    public bool $finalize = false;
+
+    #[Session]
+    public CheckoutType $checkout_type = CheckoutType::DEFAULT;
+
+    #[Session]
+    public ?int $mutable_order_id;
+
+    protected function rules()
+    {
+        return [
+            'fullname' => 'required|string|min:3',
+            'phone' => 'required|numeric|regex:/09[0-9]{9}/',
+            'address' => 'required|string|min:6',
+            'zip' => 'numeric|digits:10',
+            'note' => 'string|min:3',
+            'provinceId' => 'required|exists:provinces,id',
+            'cityId' => 'required|exists:cities,id',
+            'carrier_class' => [Rule::requiredIf(fn() => !is_null($this->provinceId) && !is_null($this->cityId) && $this->finalize == true)],
+            'checkout_type' => ['required', Rule::enum(CheckoutType::class)],
+            'mutable_order_id' => [Rule::requiredIf(fn() => $this->checkout_type == CheckoutType::ADD_TO_PREVIOUS_ORDER)]
+        ];
+    }
 
     public function getAddressForShipment(): ?Address
     {
