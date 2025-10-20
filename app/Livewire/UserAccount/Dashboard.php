@@ -10,6 +10,8 @@ class Dashboard extends Component
 {
     public function render()
     {
-        return view('livewire.user-account.dashboard')->title(__('Dashboard'));
+        return view('livewire.user-account.dashboard', [
+            'user' => auth()->user()
+        ])->title(__('Dashboard'));
     }
 }
