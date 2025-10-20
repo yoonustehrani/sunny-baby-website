@@ -7,7 +7,7 @@ trait HasMetaProperty
 {
     public function meta(): CastsAttribute
     {
-        return new Attribute(
+        return new CastsAttribute(
             get: fn() => json_decode($this->attributes['meta']),
             set: fn($value) => json_encode($value)
         );

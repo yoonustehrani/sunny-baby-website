@@ -145,12 +145,26 @@
                                             @endif
                                         @endforeach
                                     </ul>
+                                    <div class="tw:flex tw:flex-col tw:gap-2 tw:rounded-lg tw:p-3">
+                                        <label for="finalize" class="tw:font-normal tw:flex tw:items-center tw:gap-2">
+                                            <input wire:model.live='form.finalize' id="finalize" type="checkbox" class="tf-check">
+                                            نهایی کردن سبد خرید و ارسال مرسولات
+                                        </label>
+                                        <p>با انتخاب این گزینه باید شیوه ارسال محصول را انتخاب کنید و ما پس از بررسی، کل محصولات خریداری شده را به آدرس شما ارسال می کنیم.</p>
+                                    </div>
                                 @endif
                             @endauth
                         </div>
                         <hr class="tw:border-gray-400/80">
-                        @if ($form->getAddressForShipment() && $form->checkout_type != \App\Enums\CheckoutType::MUTABLE_ORDER)
+                        @if (
+                            $form->getAddressForShipment()
+                            && (
+                               $form->checkout_type == \App\Enums\CheckoutType::DEFAULT  
+                               || ($form->checkout_type == \App\Enums\CheckoutType::ADD_TO_PREVIOUS_ORDER && $form->finalize)
+                            )
+                        )
                             <div class="tw:font-bold tw:text-lg">انتخاب شیوه ارسال محصول</div>
+                            <x-error name='form.carrier_class'/>
                             @php
                                 $active_carriers = collect(\App\Facades\Shipping::carriers())
                                     ->map(fn($x) => get_carrier($x, $form->getAddressForShipment()))

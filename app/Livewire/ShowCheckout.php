@@ -154,7 +154,7 @@ class ShowCheckout extends Component
         }
         
         $sums = Cart::sums();
-        if ($this->form->finalize || $this->form->checkout_type = CheckoutType::DEFAULT) {
+        if (($this->form->finalize && $this->form->checkout_type == CheckoutType::ADD_TO_PREVIOUS_ORDER) || $this->form->checkout_type == CheckoutType::DEFAULT) {
             $shipping_total = get_carrier($this->form->carrier_class, $this->form->getAddressForShipment())->calculate();
             $sums['total'] += $shipping_total;
         }
@@ -172,6 +172,11 @@ class ShowCheckout extends Component
             }
             if ($this->form->mutable_order_id && $this->form->checkout_type == CheckoutType::ADD_TO_PREVIOUS_ORDER) {
                 $order = $user->orders()->find($this->form->mutable_order_id);
+                $order->status = OrderStatus::PENDING;
+                if ($this->form->finalize) {
+                    $order->mutable_until = now();
+                }
+                $order->save();
             } else {
                 $order = $user->orders()->save(new Order(
                     array_merge(
@@ -188,12 +193,14 @@ class ShowCheckout extends Component
                 'unit_discount' => $item['product']->is_discounted ? $item['product']->discount_amount : 0
             ]));
             $order->items()->saveMany($order_items);
-            $address = $user->addresses()->save($this->form->getAddress());
-            $order->shipment()->save(new Shipment([
-                'address_id' => $address->id,
-                'carrier_class' => $this->form->carrier_class,
-                'cost' => $shipping_total
-            ]));
+            if (isset($shipping_total)) {
+                $address = $user->addresses()->save($this->form->getAddress());
+                $order->shipment()->save(new Shipment([
+                    'address_id' => $address->id,
+                    'carrier_class' => $this->form->carrier_class,
+                    'cost' => $shipping_total
+                ]));
+            }
             DB::commit();
             $this->form->reset();
             Cart::clear();

@@ -30,7 +30,14 @@
                             @lang(":amount for :number items", ['amount' => format_price($order->total), 'number' => $order->items_count])
                         </td>
                         <td>
-                            <a href="my-account-orders.html#"
+                            @if ($order->status == \App\Enums\OrderStatus::PENDING)
+                                <a href="{{ route('orders.pay', ['order' => $order->getKey(), 'gateway' => 'zp']) }}" class="tf-btn btn-fill animate-hover-btn rounded-0 justify-content-center">
+                                    <span>پرداخت</span>
+                                </a>
+                                <br>
+                                <br>
+                            @endif
+                            <a href="#view"
                                 class="tf-btn btn-fill animate-hover-btn rounded-0 justify-content-center">
                                 <span>@lang('View')</span>
                             </a>
