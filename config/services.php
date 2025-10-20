@@ -36,6 +36,6 @@ return [
     ],
     
     'sms' => [
-        'enabled' => false
+        'enabled' => true
     ]
 ];
