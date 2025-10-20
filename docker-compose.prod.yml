@@ -1,6 +1,6 @@
 services:
   app:
-    image: yoonustehrani/sunny-baby-app:latest
+    image: yoonustehrani/sunnybaby-website:latest
     networks:
       - web
       - sunny-baby
