@@ -55,6 +55,7 @@ RUN composer install --optimize-autoloader --no-dev
 RUN php artisan config:clear
 RUN php artisan view:clear
 
+RUN php artisan optimize:clear
 RUN php artisan optimize
 
 RUN apt-get update -y && apt-get install -y supervisor
