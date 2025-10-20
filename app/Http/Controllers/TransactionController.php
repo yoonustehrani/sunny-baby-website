@@ -30,11 +30,9 @@ class TransactionController extends Controller
                 try {
                     DB::transaction(function() use($order, $transaction) {
                         $order->increment('total_paid', $transaction->amount);
-                        if ($order->total == $order->total_paid) {
-                            $order->update([
-                                'status' => $order->is_mutable ? OrderStatus::SUSPENDED : OrderStatus::PROCESSING
-                            ]);
-                        }
+                        $order->update([
+                            'status' => $order->is_mutable ? OrderStatus::SUSPENDED : OrderStatus::PROCESSING
+                        ]);
                         $transaction->user->changeCredit(-1 * $transaction->amount, $transaction);
                     });
                 } catch (\Throwable $th) {
