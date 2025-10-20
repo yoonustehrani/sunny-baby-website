@@ -78,9 +78,9 @@
         <div class="quantity-title fw-6">@lang('Quantity')</div>
         <div class="tw:flex tw:gap-4 tw:items-center">
                 <div class="wg-quantity">
-                    <button type="button" class="btn-quantity minus-btn">-</button>
+                    <button type="button" class="btn-quantity" wire:click='decrement'>-</button>
                     <input type="text" name="number" wire:model='n'>
-                    <button type="button" class="btn-quantity plus-btn">+</button>
+                    <button type="button" class="btn-quantity" wire:click='increment'>+</button>
                 </div>
             <p>
                 @if ($product->isVariable())
@@ -105,12 +105,12 @@
             @endif
             <a href="javascript:void(0);" class="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action">
                 <span class="icon icon-heart"></span>
-                <span class="tooltip">Add to Wishlist</span>
+                <span class="tooltip">@lang("Add to Wishlist")</span>
                 <span class="icon icon-delete"></span>
             </a>
             <a href="product-detail.html#compare" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft" class="tf-product-btn-wishlist hover-tooltip box-icon bg_white compare btn-icon-action">
                 <span class="icon icon-compare"></span>
-                <span class="tooltip">Add to Compare</span>
+                <span class="tooltip">@lang("Add to Compare")</span>
                 <span class="icon icon-check"></span>
             </a>
         </div>

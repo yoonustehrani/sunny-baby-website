@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class);
             $table->char('status', 2);
-            $table->boolean('is_mutable')->default(false);
+            $table->timestamp('mutable_until')->nullable();
             $table->bigInteger('subtotal');
             $table->bigInteger('total_discount');
             $table->bigInteger('total');

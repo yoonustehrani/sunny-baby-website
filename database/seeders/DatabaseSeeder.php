@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
         $total_discount = $order_items->map(fn($x) => $x->unit_discount * $x->quantity)->sum();
         $order = $user->orders()->save(new Order([
             'status' => OrderStatus::SUSPENDED,
-            'is_mutable' => true,
+            'mutable_until' => now()->addMonth(),
             'subtotal' => $subtotal,
             'total_discount' => $total_discount,
             'total' => $subtotal - $total_discount

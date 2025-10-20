@@ -14,11 +14,13 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = ['subtotal', 'total_discount', 'total', 'status'];
+    protected $appends = ['is_mutable'];
 
     public function casts(): array
     {
         return [
-            'status' => OrderStatus::class
+            'status' => OrderStatus::class,
+            'mutable_until' => 'datetime'
         ];
     }
 
@@ -37,10 +39,15 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function getIsMutableAttribute(): bool
+    {
+        return !is_null($this->mutable_until) && $this->mutable_until->gt(now());
+    }
+
     #[Scope]
     public function mutable(Builder $builder)
     {
-        $builder->where('is_mutable', true);
+        $builder->whereNotNull('mutable_until')->where('mutable_until', '>', now());
     }
 
     #[Scope]

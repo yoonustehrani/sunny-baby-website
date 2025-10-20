@@ -11,9 +11,10 @@
                 <form class="tw:flex tw:items-center tw:gap-6">
                     @if ($product->type === App\Enums\ProductType::VARIABLE)
                     <div class="tf-sticky-atc-variant-price text-center">
-                        <select wire:model='selectedVariant' class="tf-select tw:text-gray-700">
+                        <select wire:model.live='selectedVariant' class="tf-select tw:text-gray-700">
+                            <option value="" disabled selected>انتخاب کنید</option>
                             @foreach ($product->variants as $variant)
-                                <option>{{ $variant->variant_title }} - {{ format_price($variant->real_price) }}</option>
+                                <option value="{{ $variant->id }}">{{ $variant->variant_title }} - {{ format_price($variant->real_price) }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -23,12 +24,12 @@
                     <div class="tf-sticky-atc-btns">
                         <div class="tf-product-info-quantity">
                             <div class="wg-quantity">
-                                <span class="btn-quantity minus-btn">-</span>
-                                <input type="text" name="number" value="1">
-                                <span class="btn-quantity plus-btn">+</span>
+                                <span class="btn-quantity" wire:click='decrement'>-</span>
+                                <input type="text" name="number" wire:model='n'>
+                                <span class="btn-quantity" wire:click='increment'>+</span>
                             </div>
                         </div>
-                        <a href="product-detail.html#" class="tf-btn btn-fill radius-3 justify-content-center fw-6 fs-14 flex-grow-1 animate-hover-btn "><span>@lang('Add to cart')</a>
+                        <button wire:click='addToCart' type="button" class="tf-btn btn-fill radius-3 justify-content-center fw-6 fs-14 flex-grow-1 animate-hover-btn">@lang('Add to cart')</button>
                     </div>
                 </form>
             </div>

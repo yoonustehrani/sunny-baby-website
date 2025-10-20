@@ -10,8 +10,10 @@ use App\Livewire\Pages\ShowCart;
 use App\Models\Discount;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Product;
 use App\Models\Shipment;
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\On;
@@ -159,6 +161,14 @@ class ShowCheckout extends Component
                 $sums, ['status' => OrderStatus::PENDING]
             )));
             $order->items()->saveMany($order_items);
+            $cart_items = Cart::toArray()['items'];
+            $products = Product::whereIn('id', array_keys($cart_items))->lockForUpdate()->get();
+            foreach ($products as $product) {
+                if ($product->available_stock < $cart_items[$product->getKey()]) {
+                    throw new Exception($product->id . " stock insufficient");
+                }
+                $product->increment('reserved', $cart_items[$product->getKey()]);
+            }
             $address = $user->addresses()->save($this->form->getAddress());
             $order->shipment()->save(new Shipment([
                 'address_id' => $address->id,

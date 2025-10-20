@@ -20,12 +20,12 @@ class TransactionController extends Controller
         };
         $validated = app($gateway, ['transaction' => $transaction])->validateTransaction();
         $transaction->refresh();
+        $transaction->load('payable', 'user');
+        /**
+         * @var \App\Models\Order $order
+         */
+        $order = $transaction->payable;
         if ($validated === true) {
-            $transaction->load('payable', 'user');
-            /**
-             * @var \App\Models\Order $order
-             */
-            $order = $transaction->payable;
             if ($order->status == OrderStatus::PENDING) {
                 try {
                     DB::transaction(function() use($order, $transaction) {
@@ -43,6 +43,9 @@ class TransactionController extends Controller
             }
             return view('payment.confirmed', compact('transaction'));
         }
+        $order->update([
+            'status' => OrderStatus::PENDING
+        ]);
         return view('payment.failed', compact('transaction'));
     }
 }

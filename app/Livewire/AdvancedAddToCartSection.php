@@ -17,7 +17,7 @@ class AdvancedAddToCartSection extends Component
     public SupportCollection $variableAttributes;
     public array $selectedOptions;
 
-    #[Validate('required|integer|min:1')]
+    // #[Validate('required|integer|min:1')]
     public int $n = 1;
 
     public function mount()
@@ -30,6 +30,11 @@ class AdvancedAddToCartSection extends Component
             });
             $this->selectedOptions = $keys;
         }
+    }
+
+    public function updatedVariant()
+    {
+        $this->n = 1;
     }
 
     public function updatedSelectedOptions()
@@ -60,7 +65,7 @@ class AdvancedAddToCartSection extends Component
 
     public function increment()
     {
-        if ($this->n == $this->product->quantity) return;
+        if ($this->n == $this->product->available_stock) return;
         $this->n++;
     }
 
@@ -90,8 +95,7 @@ class AdvancedAddToCartSection extends Component
         if (! collect($this->selectedOptions)->filter()->isEmpty()) {
             $possibleVariants = $possibleVariants->filter(function ($variant) {
                 $variantOptions = collect($variant['attribute_options'])
-                    ->pluck('id', 'attribute_id'); // [1 => 3, 2 => 11]
-                // dd($variantOptions);
+                    ->pluck('id', 'attribute_id');
                 foreach ($variantOptions as $attrId => $optionId) {
                     if (!is_null($this->selectedOptions[$attrId]) && $this->selectedOptions[$attrId] != $optionId) {
                         return false; // not compatible
@@ -121,8 +125,9 @@ class AdvancedAddToCartSection extends Component
 
     public function addToCart(string|int $productId)
     {
-        Cart::update($productId, $this->n);
+        Cart::update($productId, Cart::getProductQuantity($productId) + $this->n);
         $this->dispatch('cart-updated');
         $this->dispatch('cart-updated-product.'. $productId);
+        $this->n = 1;
     }
 }

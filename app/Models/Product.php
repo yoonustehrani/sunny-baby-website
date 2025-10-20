@@ -125,4 +125,9 @@ class Product extends Model
     {
         return $this->title ?: $this->attribute_options->map(fn(AttributeOption $ap) => $ap->label)->implode(' / ');
     }
+
+    public function getAvailableStockAttribute(): int
+    {
+        return $this->stock - $this->reserved;
+    }
 }
