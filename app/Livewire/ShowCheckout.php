@@ -170,7 +170,7 @@ class ShowCheckout extends Component
             if (! $user->name) {
                 $user->name = $this->form->fullname;
             }
-            if ($this->form->mutable_order_id && $this->form->checkout_type == CheckoutType::ADD_TO_PREVIOUS_ORDER) {
+            if (isset($this->form->mutable_order_id) && $this->form->checkout_type == CheckoutType::ADD_TO_PREVIOUS_ORDER) {
                 $order = $user->orders()->find($this->form->mutable_order_id);
                 $order->status = OrderStatus::PENDING;
                 if ($this->form->finalize) {
