@@ -1,4 +1,4 @@
-<x-layout :title="__('Contact Us')">
+<x-layouts.main :title="__('Contact Us')">
     <x-header />
     <div class="tf-page-title style-2">
         <div class="container-full">
@@ -71,4 +71,4 @@
         </div>
     </section>
     <!-- /form -->
-</x-layout>
+</x-layouts.main>

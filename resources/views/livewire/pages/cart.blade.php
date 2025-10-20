@@ -4,7 +4,7 @@
         <div class="tf-page-cart text-center mt_140 mb_200">
             <h5 class="mb_24">@lang('Your cart is empty')</h5>
             <p class="mb_24">@lang("You may check out all the available products and buy some in the shop")</p>
-            <a href="shop-default.html" class="tf-btn btn-sm radius-3 btn-fill btn-icon animate-hover-btn">@lang('Return to shop')<i class="icon icon-arrow1-top-left"></i></a>
+            <a href="{{ route('pages.shop') }}" class="tf-btn btn-sm radius-3 btn-fill btn-icon animate-hover-btn">@lang('Return to shop')<i class="icon icon-arrow1-top-left"></i></a>
         </div>
         @else
         <div class="tf-page-cart-wrap">

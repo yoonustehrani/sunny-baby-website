@@ -1,8 +1,14 @@
 <?php
 
+use App\Enums\ComparingOperatorType;
 use App\Facades\Shipping;
 use App\Models\Address;
+use App\Models\Transaction;
+use App\Services\PaymentService;
 use App\Services\Shipping\Carrier;
+use App\Services\SMSService;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 if (! function_exists('farsi_numbers')) {
     function farsi_numbers(int|string $number) {
@@ -92,5 +98,79 @@ if (! function_exists('get_carrier')) {
     function get_carrier(string $class, Address $address): Carrier
     {
         return Shipping::carrier($class)->setAddress($address);
+    }
+}
+
+if (! function_exists('generate_otp_code')) {
+    function generate_otp_code($length = 4)
+    {
+        $code = '';
+        for ($i=0; $i < $length; $i++) { 
+            $number = random_int(0, 9);
+            $code .= $number;
+        }
+        for ($i=0; $i < $length; $i++) { 
+            $code = str_shuffle($code);
+        }
+        return $code;
+    }
+}
+
+if (! function_exists('dynamic_compare')) {
+    function dynamic_compare(mixed $value1, mixed $value2, ComparingOperatorType $operator): bool
+    {
+        switch ($operator) {
+            case ComparingOperatorType::AND:
+                return $value1 && $value2;
+            case ComparingOperatorType::OR:
+                return $value1 || $value2;
+            case ComparingOperatorType::EQUAL:
+                return $value1 == $value2;
+            case ComparingOperatorType::NOT_EQUAL:
+                return $value1 != $value2;
+            case ComparingOperatorType::IN:
+                return in_array($value1, $value2);
+            case ComparingOperatorType::NOT_IN:
+                return ! in_array($value1, $value2);
+            case ComparingOperatorType::GREATER:
+                return $value1 > $value2;
+            case ComparingOperatorType::GREATER_OR_EQUAL:
+                return $value1 >= $value2;
+            case ComparingOperatorType::LESS:
+                return $value1 < $value2;
+            case ComparingOperatorType::LESS_OR_EQUAL:
+                return $value1 <= $value2;
+            default:
+                throw new Exception('Operator does not exists');
+        }
+    }
+}
+
+if (! function_exists('send_otp')) {
+    function send_otp(string $phone_number, string $code)
+    {
+        return new SMSService()->sendPattern($phone_number, env('FARAZSMS_OTP_PATTERN_CODE'), compact('code'));
+    }
+}
+
+if (! function_exists('get_payment_gateway')) {
+    function get_payment_gateway(string $gatewayClass, Transaction $transaction)
+    {
+        return app($gatewayClass, compact('transaction'));
+    }
+}
+
+if (!function_exists('get_initials')) {
+    function get_initials(string $string): string
+    {
+        $words = preg_split('/\s+/u', trim($string), -1, PREG_SPLIT_NO_EMPTY);
+
+        return Str::substr($words[0], 0, 1);
+    }
+}
+
+if (! function_exists('jalali')) {
+    function jalali(Carbon $date, string $format = '%Y/%m/%d') {
+        return \Morilog\Jalali\Jalalian::forge($date)->format($format);
     }
 }

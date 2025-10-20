@@ -15,7 +15,9 @@
         "laravel/octane": "^2.9",
         "laravel/tinker": "^2.10.1",
         "livewire/livewire": "^3.6",
-        "predis/predis": "^3.2"
+        "morilog/jalali": "3.*",
+        "predis/predis": "^3.2",
+        "zarinpal/zarinpal-php-sdk": "^2.0"
     },
     "require-dev": {
         "laravel/pail": "^1.2.2",

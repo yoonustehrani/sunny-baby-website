@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static \App\Services\CartService remove(int|string $productId)
  * @method static bool has(int|string $productId)
  * @method static int getProductQuantity(int|string $productId)
+ * @method static int getTotalWeight()
  * @method static void clear()
  * @method static array sums()
  * @method static int count()

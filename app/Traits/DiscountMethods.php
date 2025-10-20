@@ -3,7 +3,7 @@
 namespace App\Traits;
 
 use App\Enums\DiscountMethod;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Casts\Attribute as CastsAttribute;
 
 trait DiscountMethods
 {
@@ -17,14 +17,14 @@ trait DiscountMethods
         return $value;
     }
 
-    public function discountAmount(): Attribute
+    public function discountAmount(): CastsAttribute
     {
-        return Attribute::make(get: fn() => $this->getDiscountAmount());
+        return CastsAttribute::make(get: fn() => $this->getDiscountAmount());
     }
 
-    public function discountInPercent(): Attribute
+    public function discountInPercent(): CastsAttribute
     {
-        return Attribute::make(get: function() {
+        return CastsAttribute::make(get: function() {
             $value = $this->discount->value;
             if (DiscountMethod::PERCENTAGE === $this->discount->method) {
                 return $value;
@@ -33,9 +33,9 @@ trait DiscountMethods
         });
     }
 
-    public function isDiscounted(): Attribute
+    public function isDiscounted(): CastsAttribute
     {
-        return Attribute::make(get: fn() => ! is_null($this->discount_id) && ! is_null($this->discount));
+        return CastsAttribute::make(get: fn() => ! is_null($this->discount_id) && ! is_null($this->discount));
     }
 
     public function getDiscountedPriceAttribute(): int|null

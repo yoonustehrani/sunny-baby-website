@@ -1,4 +1,4 @@
-<x-layout title="{{ $product->title }}">
+<x-layouts.main title="{{ $product->title }}">
     <x-header absolute/>
     <!-- breadcrumb -->
     <div class="tf-breadcrumb tw:mt-20">
@@ -79,23 +79,27 @@
                                 </div> --}}
                                 @if ($product->is_discounted)
                                 <div class="tf-product-info-price">
-                                    <div class="compare-at-price">{{ format_price($product->price) }}</div>
+                                    <div class="compare-at-price">{{ $product->price_label }}</div>
                                     <div class="badges-on-sale"><span>{{ $product->discount_in_percent }}</span>% OFF</div>
                                 </div>
                                 <div class="tf-product-info-price">
                                     <div class="price-on-sale">{{ format_price($product->discounted_price) }}</div>
                                 </div>
+                                @else
+                                <div class="tf-product-info-price">
+                                    <p class="price">{{ $product->price_label }}</p>
+                                </div>
                                 @endif
-                                <div class="tf-product-info-liveview">
+                                {{-- <div class="tf-product-info-liveview">
                                     <div class="liveview-count">20</div>
                                     <p class="fw-6">@lang('people are viewing this right now')</p>
-                                </div>
+                                </div> --}}
                                 @if ($product->is_discounted && $product->discount->expires_at)
                                     <div class="tf-product-info-countdown">
                                         <div class="countdown-wrap">
                                             <div class="countdown-title">
                                                 <i class="icon-time tf-ani-tada"></i>
-                                                <p>HURRY UP! SALE ENDS IN:</p>
+                                                <p>@lang('HURRY UP! SALE ENDS IN'):</p>
                                             </div>
                                             <div class="tf-countdown style-1">
                                                 <div class="js-countdown" dir="rtl" data-timer="{{ $product->discount->expires_at->timestamp - now()->timestamp }}" data-labels="Days :,Hours :,Mins"></div>
@@ -103,89 +107,8 @@
                                         </div>
                                     </div>
                                 @endif
-                                <div class="tf-product-info-variant-picker">
-                                    <div class="variant-picker-item">
-                                        <div class="variant-picker-label">
-                                            Color: <span class="fw-6 variant-picker-label-value">Beige</span>
-                                        </div>
-                                        <div class="variant-picker-values">
-                                            <input id="values-beige" type="radio" name="color1" checked>
-                                            <label class="hover-tooltip radius-60" for="values-beige" data-value="Beige">
-                                                <span class="btn-checkbox bg-color-beige"></span>
-                                                <span class="tooltip">Beige</span>
-                                            </label>
-                                            <input id="values-black" type="radio" name="color1">
-                                            <label class=" hover-tooltip radius-60" for="values-black" data-value="Black">
-                                                <span class="btn-checkbox bg-color-black"></span>
-                                                <span class="tooltip">Black</span>
-                                            </label>
-                                            <input id="values-blue" type="radio" name="color1">
-                                            <label class="hover-tooltip radius-60" for="values-blue" data-value="Blue">
-                                                <span class="btn-checkbox bg-color-blue"></span>
-                                                <span class="tooltip">Blue</span>
-                                            </label>
-                                            <input id="values-white" type="radio" name="color1">
-                                            <label class="hover-tooltip radius-60" for="values-white" data-value="White">
-                                                <span class="btn-checkbox bg-color-white"></span>
-                                                <span class="tooltip">White</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="variant-picker-item">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="variant-picker-label">
-                                                Size: <span class="fw-6 variant-picker-label-value">S</span>
-                                            </div>
-                                            <a href="product-detail.html#find_size" data-bs-toggle="modal" class="find-size fw-6">Find your size</a>
-                                        </div>
-                                        <div class="variant-picker-values">
-                                            <input type="radio" name="size1" id="values-s" checked>
-                                            <label class="style-text" for="values-s" data-value="S">
-                                                <p>S</p>
-                                            </label>
-                                            <input type="radio" name="size1" id="values-m">
-                                            <label class="style-text" for="values-m" data-value="M">
-                                                <p>M</p>
-                                            </label>
-                                            <input type="radio" name="size1" id="values-l">
-                                            <label class="style-text" for="values-l" data-value="L">
-                                                <p>L</p>
-                                            </label>
-                                            <input type="radio" name="size1" id="values-xl">
-                                            <label class="style-text" for="values-xl" data-value="XL">
-                                                <p>XL</p>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tf-product-info-quantity">
-                                    <div class="quantity-title fw-6">Quantity</div>
-                                    <div class="wg-quantity">
-                                        <span class="btn-quantity minus-btn">-</span>
-                                        <input type="text" name="number" value="1">
-                                        <span class="btn-quantity plus-btn">+</span>
-                                    </div>
-                                </div>
-                                <div class="tf-product-info-buy-button">
-                                    <form class="">
-                                        <a href="product-detail.html#" class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn "><span>Add to cart -&nbsp;</span><span class="tf-qty-price">$8.00</span></a>
-                                        <a href="javascript:void(0);" class="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action">
-                                            <span class="icon icon-heart"></span>
-                                            <span class="tooltip">Add to Wishlist</span>
-                                            <span class="icon icon-delete"></span>
-                                        </a>
-                                        <a href="product-detail.html#compare" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft" class="tf-product-btn-wishlist hover-tooltip box-icon bg_white compare btn-icon-action">
-                                            <span class="icon icon-compare"></span>
-                                            <span class="tooltip">Add to Compare</span>
-                                            <span class="icon icon-check"></span>
-                                        </a>
-                                        <div class="w-100">
-                                            <a href="product-detail.html#" class="btns-full">Buy with <img src="images/payments/paypal.png" alt=""></a>
-                                            <a href="product-detail.html#" class="payment-more-option">More payment options</a>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="tf-product-info-extra-link">
+                                <livewire:advanced-add-to-cart-section :$product/>
+                                {{-- <div class="tf-product-info-extra-link">
                                     <a href="product-detail.html#compare_color" data-bs-toggle="modal" class="tf-product-extra-icon">
                                         <div class="icon">
                                             <img src="images/item/compare.svg" alt="">
@@ -210,8 +133,8 @@
                                         </div>
                                         <div class="text fw-6">Share</div>
                                     </a>
-                                </div>
-                                <div class="tf-product-info-delivery-return">
+                                </div> --}}
+                                {{-- <div class="tf-product-info-delivery-return">
                                     <div class="row">
                                         <div class="col-xl-6 col-12">
                                             <div class="tf-product-delivery">
@@ -230,8 +153,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="tf-product-info-trust-seal">
+                                </div> --}}
+                                {{-- <div class="tf-product-info-trust-seal">
                                     <div class="tf-product-trust-mess">
                                         <i class="icon-safe"></i>
                                         <p class="fw-6">Guarantee Safe <br> Checkout</p>
@@ -243,60 +166,57 @@
                                         <img src="images/payments/img-3.png" alt="">
                                         <img src="images/payments/img-4.png" alt="">
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="tf-sticky-btn-atc">
-            <div class="container">
-                <div class="tf-height-observer w-100 d-flex align-items-center">
-                    <div class="tf-sticky-atc-product d-flex align-items-center">
-                        <div class="tf-sticky-atc-img">
-                            <img class="lazyloaded" data-src="images/shop/products/p-d1.png" alt="" src="images/shop/products/p-d1.png">
+        <livewire:product.bottom-add-to-cart :$product/>
+    </section>
+    <!-- /default -->
+    <section class="flat-spacing-17 pt_0">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="widget-tabs style-has-border tw:bg-white">
+                        <ul class="widget-menu-tab">
+                            <li class="item-title active">
+                                <span class="inner">@lang('Description')</span>
+                            </li>
+                            <li class="item-title">
+                                <span class="inner">@lang('Attributes')</span>
+                            </li>
+                            {{-- <li class="item-title">
+                                <span class="inner">Shipping</span>
+                            </li>
+                            <li class="item-title">
+                                <span class="inner">Return Policies</span>
+                            </li> --}}
+                        </ul>
+                        <div class="widget-content-tab">
+                            <div class="widget-content-inner active">
+                                {!! $product->description !!}
+                            </div>
+                            <div class="widget-content-inner">
+                                <table class="tf-pr-attrs">
+                                    <tbody>
+                                        @foreach ($product->attribute_options->groupBy('attribute.label') as $group => $options)
+                                            <tr class="tf-attr-pa-color">
+                                                <th class="tf-attr-label">{{ $group }}</th>
+                                                <td class="tf-attr-value">
+                                                    <p>{{ implode('، ', $options->map(fn($x) => $x->label)->toArray()) }}</p>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <div class="tf-sticky-atc-title fw-5 d-xl-block d-none">Cotton jersey top</div>
-                    </div>
-                    <div class="tf-sticky-atc-infos">
-                        <form class="">
-                            <div class="tf-sticky-atc-variant-price text-center">
-                                <select class="tf-select">
-                                    <option selected="selected">Beige / S - $8.00</option>
-                                    <option>Beige / M - $8.00</option>
-                                    <option>Beige / L - $8.00</option>
-                                    <option>Beige / XL - $8.00</option>
-                                    <option>Black / S - $8.00</option>
-                                    <option>Black / M - $8.00</option>
-                                    <option>Black / L - $8.00</option>
-                                    <option>Black / XL - $8.00</option>
-                                    <option>Blue / S - $8.00</option>
-                                    <option>Blue / M - $8.00</option>
-                                    <option>Blue / L - $8.00</option>
-                                    <option>Blue / XL - $8.00</option>
-                                    <option>White / S - $8.00</option>
-                                    <option>White / M - $8.00</option>
-                                    <option>White / L - $8.00</option>
-                                    <option>White / XL - $8.00</option>
-                                </select>
-                            </div>
-                            <div class="tf-sticky-atc-btns">
-                                <div class="tf-product-info-quantity">
-                                    <div class="wg-quantity">
-                                        <span class="btn-quantity minus-btn">-</span>
-                                        <input type="text" name="number" value="1">
-                                        <span class="btn-quantity plus-btn">+</span>
-                                    </div>
-                                </div>
-                                <a href="product-detail.html#" class="tf-btn btn-fill radius-3 justify-content-center fw-6 fs-14 flex-grow-1 animate-hover-btn "><span>Add to cart</a>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- /default -->
-    <!-- /breadcrumb -->
-</x-layout>
+</x-layouts.main>

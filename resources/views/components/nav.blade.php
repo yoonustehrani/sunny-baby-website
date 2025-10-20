@@ -392,6 +392,7 @@
                 </ul>
             </div>
         </li> --}}
+        <li class="menu-item"><a href="{{ route('pages.shop') }}" class="item-link">@lang('Shop')</a></li>
         <li class="menu-item"><a href="{{ route('pages.contact') }}" class="item-link">@lang('Contact Us')</a></li>
     </ul>
 </nav>
