@@ -40,10 +40,12 @@ class CartService
         if ($this->items->isEmpty()) {
             return $this->items;
         }
-        static $products;
-        if (! $products) {
-            $products = Product::with('discount', 'attribute_options.attribute', 'images', 'parent')->whereIn('id', $this->items->keys())->get()->keyBy('id');
-        }
+        
+        $products = Product::with('discount', 'attribute_options.attribute', 'images', 'parent')->whereIn('id', $this->items->keys())->get()->keyBy('id');
+        // static $products;
+        // if (! $products) {
+            
+        // }
         
         return $this->items->map(function(int $quantity, $productId) use(&$products) {
             /**
