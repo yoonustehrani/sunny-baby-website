@@ -13,7 +13,7 @@ class CartServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->scoped(CartService::class, function(Application $app) {
+        $this->app->bind(CartService::class, function(Application $app) {
             return CartService::getInstance();
         });
     }
