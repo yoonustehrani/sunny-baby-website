@@ -118,14 +118,14 @@ Util.setAttributes = function (el, attrs) {
     window.addEventListener ('load', function () {
         //initialize the CountDown objects
 /*        window.setTimeout(() => {*/
-            var countDown = document.getElementsByClassName('js-countdown');
-            if (countDown.length > 0) {
-                for (var i = 0; i < countDown.length; i++) {
-                    (function (i) {
-                        new CountDown(countDown[i]);
-                    })(i);
-                }
-            }
+            // var countDown = document.getElementsByClassName('js-countdown');
+            // if (countDown.length > 0) {
+            //     for (var i = 0; i < countDown.length; i++) {
+            //         (function (i) {
+            //             new CountDown(countDown[i]);
+            //         })(i);
+            //     }
+            // }
   /*      }, 1000);*/
 
     });
