@@ -1,4 +1,6 @@
 // import axios from 'axios';
+import toastr from "toastr";
+window.toastr = toastr;
 // window.axios = axios;
 
 // window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -790,3 +792,28 @@
     new WOW().init();
   });
 })(jQuery);
+
+document.addEventListener('livewire:initialized', () => {
+  Livewire.on('alert', ({type, message}) => {
+    toastr.options = {
+      closeButton: false,
+      debug: false,
+      newestOnTop: true,
+      progressBar: true,
+      positionClass: "toast-bottom-right",
+      preventDuplicates: false,
+      onclick: null,
+      showDuration: "300",
+      hideDuration: "1000",
+      timeOut: "3000",
+      extendedTimeOut: "1000",
+      showEasing: "swing",
+      hideEasing: "linear",
+      showMethod: "fadeIn",
+      hideMethod: "fadeOut",
+      rtl: true
+    }
+    toastr[type](message)
+    // console.log({type, message})
+  })
+})

@@ -120,5 +120,8 @@
     "Attributes": "مشخصات",
     "Add to Wishlist": "افزودن به سبد خرید",
     "Add to Compare": "افزودن به مقایسه",
-    "User": "کاربر"
+    "User": "کاربر",
+    "Added to cart": "به سبد خرید افزوده شد",
+    "Subtracted from cart": "از سبد خرید کسر شد",
+    "Removed from cart": "از سبد خرید حذف شد"
 }

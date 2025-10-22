@@ -3,6 +3,7 @@
 namespace App\Livewire\Pages;
 
 use App\Models\Attribute as ModelsAttribute;
+use App\Models\Brand;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -24,6 +25,9 @@ class Shop extends Component
 
     #[Url(except: 'featured')]
     public ?string $orderBy = 'featured';
+
+    #[Url(except: '')]
+    public string $brand = '';
 
     public function mount()
     {
@@ -77,7 +81,11 @@ class Shop extends Component
                   // or has any in-stock variant
                   ->orWhereHas('variants', fn($v) => $v->where('stock', '>', 0));
             });
-        })->when($this->filters, function ($query) {
+        })
+        ->when($this->brand != '', function($query) {
+            $query->where('brand_id', $this->brand);
+        })
+        ->when($this->filters, function ($query) {
             foreach ($this->filters as $options) {
                 $query->where(function ($q) use ($options) {
                     // parent attributes
@@ -106,6 +114,9 @@ class Shop extends Component
                     $q->where('products.stock', '>', 0)
                     ->orWhereHas('variants', fn($v) => $v->where('stock', '>', 0));
                 });
+            })
+            ->when($this->brand != '', function($query) {
+                $query->where('brand_id', $this->brand);
             })
             ->when($this->filters, function ($query) {
                 foreach ($this->filters as $options) {
@@ -161,6 +172,20 @@ class Shop extends Component
             ->groupBy('aop.attribute_option_id')
             ->pluck('product_count', 'attribute_option_id');
         
+        $brands = Brand::select('brands.*', DB::raw('COUNT(p.id) as product_count'))
+            ->joinSub($this->baseProductQuery(), 'p', function($join) {
+                $join->on('brands.id', '=', 'p.brand_id');
+            })
+            ->groupBy('brands.id')
+            ->get();
+        //     ->select('p.attribute_option_id', DB::raw('COUNT(DISTINCT COALESCE(p.parent_id, p.id)) as product_count'))
+        //     ->join('brands as b', 'p.product_id', '=', 'p.id')
+        //     ->joinSub($this->baseProductQuery(), 'filtered_products', function ($join) {
+        //         $join->on(DB::raw('COALESCE(p.parent_id, p.id)'), '=', 'filtered_products.id');
+        //     })
+        //     ->groupBy('p.attribute_option_id')
+        //     ->pluck('product_count', 'attribute_option_id');
+
         $availableOptionIds = array_keys($optionCounts->toArray());
 
         $attributes = ModelsAttribute::where('can_be_filtered', true)->with(['options' => function ($q) use ($availableOptionIds) {
