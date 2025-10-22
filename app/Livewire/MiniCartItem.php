@@ -20,22 +20,37 @@ class MiniCartItem extends Component
 
     public function add()
     {
-        ++$this->quantity;
-        Cart::update($this->product->id, $this->quantity);
-        $this->dispatchEvents();
+        try {
+            ++$this->quantity;
+            Cart::update($this->product->id, $this->quantity);
+            $this->dispatchEvents();
+            $this->dispatch('alert', type: 'success', message: __("Added to cart"));
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 
     public function sub()
     {
-        --$this->quantity;
-        Cart::update($this->product->id, $this->quantity);
-        $this->dispatchEvents();
+        try {
+            --$this->quantity;
+            Cart::update($this->product->id, $this->quantity);
+            $this->dispatchEvents();
+            $this->dispatch('alert', type: 'success', message: __("Subtracted from cart"));
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 
     public function remove()
     {
-        Cart::remove($this->product->id);
-        $this->dispatchEvents();
+        try {
+            Cart::remove($this->product->id);
+            $this->dispatchEvents();
+            $this->dispatch('alert', type: 'info', message: __("Removed from cart"));
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 
     public function render()

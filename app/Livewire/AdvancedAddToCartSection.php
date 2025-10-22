@@ -128,6 +128,7 @@ class AdvancedAddToCartSection extends Component
         Cart::update($productId, Cart::getProductQuantity($productId) + $this->n);
         $this->dispatch('cart-updated');
         $this->dispatch('cart-updated-product.'. $productId);
+        $this->dispatch('alert', type: 'success', message: __("Added to cart"));
         $this->n = 1;
     }
 }

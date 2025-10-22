@@ -38,14 +38,24 @@ class AddToCartButton extends Component
 
     public function add()
     {
-        Cart::update($this->product->id, $this->getQuantity() + 1);
-        $this->dispatchEvents();
+        try {
+            Cart::update($this->product->id, $this->getQuantity() + 1);
+            $this->dispatchEvents();
+            $this->dispatch('alert', type: 'success', message: __("Added to cart"));
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 
     public function sub()
     {
-        Cart::update($this->product->id, $this->getQuantity() - 1);
-        $this->dispatchEvents();
+        try {
+            Cart::update($this->product->id, $this->getQuantity() - 1);
+            $this->dispatchEvents();
+            $this->dispatch('alert', type: 'success', message: __("Subtracted from cart"));
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 
     #[On('cart-updated-product.{product.id}')]

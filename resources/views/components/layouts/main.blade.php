@@ -876,7 +876,7 @@
         </div>
     </div>
     <!-- /modal find_size -->
-
+    {{-- <livewire:alert /> --}}
     <!-- auto popup  -->
     {{-- <div class="modal modalCentered fade auto-popup modal-newleter">
         <div class="modal-dialog modal-dialog-centered">

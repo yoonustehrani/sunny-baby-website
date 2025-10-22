@@ -19,9 +19,14 @@ class MiniCart extends Component
     #[On('add-to-cart')]
     public function addToCart(string $productId)
     {
-        Cart::update($productId, 1);
-        $this->dispatch('cart-updated');
-        $this->dispatch('cart-updated-product.' . $productId);
+        try {
+            Cart::update($productId, 1);
+            $this->dispatch('cart-updated');
+            $this->dispatch('cart-updated-product.' . $productId);
+            $this->dispatch('alert', type: 'success', message: __("Added to cart"));
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 
     #[On('cart-updated')]
