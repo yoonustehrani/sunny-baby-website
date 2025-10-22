@@ -174,3 +174,28 @@ if (! function_exists('jalali')) {
         return \Morilog\Jalali\Jalalian::forge($date)->format($format);
     }
 }
+
+function adjustBrightness($hex, $percent) {
+    // Remove '#' if present
+    $hex = str_replace('#', '', $hex);
+
+    // Convert to RGB
+    $r = hexdec(substr($hex, 0, 2));
+    $g = hexdec(substr($hex, 2, 2));
+    $b = hexdec(substr($hex, 4, 2));
+
+    // Adjust brightness
+    $r = max(0, min(255, $r + ($r * $percent / 100)));
+    $g = max(0, min(255, $g + ($g * $percent / 100)));
+    $b = max(0, min(255, $b + ($b * $percent / 100)));
+
+    // Convert back to hex
+    return sprintf("#%02x%02x%02x", $r, $g, $b);
+}
+
+function makeGradient($baseColor) {
+    $color1 = adjustBrightness($baseColor, 0); // lighten by 50%
+    $color2 = adjustBrightness($baseColor, -20); // darken by 30%
+
+    return "linear-gradient(135deg, $color1 0%, $color2 100%)";
+}

@@ -16,8 +16,8 @@ class Shop extends Component
 {
     use WithPagination;
 
-    public $selectedFilters = [];
-    protected $queryString = ['selectedFilters'];
+    public $filters = [];
+    protected $queryString = ['filters'];
 
     #[Url(except: false)]
     public bool $onlyInStock = false;
@@ -28,14 +28,14 @@ class Shop extends Component
     public function mount()
     {
         // Make sure query string filters are arrays
-        foreach ($this->selectedFilters as $key => $val) {
+        foreach ($this->filters as $key => $val) {
             if (!is_array($val)) {
-                $this->selectedFilters[$key] = explode(',', $val);
+                $this->filters[$key] = explode(',', $val);
             }
         }
     }
     
-    public function updatedSelectedFilters(): void
+    public function updatedfilters(): void
     {
         $this->resetPage(); // reset to page 1 when filters change
     }
@@ -47,23 +47,23 @@ class Shop extends Component
 
     public function toggleFilter($attributeId, $optionId): void
     {
-        $options = $this->selectedFilters[$attributeId] ?? [];
+        $options = $this->filters[$attributeId] ?? [];
 
         if (in_array($optionId, $options)) {
-            $this->selectedFilters[$attributeId] = array_diff($options, [$optionId]);
+            $this->filters[$attributeId] = array_diff($options, [$optionId]);
         } else {
-            $this->selectedFilters[$attributeId][] = $optionId;
+            $this->filters[$attributeId][] = $optionId;
         }
 
         // cleanup empty attributes
-        if (empty($this->selectedFilters[$attributeId])) {
-            unset($this->selectedFilters[$attributeId]);
+        if (empty($this->filters[$attributeId])) {
+            unset($this->filters[$attributeId]);
         }
     }
 
     public function isFilterSelected($attributeId, $optionId): bool
     {
-        return isset($this->selectedFilters[$attributeId]) && in_array($optionId, $this->selectedFilters[$attributeId]);
+        return isset($this->filters[$attributeId]) && in_array($optionId, $this->filters[$attributeId]);
     }
 
     protected function baseProductQuery(): Builder
@@ -77,8 +77,8 @@ class Shop extends Component
                   // or has any in-stock variant
                   ->orWhereHas('variants', fn($v) => $v->where('stock', '>', 0));
             });
-        })->when($this->selectedFilters, function ($query) {
-            foreach ($this->selectedFilters as $options) {
+        })->when($this->filters, function ($query) {
+            foreach ($this->filters as $options) {
                 $query->where(function ($q) use ($options) {
                     // parent attributes
                     $q->whereHas('attribute_options', function ($sub) use ($options) {
@@ -107,8 +107,8 @@ class Shop extends Component
                     ->orWhereHas('variants', fn($v) => $v->where('stock', '>', 0));
                 });
             })
-            ->when($this->selectedFilters, function ($query) {
-                foreach ($this->selectedFilters as $options) {
+            ->when($this->filters, function ($query) {
+                foreach ($this->filters as $options) {
                     $query->where(function ($q) use ($options) {
                         $q->whereHas('attribute_options', fn($sub) => $sub->whereIn('attribute_options.id', $options))
                         ->orWhereHas('variants.attribute_options', fn($sub) => $sub->whereIn('attribute_options.id', $options));

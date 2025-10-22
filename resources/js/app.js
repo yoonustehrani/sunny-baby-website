@@ -618,6 +618,52 @@ if ($(".tf-product-header").length > 0) {
 (function($, window) {
     'use strict';
 
+    window.brandCarousel = (el) => {
+      var preview = $(el).data("preview");
+      var tablet = $(el).data("tablet");
+      var mobile = $(el).data("mobile");
+      var spacingLg = $(el).data("space-lg");
+      var spacingMd = $(el).data("space-md");
+      var play = $(el).data("play");
+      var loop = $(el).data("loop");
+      var swiper = new Swiper(".tf-sw-brand", {
+        slidesPerView: mobile,
+        spaceBetween: spacingMd,
+        speed: 1000,
+        pagination: {
+          el: ".sw-pagination-brand",
+          clickable: true,
+        },
+        autoplay: {
+          delay: 1,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
+        },
+        loop: loop,
+        autoplay: play,
+        observer: true,
+        observeParents: true,
+        slidesPerGroup: 2,
+        navigation: {
+          clickable: true,
+          nextEl: ".nav-prev-brand",
+          prevEl: ".nav-next-brand",
+        },
+        breakpoints: {
+          768: {
+            slidesPerView: tablet,
+            spaceBetween: spacingLg,
+            slidesPerGroup: 3,
+          },
+          1150: {
+            slidesPerView: preview,
+            spaceBetween: spacingLg,
+            slidesPerGroup: 3,
+          },
+        },
+      });
+    }
+
     var MultiModal = function(element) {
         this.$element = $(element);
         this.modalCount = 0;

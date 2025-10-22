@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\CSVReader;
 use App\Models\Brand;
+use App\Models\Image;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -18,7 +19,14 @@ class BrandSeeder extends Seeder
         $reader->read();
         $records = $reader->getData();
         foreach ($records as $r) {
-            new Brand(['name' => $r['name'], 'slug' => $r['slug']])->save();
+            $i = new Image([
+                'url' => $r['image'],
+                'thumbnail_url' => $r['image']
+            ]);
+            $i->save();
+            $b = new Brand(['name' => $r['name'], 'slug' => $r['slug']]);
+            $b->image()->associate($i);
+            $b->save();
         }
     }
 }
