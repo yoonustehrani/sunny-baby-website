@@ -37,10 +37,14 @@ class BottomAddToCart extends Component
         if (! $productId) {
             return;
         }
-        Cart::update($productId, Cart::getProductQuantity($productId) + $this->n);
-        $this->dispatch('cart-updated');
-        $this->dispatch('cart-updated-product.'. $productId);
-        $this->n = 1;
+        try {
+            Cart::add($productId, $this->n);
+            $this->dispatch('cart-updated');
+            $this->dispatch('cart-updated-product.'. $productId);
+            $this->n = 1;
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 
     public function render()

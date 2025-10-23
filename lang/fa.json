@@ -123,5 +123,6 @@
     "User": "کاربر",
     "Added to cart": "به سبد خرید افزوده شد",
     "Subtracted from cart": "از سبد خرید کسر شد",
-    "Removed from cart": "از سبد خرید حذف شد"
+    "Removed from cart": "از سبد خرید حذف شد",
+    "The product :title has not enough stock": "موجودی محصول :title کافی نیست."
 }
