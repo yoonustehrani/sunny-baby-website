@@ -7,6 +7,7 @@ use App\Models\Transaction;
 use App\Services\PaymentService;
 use App\Services\Shipping\Carrier;
 use App\Services\SMSService;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
@@ -76,7 +77,7 @@ if (! function_exists('slugify')) {
 }
 
 if (! function_exists('buildCategoryTree')) {
-    function buildCategoryTree(array $categories, $parentId = null, $parent_key = 'parent_id', $id_key = 'id'): array
+    function buildCategoryTree(array|Collection $categories, $parentId = null, $parent_key = 'parent_id', $id_key = 'id'): array
     {
         $branch = [];
 
