@@ -15,7 +15,7 @@
                     @foreach ($brands as $brand)
                         <div class="swiper-slide tw:aspect-square">
                             <div class="brand-item tw:border-orange-900/10 tw:h-full">
-                                <a class="tw:flex tw:flex-col tw:items-center tw:justify-between tw:h-full tw:duration-300 tw:hover:text-primary" href="{{ route('pages.shop') }}">
+                                <a class="tw:flex tw:flex-col tw:items-center tw:justify-between tw:h-full tw:duration-300 tw:hover:text-primary" href="{{ route('pages.shop', ['brand' => $brand->id]) }}">
                                     @if ($brand->image)
                                         <img class="lazyload" data-src="{{ asset($brand->image->url) }}" src="{{ asset($brand->image->thumbnail_url) }}"
                                         alt="image-brand">
