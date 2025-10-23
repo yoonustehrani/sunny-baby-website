@@ -32,7 +32,7 @@
             @else
             <button wire:loading.attr="disabled" x-on:click="$dispatch('add-to-cart', {productId: '{{ $product->id }}'})"
                 class="tw:block tw:w-full tw:md:w-auto tw:text-sm tw:text-center tw:rounded-md tw:shadow-sm tw:border tw:border-transparent tw:duration-300 tw:hover:border-gray-700 tw:bg-dun tw:px-2 tw:lg:px-3 tw:py-1 tw:mb-3 tw:mt-1 tw:mx-auto"
-            >{{ $product->stock < 1 ? __('Unavailable') : __('QUICK ADD') }}</button>
+            >{{ $product->available_stock < 1 ? __('Unavailable') : __('QUICK ADD') }}</button>
             @endif
         </div>
     @endswitch

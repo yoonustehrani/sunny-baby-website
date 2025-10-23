@@ -35,12 +35,16 @@
             </div>
         @endif
         {{-- <x-product-item.size-list /> --}}
-        <livewire:add-to-cart-button :key="'add-to-cart-' . $product->id" :$product style='hover'/>
+        @if (! $product->isVariable())
+            <livewire:add-to-cart-button :key="'add-to-cart-' . $product->id" :$product style='hover'/>
+        @endif
     </div>
     <div class="card-product-info tw:px-2! tw:grow" x-data='{}'>
         <a href="{{ route('products.show', ['slug' => $product->slug]) }}" class="title link tw:text-sm tw:md:text-base tw:mx-auto tw:font-normal">{{ $product->title }}</a>
         <x-product-price :$product/>
-        <livewire:add-to-cart-button :key="'add-to-cart-main-' . $product->id" :$product/>
+        @if (! $product->isVariable())
+            <livewire:add-to-cart-button :key="'add-to-cart-main-' . $product->id" :$product/>
+        @endif
         {{-- <ul class="list-color-product">
             <li class="list-color-item color-swatch active">
                 <span class="tooltip">Grey</span>

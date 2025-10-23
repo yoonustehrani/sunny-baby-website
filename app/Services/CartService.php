@@ -73,6 +73,24 @@ class CartService
         return $this->saveCartToSession();
     }
 
+    public function add(int|string $productId, int $quantity = 1)
+    {
+        if ($this->getProductQuantity($productId) == 0) {
+            $this->update($productId, 1);
+        } else {
+            $this->update($productId, $this->getProductQuantity($productId) + $quantity);
+        }
+    }
+
+    public function sub(int|string $productId)
+    {
+        if ($this->getProductQuantity($productId) == 1) {
+            $this->remove($productId);
+        } else {
+            $this->update($productId, $this->getProductQuantity($productId) - 1);
+        }
+    }
+
     public function remove(int|string $productId): self
     {
         $this->items->pull($productId);
