@@ -4,6 +4,7 @@ namespace App\Livewire\Pages;
 
 use App\Models\Attribute as ModelsAttribute;
 use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -19,6 +20,9 @@ class Shop extends Component
 
     public $filters = [];
     protected $queryString = ['filters'];
+
+    #[Url(except: [])]
+    public $cats = [];
 
     #[Url(except: false)]
     public bool $onlyInStock = false;
@@ -39,7 +43,22 @@ class Shop extends Component
         }
     }
     
-    public function updatedfilters(): void
+    public function updatedFilters(): void
+    {
+        $this->resetPage(); // reset to page 1 when filters change
+    }
+
+    public function updatedBrand(): void
+    {
+        $this->resetPage(); // reset to page 1 when filters change
+    }
+
+    public function updatedOrderBy(): void
+    {
+        $this->resetPage(); // reset to page 1 when filters change
+    }
+
+    public function updatedInStock(): void
     {
         $this->resetPage(); // reset to page 1 when filters change
     }
@@ -85,6 +104,11 @@ class Shop extends Component
         ->when($this->brand != '', function($query) {
             $query->where('brand_id', $this->brand);
         })
+        ->when($this->cats, function ($query) {
+            $query->whereHas('categories', function ($cat) {
+                $cat->whereIn('categories.id', $this->cats);
+            });
+        })
         ->when($this->filters, function ($query) {
             foreach ($this->filters as $options) {
                 $query->where(function ($q) use ($options) {
@@ -123,6 +147,11 @@ class Shop extends Component
             ->when($this->brand != '', function($query) {
                 $query->where('brand_id', $this->brand);
             })
+            ->when($this->cats, function ($query) {
+                $query->whereHas('categories', function ($cat) {
+                    $cat->whereIn('categories.id', $this->cats);
+                });
+            })
             ->when($this->filters, function ($query) {
                 foreach ($this->filters as $options) {
                     $query->where(function ($q) use ($options) {
@@ -151,6 +180,21 @@ class Shop extends Component
             }
         }
         return $query->with('discount', 'variants', 'images')->paginate(8);
+    }
+
+    protected function buildCategoryTree($categories, $parentId = null)
+    {
+        return $categories
+            ->where('parent_id', $parentId)
+            ->map(function ($cat) use ($categories) {
+                $children = $this->buildCategoryTree($categories, $cat->id);
+                $cat->children = $children;
+                if ($children->isNotEmpty()) {
+                    $cat->products_count += $children->sum('products_count');
+                }
+                return $cat;
+            })
+            ->values();
     }
 
     public function render()
@@ -183,13 +227,21 @@ class Shop extends Component
             })
             ->groupBy('brands.id')
             ->get();
-        //     ->select('p.attribute_option_id', DB::raw('COUNT(DISTINCT COALESCE(p.parent_id, p.id)) as product_count'))
-        //     ->join('brands as b', 'p.product_id', '=', 'p.id')
-        //     ->joinSub($this->baseProductQuery(), 'filtered_products', function ($join) {
-        //         $join->on(DB::raw('COALESCE(p.parent_id, p.id)'), '=', 'filtered_products.id');
-        //     })
-        //     ->groupBy('p.attribute_option_id')
-        //     ->pluck('product_count', 'attribute_option_id');
+
+        $categories = Category::query()
+            ->join('category_product as cp', 'cp.category_id', '=', 'categories.id')
+            ->join('products', 'cp.product_id', '=', 'products.id')
+            ->joinSub($this->baseProductQuery()->select('products.id', DB::raw('COALESCE(products.parent_id, products.id) as base_id')), 'base_products', function ($join) {
+                $join->on(DB::raw('COALESCE(products.parent_id, products.id)'), '=', 'base_products.base_id');
+            })
+            ->select(
+                'categories.id',
+                'categories.name',
+                'categories.parent_id',
+                DB::raw('COUNT(DISTINCT base_products.base_id) as results_count')
+            )
+            ->groupBy('categories.id', 'categories.name', 'categories.parent_id')
+            ->get();
 
         $availableOptionIds = array_keys($optionCounts->toArray());
 
@@ -197,6 +249,8 @@ class Shop extends Component
             $q->whereIn('id', $availableOptionIds);
         }])->get();
 
-        return view('livewire.pages.shop', compact('orderList', 'products', 'attributes', 'optionCounts', 'brands'))->title(__('Shop'));
+        return view('livewire.pages.shop', compact('orderList', 'products', 'attributes', 'optionCounts', 'brands'))
+            ->with('categories', $this->buildCategoryTree($categories))
+            ->title(__('Shop'));
     }
 }

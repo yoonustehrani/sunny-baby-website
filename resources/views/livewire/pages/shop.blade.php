@@ -48,12 +48,11 @@
                     </div>
                     <div id="categories" class="collapse show">
                         <ul class="list-categoris current-scrollbar mb_36">
-                            <li class="cate-item current"><a href="shop-filter-sidebar.html#"><span>Fashion</span></a>
-                            </li>
-                            <li class="cate-item"><a href="shop-filter-sidebar.html#"><span>Men</span></a></li>
-                            <li class="cate-item"><a href="shop-filter-sidebar.html#"><span>Women</span></a></li>
-                            <li class="cate-item"><a href="shop-filter-sidebar.html#"><span>Denim</span></a></li>
-                            <li class="cate-item"><a href="shop-filter-sidebar.html#"><span>Dress</span></a></li>
+                            @foreach($categories as $category)
+                                <li class="tw:font-normal">
+                                    <x-shop.category-filter-item :$category :level="0"/>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>
