@@ -102,6 +102,11 @@ class Shop extends Component
         return $query;
     }
 
+    public function unsetBrand()
+    {
+        $this->brand = '';
+    }
+
     protected function getProducts(): LengthAwarePaginator
     {
         /**
@@ -172,7 +177,7 @@ class Shop extends Component
             ->groupBy('aop.attribute_option_id')
             ->pluck('product_count', 'attribute_option_id');
         
-        $brands = Brand::select('brands.*', DB::raw('COUNT(p.id) as product_count'))
+        $brands = Brand::with('image')->select('brands.*', DB::raw('COUNT(p.id) as results_count'))
             ->joinSub($this->baseProductQuery(), 'p', function($join) {
                 $join->on('brands.id', '=', 'p.brand_id');
             })
@@ -192,6 +197,6 @@ class Shop extends Component
             $q->whereIn('id', $availableOptionIds);
         }])->get();
 
-        return view('livewire.pages.shop', compact('orderList', 'products', 'attributes', 'optionCounts'))->title(__('Shop'));
+        return view('livewire.pages.shop', compact('orderList', 'products', 'attributes', 'optionCounts', 'brands'))->title(__('Shop'));
     }
 }
