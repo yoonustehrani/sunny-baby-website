@@ -83,14 +83,15 @@
                         </div>
                         <div id="brand" class="collapse show">
                             <ul class="tf-filter-group current-scrollbar mb_36">
-                                <li class="list-item d-flex gap-12 align-items-center">
-                                    <input type="radio" name="brand" class="tf-check" id="brand-1">
-                                    <label for="brand-1" class="label"><span>Ecomus</span>&nbsp;<span>(8)</span></label>
-                                </li>
-                                <li class="list-item d-flex gap-12 align-items-center">
-                                    <input type="radio" name="brand" class="tf-check" id="brand-2">
-                                    <label for="brand-2" class="label"><span>M&H</span>&nbsp;<span>(8)</span></label>
-                                </li>
+                                @foreach ($brands as $item)
+                                    <li class="list-item d-flex gap-12 align-items-center">
+                                        <input type="radio" name="brand" wire:model.live='brand' value="{{ $item->getKey() }}" class="tf-check" id="brand-{{ $item->getKey() }}">
+                                        @if ($item->image)
+                                            <img src="{{ asset($item->image->thumbnail_url) }}" height="30px" class="tw:w-auto tw:h-4">
+                                        @endif
+                                        <label @if($brand == $item->id) wire:click='unsetBrand' @endif for="brand-{{ $item->getKey() }}" class="label"><span>{{ $item->name }}</span>&nbsp;<span>({{ $item->results_count }})</span></label>
+                                    </li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>

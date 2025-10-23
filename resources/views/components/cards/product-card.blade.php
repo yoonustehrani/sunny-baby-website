@@ -11,17 +11,17 @@
         <div class="list-product-btn column-right">
             <a href="javascript:void(0);" class="box-icon wishlist bg_white round btn-icon-action">
                 <span class="icon icon-heart"></span>
-                <span class="tooltip">Add to Wishlist</span>
+                <span class="tooltip">@lang('Add to Wishlist')</span>
                 <span class="icon icon-delete"></span>
             </a>
             <a href="home-04.html#compare" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft" class="box-icon compare bg_white round btn-icon-action">
                 <span class="icon icon-compare"></span>
-                <span class="tooltip">Add to Compare</span>
+                <span class="tooltip">@lang('Add to Compare')</span>
                 <span class="icon icon-check"></span>
             </a>
             <a href="home-04.html#quick_view" data-bs-toggle="modal" class="box-icon quickview bg_white round tf-btn-loading">
                 <span class="icon icon-view"></span>
-                <span class="tooltip">Quick View</span>
+                <span class="tooltip">@lang('Quick View')</span>
             </a>
         </div>
         @if ($product->is_discounted)
