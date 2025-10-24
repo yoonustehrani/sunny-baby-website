@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\OrderStatus;
+use App\Enums\OrderType;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
@@ -35,7 +36,8 @@ class DatabaseSeeder extends Seeder
             'mutable_until' => now()->addMonth(),
             'subtotal' => $subtotal,
             'total_discount' => $total_discount,
-            'total' => $subtotal - $total_discount
+            'total' => $subtotal - $total_discount,
+            'type' => OrderType::CUSTOMER_ORDER
         ]));
         $order->refresh();
         $order->items()->saveMany($order_items);

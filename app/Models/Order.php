@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\OrderStatus;
+use App\Enums\OrderType;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,7 +21,8 @@ class Order extends Model
     {
         return [
             'status' => OrderStatus::class,
-            'mutable_until' => 'datetime'
+            'mutable_until' => 'datetime',
+            'type' => OrderType::class
         ];
     }
 

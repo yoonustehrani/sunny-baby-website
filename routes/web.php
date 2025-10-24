@@ -4,6 +4,7 @@ use App\Http\Controllers\OrderPaymentController;
 use App\Http\Controllers\ShowHomeController;
 use App\Http\Controllers\ShowProductController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Middleware\CheckIfUserRoleIsAffiliate;
 use App\Livewire\Pages\Shop;
 use App\Livewire\ShowCheckout;
 use App\Livewire\UserAccount;
@@ -43,3 +44,10 @@ Route::middleware(['auth'])->name('user-account.')->prefix('/my-account')->group
 Route::get('/orders/{order}/pay', OrderPaymentController::class)->name('orders.pay');
 
 Route::get('/transactions/{transaction}/validate', [TransactionController::class, 'validate'])->name('transactions.validate');
+
+Route::prefix('affiliate')->name('affiliate.')->group(function() {
+    Route::get('/login', fn() => 'login to middleware')->name('login')->middleware('guest');
+    Route::middleware([CheckIfUserRoleIsAffiliate::class])->group(function() {
+        Route::get('/', fn() => 'dashboard')->name('dashboard');
+    });
+});
