@@ -8,7 +8,7 @@
                 <img class="lazyload img-hover" data-src="{{ asset($product->images[1]->url) }}" src="{{ asset($product->images[1]->thumbnail_url) }}" alt="image-product">
             @endisset
         </a>
-        <div class="list-product-btn column-right">
+        {{-- <div class="list-product-btn column-right">
             <a href="javascript:void(0);" class="box-icon wishlist bg_white round btn-icon-action">
                 <span class="icon icon-heart"></span>
                 <span class="tooltip">@lang('Add to Wishlist')</span>
@@ -23,7 +23,7 @@
                 <span class="icon icon-view"></span>
                 <span class="tooltip">@lang('Quick View')</span>
             </a>
-        </div>
+        </div> --}}
         @if ($product->is_discounted)
             @unless(is_null($product->discount->expires_at))
             <div class="countdown-box">

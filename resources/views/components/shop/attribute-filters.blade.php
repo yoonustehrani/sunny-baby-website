@@ -1,5 +1,5 @@
 <div class="widget-facet">
-    <div class="facet-title" data-bs-target="attr-filter-{{ md5($attribute->label) }}" data-bs-toggle="collapse" aria-expanded="true"
+    <div class="facet-title" data-bs-target="#attr-filter-{{ md5($attribute->label) }}" data-bs-toggle="collapse" aria-expanded="true"
         aria-controls="color">
         <span>{{ $attribute->label }}</span>
         <span class="icon icon-arrow-up"></span>

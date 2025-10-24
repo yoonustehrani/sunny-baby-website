@@ -1,10 +1,12 @@
 <section class="flat-spacing-1 tw:bg-white">
-    <div class="container">
+    <div class="container" x-data="{ open: false }">
         <div class="tf-shop-control grid-3 align-items-center">
-            <div></div>
-            <!-- <div class="tf-control-filter">
-                        <a href="#filterShop" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft" class="tf-btn-filter"><span class="icon icon-filter"></span><span class="text">Filter</span></a>
-                    </div> -->
+            <div class="tw:md:block tw:hidden"></div>
+            <div class="tf-control-filter tw:block tw:md:hidden">
+                <button type="button" class="tf-btn-filter d-md-none mb-3"  x-on:click='open = true'>
+                    <span class="icon icon-filter"></span><span class="text">@lang('Filter')</span>
+                </button>
+            </div>
             <ul class="tf-control-layout d-flex justify-content-center">
                 <li class="tf-view-layout-switch sw-layout-2" data-value-grid="grid-2">
                     <div class="item"><span class="icon icon-grid-2"></span></div>
@@ -39,11 +41,22 @@
             </div>
         </div>
         <div class="blog-sidebar-main p-0">
-            <div class="tf-section-sidebar wrap-sidebar-mobile flex-shrink-0">
+            <div 
+                x-bind:class="open ? 'tw:translate-x-0' : 'tw:-translate-x-full tw:md:translate-x-0'"
+                class="tw:fixed tw:md:static tw:inset-y-0 tw:left-0 tw:z-[99999] tw:w-70 tw:bg-white tw:shadow-lg tw:transform tw:transition-transform tw:duration-300 tw:md:translate-x-0 tw:md:shadow-none tw:md:w-fit tw:p-4 tw:rounded-r-xl"
+            {{-- class=" filters-active tw:hidden tw:md:flex flex-shrink-0" --}}
+            >
+                <div class="tw:flex tw:md:hidden tw:items-center tw:justify-between tw:px-2 tw:py-4">
+                    <div class="filter-icon">
+                        <span class="icon icon-filter"></span>
+                        <span>@lang('Filter')</span>
+                    </div>
+                    <span class="icon-close icon-close-popup" x-on:click='open = false'></span>
+                </div>
                 <div class="widget-facet wd-categories">
                     <div class="facet-title" data-bs-target="#categories" data-bs-toggle="collapse" aria-expanded="true"
                         aria-controls="categories">
-                        <span>Product categories</span>
+                        <span>@lang('Product categories')</span>
                         <span class="icon icon-arrow-up"></span>
                     </div>
                     <div id="categories" class="collapse show">
@@ -56,7 +69,7 @@
                         </ul>
                     </div>
                 </div>
-                <form action="shop-filter-sidebar.html#" id="facet-filter-form" class="facet-filter-form">
+                <div id="facet-filter-div" class="facet-filter-div">
                     <div class="widget-facet">
                         <div class="facet-title" data-bs-target="#availability" data-bs-toggle="collapse"
                             aria-expanded="true" aria-controls="availability">
@@ -97,7 +110,7 @@
                     @foreach ($attributes as $attribute)
                         <x-shop.attribute-filters :$attribute :counts='$optionCounts'/>
                     @endforeach
-                </form>
+                </div>
             </div>
             <div class="tw:w-full">
                 @if ($products->count() > 0)
