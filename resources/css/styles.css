@@ -17674,4 +17674,23 @@ blockquote .text {
   }
 }
 
+.show.filters-active {
+  display: flex !important;
+  z-index: 9999;
+  position: fixed;
+  background: white;
+  top: 0;
+  left: 0;
+  padding: 20px;
+  max-width: 300px;
+  /* min-width: max-content; */
+  width: 300px;
+  overflow-y: scroll;
+  height: 100%;
+}
+
+.tf-section-sidebar.show {
+  display: flex !important;
+}
+
 /*# ksourceMappingURL=styles.css.map */
