@@ -4,6 +4,7 @@ use App\Enums\ComparingOperatorType;
 use App\Facades\Shipping;
 use App\Models\Address;
 use App\Models\Transaction;
+use App\Services\CartService;
 use App\Services\PaymentService;
 use App\Services\Shipping\Carrier;
 use App\Services\SMSService;
@@ -206,5 +207,12 @@ if (! function_exists('routeIs')) {
     function routeIs(string $name)
     {
         return Route::currentRouteName() == $name;
+    }
+}
+
+if (! function_exists('affiliate_cart')) {
+    function affiliate_cart(): CartService
+    {
+        return CartService::getInstance(is_affiliate: true);
     }
 }

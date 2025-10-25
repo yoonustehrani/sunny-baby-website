@@ -11,7 +11,8 @@ use Livewire\Livewire;
 
 class CartService
 {
-    public const SESSION_KEY = 'user-cart';
+    protected string $session_key;
+    protected bool $is_affiliate;
     public Collection $items;
     public array $meta;
     /**
@@ -19,19 +20,23 @@ class CartService
      */
     public function __construct(
         array $cart,
+        bool $is_affiliate = false
     )
     {
+        $this->is_affiliate = $is_affiliate;
         $this->items = collect($cart['items']);
         $this->meta = $cart['meta'];
     }
 
-    public static function getInstance(): static
+    public static function getInstance(bool $is_affiliate = false): static
     {
+        $key = $is_affiliate ? 'affiliate-cart' : 'user-cart';
         return new self(
-            Session::get(self::SESSION_KEY, [
+            cart: Session::get($key, [
                 'items' => [],
                 'meta' => []
-            ])
+            ]),
+            is_affiliate: false
         );
     }
 
@@ -101,12 +106,12 @@ class CartService
 
     public function clear(): void
     {
-        Session::remove(self::SESSION_KEY);
+        Session::remove($this->session_key);
     }
 
     protected function saveCartToSession(): self
     {
-        Session::put(self::SESSION_KEY, $this->toArray());
+        Session::put($this->session_key, $this->toArray());
         return $this;
     }
 
@@ -118,8 +123,12 @@ class CartService
     public function sums()
     {
         $all = $this->all();
-        $subtotal = $all->sum(fn($item) => $item['quantity'] * $item['product']->price);
-        $total_discount = $all->filter(fn($item) => !is_null($item['product']->discount))->sum(fn($item) => $item['quantity'] * $item['product']->discount_amount);
+        $price_key = $this->is_affiliate ? 'affiliate_price' : 'price';
+        $subtotal = $all->sum(fn($item) => $item['quantity'] * $item['product']->{$price_key});
+        $total_discount = 0;
+        if (! $this->is_affiliate) {
+            $total_discount = $all->filter(fn($item) => !is_null($item['product']->discount))->sum(fn($item) => $item['quantity'] * $item['product']->discount_amount);
+        }
         $total = $subtotal - $total_discount;
         return compact(
             'subtotal',
