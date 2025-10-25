@@ -2,10 +2,36 @@
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../views/components/layouts/affiliate.blade.php';
+@source '../views/components/layouts/auth-affiliate.blade.php';
 @source '../views/livewire/affiliate/**/*.blade.php';
+@source '../views/components/affiliate/**/*.blade.php';
 @source '../views/affiliate/**/*.blade.php';
 
 @custom-variant dark (&:is(.dark *));
+
+@font-face {
+  font-family: 'YekanBakh';
+  src: url(/resources/fonts/YekanBakhFaNum-Regular.woff2) format('woff2');
+  font-weight: 100 400; /* Normal/Regular */
+  font-style: normal;
+  font-display: swap; /* Optional for performance */
+}
+
+@font-face {
+  font-family: 'YekanBakh';
+  src: url(/resources/fonts/YekanBakhFaNum-SemiBold.woff2) format('woff2');
+  font-weight: 500 600; /* Semi-bold */
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'YekanBakh';
+  src: url(/resources/fonts/YekanBakhFaNum-ExtraBold.woff2) format('woff2');
+  font-weight: 600 900; /* Extra bold */
+  font-style: normal;
+  font-display: swap;
+}
 
 @theme {
 
@@ -23,7 +49,7 @@
   --color-caramel: #AF7D50;
   --color-primary: #db1215;
 
-  --font-*: initial;
+  /* --font-*: initial; */
   --font-outfit: Outfit, sans-serif;
 
   --breakpoint-*: initial;
@@ -763,28 +789,4 @@ span.flatpickr-weekday,
     0px 1px 2px 0px rgba(16, 24, 40, 0.06);
   opacity: 0.8;
   cursor: grabbing; /* Changes the cursor to indicate dragging */
-}
-
-@font-face {
-  font-family: 'YekanBakh';
-  src: url(/resources/fonts/YekanBakhFaNum-Regular.woff2) format('woff2');
-  font-weight: 100 400; /* Normal/Regular */
-  font-style: normal;
-  font-display: swap; /* Optional for performance */
-}
-
-@font-face {
-  font-family: 'YekanBakh';
-  src: url(/resources/fonts/YekanBakhFaNum-SemiBold.woff2) format('woff2');
-  font-weight: 500 600; /* Semi-bold */
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'YekanBakh';
-  src: url(/resources/fonts/YekanBakhFaNum-ExtraBold.woff2) format('woff2');
-  font-weight: 600 900; /* Extra bold */
-  font-style: normal;
-  font-display: swap;
 }

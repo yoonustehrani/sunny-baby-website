@@ -46,6 +46,9 @@
                             <li>
                                 <a href="privacy-policy.html" class="footer-menu_item">@lang('Privacy Policy')</a>
                             </li>
+                            <li>
+                                <a href="{{ route('affiliate.dashboard') }}" class="footer-menu_item">@lang('Affiliate Panel')</a>
+                            </li>
                             <li> 
                                 <a href="shipping-delivery.html" class="footer-menu_item">@lang('Shipping')</a>
                             </li>

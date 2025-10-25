@@ -5,9 +5,10 @@ namespace App\Http\Middleware;
 use App\Enums\UserRoleType;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckIfUserRoleIsAffiliate
+class RedirectToAffiliateDashboardIfAuthenticated
 {
     /**
      * Handle an incoming request.
@@ -16,11 +17,10 @@ class CheckIfUserRoleIsAffiliate
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (! $request->user()) {
-            return redirect(route('affiliate.login'));
-        }
-        if ($request->user()->role_type != UserRoleType::AFFILIATE) {
-            abort(403, __('Access denied'));
+        if ($request->user() && $request->user()->role_type == UserRoleType::AFFILIATE) {
+            return redirect(route('affiliate.dashboard'));
+        } else if($request->user()) {
+            Auth::logout();
         }
         return $next($request);
     }

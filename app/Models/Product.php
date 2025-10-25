@@ -121,6 +121,11 @@ class Product extends Model
         return $this->type == ProductType::VARIABLE;
     }
 
+    public function isVariant(): bool
+    {
+        return $this->type == ProductType::VARIANT;
+    }
+
     public function getVariantTitleAttribute(): string
     {
         return $this->title ?: $this->attribute_options->map(fn(AttributeOption $ap) => $ap->label)->implode(' / ');

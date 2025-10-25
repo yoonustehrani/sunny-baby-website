@@ -5,6 +5,7 @@ use App\Http\Controllers\ShowHomeController;
 use App\Http\Controllers\ShowProductController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Middleware\CheckIfUserRoleIsAffiliate;
+use App\Http\Middleware\RedirectToAffiliateDashboardIfAuthenticated;
 use App\Livewire\Pages\Shop;
 use App\Livewire\ShowCheckout;
 use App\Livewire\UserAccount;
@@ -47,8 +48,11 @@ Route::get('/orders/{order}/pay', OrderPaymentController::class)->name('orders.p
 Route::get('/transactions/{transaction}/validate', [TransactionController::class, 'validate'])->name('transactions.validate');
 
 Route::prefix('affiliate')->name('affiliate.')->group(function() {
-    Route::get('/login', fn() => 'login to middleware')->name('login')->middleware('guest');
+    Route::get('/login', Affiliate\Login::class)->name('login')->middleware(RedirectToAffiliateDashboardIfAuthenticated::class);
     Route::middleware([CheckIfUserRoleIsAffiliate::class])->group(function() {
         Route::get('/', Affiliate\Dashboard::class)->name('dashboard');
+        Route::get('orders', Affiliate\ListOrders::class)->name('orders.index');
+        Route::get('orders/create', Affiliate\CreateOrder::class)->name('orders.create');
+        Route::get('financials', Affiliate\Financials::class)->name('financials');
     });
 });

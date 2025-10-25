@@ -61,6 +61,8 @@ class ProductSeeder extends Seeder
                     $p->attribute_options()->attach($sizes[$i]->id, ['attribute_id' => $sizes[$i]['attribute_id']]);
                     $p->attribute_options()->attach($colors[$i]->id, ['attribute_id' => $colors[$i]['attribute_id']]);
                 });
+                $vp->stock = $vp->variants->sum(fn($x) => $x->stock);
+                $vp->save();
             }
             $products->push(...$variable_products);
             DB::commit();
