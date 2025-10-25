@@ -8,6 +8,7 @@ use App\Http\Middleware\CheckIfUserRoleIsAffiliate;
 use App\Livewire\Pages\Shop;
 use App\Livewire\ShowCheckout;
 use App\Livewire\UserAccount;
+use App\Livewire\Affiliate;
 use App\Livewire\Pages\ShowCart;
 use App\Livewire\Pages\ShowLogin;
 use Illuminate\Support\Facades\Auth;
@@ -48,6 +49,6 @@ Route::get('/transactions/{transaction}/validate', [TransactionController::class
 Route::prefix('affiliate')->name('affiliate.')->group(function() {
     Route::get('/login', fn() => 'login to middleware')->name('login')->middleware('guest');
     Route::middleware([CheckIfUserRoleIsAffiliate::class])->group(function() {
-        Route::get('/', fn() => 'dashboard')->name('dashboard');
+        Route::get('/', Affiliate\Dashboard::class)->name('dashboard');
     });
 });

@@ -4,12 +4,14 @@ namespace Database\Seeders;
 
 use App\Enums\OrderStatus;
 use App\Enums\OrderType;
+use App\Enums\UserRoleType;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -41,6 +43,17 @@ class DatabaseSeeder extends Seeder
         ]));
         $order->refresh();
         $order->items()->saveMany($order_items);
+
+
+        $af_user = new User([
+            'name' => 'همکار تستی',
+            'phone_number' => '09101234568',
+            'email' => 'af@sunnybaby.ir',
+            'email_verified_at' => now(),
+            'password' => Hash::make('hello1234'),
+            'role_type' => UserRoleType::AFFILIATE
+        ]);
+        $af_user->save();
         // User::factory()->create([
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
