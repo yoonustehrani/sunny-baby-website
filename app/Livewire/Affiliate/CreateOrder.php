@@ -15,8 +15,9 @@ class CreateOrder extends Component
 
     public function render()
     {
-        return view('livewire.affiliate.create-order', $this->getData(productsWith: ['variants' => function($q) {
+        $data = $this->getData(productsWith: ['variants' => function($q) {
             $q->with('images', 'attribute_options');
-        }, 'images']))->title(__('New Order'));
+        }, 'images']);
+        return view('livewire.affiliate.create-order', $data)->title(__('New Order'));
     }
 }

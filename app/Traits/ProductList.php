@@ -85,6 +85,11 @@ trait ProductList
         return isset($this->filters[$attributeId]) && in_array($optionId, $this->filters[$attributeId]);
     }
 
+    public function isCategorySelected($categoryId): bool
+    {
+        return isset($this->cats) && in_array($categoryId, $this->cats);
+    }
+
     protected function baseProductQuery(): Builder
     {
         $query = Product::query()

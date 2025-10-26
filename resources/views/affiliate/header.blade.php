@@ -35,8 +35,8 @@
             <!-- Hamburger Toggle BTN -->
 
             <a href="index.html" class="lg:hidden">
-                <img class="dark:hidden" src="{{ asset('images/logo/sunny-baby-logo.webp') }}" alt="Logo" />
-                <img class="hidden dark:block" src="{{ asset('images/logo/sunny-baby-logo.webp') }}" alt="Logo" />
+                <img class="h-12 dark:hidden" src="{{ asset('images/logo/sunny-baby-logo.webp') }}" alt="Logo" />
+                <img class="h-12 hidden dark:block" src="{{ asset('images/logo/sunny-baby-logo.webp') }}" alt="Logo" />
             </a>
 
             <!-- Application nav menu button -->
