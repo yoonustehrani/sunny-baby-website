@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Affiliate;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -76,7 +76,7 @@ class SearchModelInput extends Component
 
     public function render()
     {
-        $view = view('livewire.search-model-input', [
+        $view = view('livewire.affiliate.search-model-input', [
             'mainKey' => $this->getSearchKeys()[0]
         ]);
         $option = $this->value ? [

@@ -1,47 +1,29 @@
-<tr class="text-gray-800 dark:text-white/90" @if($product->isVariant()) x-bind:class="{ 'hidden': displayVariable != {{ $product->parent_id }} }" @endif>
+<tr class="text-gray-800 dark:text-white/90">
+    <th class="px-5 py-4 sm:px-6 text-right">
+        <span>{{ $index }}</span>
+    </th>
     <td class="px-5 py-4 sm:px-6">
         <div class="flex items-center">
             <p class="text-gray-500 text-theme-sm dark:text-gray-400">
-                #{{ $product->getKey() }}
+                <span class="block font-medium text-theme-sm">
+                    {{ $product->isVariant() ? $product->parent->title : $product->title }}
+                </span>
+                @if ($product->isVariant())
+                    <span class="block text-gray-500 text-theme-xs dark:text-gray-400">
+                        {{ $product->variant_title }}
+                    </span>
+                @endif
             </p>
         </div>
     </td>
     <td class="px-5 py-4 sm:px-6">
-        <div class="flex items-center">
-            <div class="flex items-center gap-3">
-                @if ($product->main_image)
-                    <div class="w-10 h-10 overflow-hidden rounded-full">
-                        <img src="{{ asset($product->main_image->thumbnail_url) }}" alt="{{ $product->title ?? '' }}" />
-                    </div>
-                @endif
-                <div>
-                    @if ($product->isVariant())
-                        <span
-                        class="block font-medium text-theme-sm">
-                            {{ $product->variant_title }}
-                        </span>
-                    @else
-                    <span
-                        class="block font-medium text-theme-sm">
-                        @if ($product->title)
-                            {{ $product->title }}
-                        @endif
-                    </span>
-                    @endif
-                    @if ($product->isVariable())
-                        <span class="block text-gray-500 text-theme-xs dark:text-gray-400">
-                            دارای {{ $product->variants->count() }} نوع محصول
-                        </span>
-                    @endif
-                </div>
-            </div>
-        </div>
+        <span>{{ format_price($product->affiliate_price) }}</span>
     </td>
     <td class="px-5 py-4 sm:px-6">
-        <span>{{ $product->affiliate_price ? format_price($product->affiliate_price) : '---' }}</span>
+        <span>{{ $count }}</span>
     </td>
     <td class="px-5 py-4 sm:px-6">
-        <span>@if($product->available_stock < 1) @lang('Unavailable') @else {{ $product->available_stock }} عدد @endif</span>
+        <span>{{ format_price($product->affiliate_price * $count) }}</span>
     </td>
     <td class="px-5 py-4 sm:px-6">
         <div class="flex items-center">

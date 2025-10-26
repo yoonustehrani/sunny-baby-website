@@ -4,17 +4,17 @@ namespace App\Livewire\Affiliate;
 
 use App\Models\Product;
 use App\Traits\ProductCartMethods;
-use Livewire\Attributes\On;
 use Livewire\Component;
 
-class ProductRow extends Component
+class OrderRow extends Component
 {
     use ProductCartMethods;
     
     public Product $product;
+    public int $index;
 
     public function render()
     {
-        return view('livewire.affiliate.product-row');
+        return view('livewire.affiliate.order-row');
     }
 }

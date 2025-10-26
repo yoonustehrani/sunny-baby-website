@@ -17,6 +17,6 @@ class CreateOrder extends Component
     {
         return view('livewire.affiliate.create-order', $this->getData(productsWith: ['variants' => function($q) {
             $q->with('images', 'attribute_options');
-        }, 'images']));
+        }, 'images']))->title(__('New Order'));
     }
 }

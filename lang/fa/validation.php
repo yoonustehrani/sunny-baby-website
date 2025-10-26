@@ -201,7 +201,8 @@ return [
         'cityId' => 'شهر',
         'zip' => 'کد پستی',
         'carrier_class' => 'شیوه ارسال محصول',
-        'mutable_order_id' => 'انتخاب سبد خرید قبلی'
+        'mutable_order_id' => 'انتخاب سبد خرید قبلی',
+        'address' => 'آدرس'
     ],
 
 ];

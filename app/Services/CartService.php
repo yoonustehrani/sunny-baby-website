@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Enums\ProductType;
+use App\Exceptions\ProductStockUnavailable;
 use App\Models\Product;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
@@ -11,32 +13,29 @@ use Livewire\Livewire;
 
 class CartService
 {
-    protected string $session_key;
-    protected bool $is_affiliate;
     public Collection $items;
     public array $meta;
     /**
      * Create a new class instance.
      */
     public function __construct(
-        array $cart,
-        bool $is_affiliate = false
+        protected string $session_key,
+        protected bool $is_affiliate
     )
     {
-        $this->is_affiliate = $is_affiliate;
+        $cart = Session::get($session_key, [
+            'items' => [],
+            'meta' => []
+        ]);
         $this->items = collect($cart['items']);
         $this->meta = $cart['meta'];
     }
 
     public static function getInstance(bool $is_affiliate = false): static
     {
-        $key = $is_affiliate ? 'affiliate-cart' : 'user-cart';
         return new self(
-            cart: Session::get($key, [
-                'items' => [],
-                'meta' => []
-            ]),
-            is_affiliate: false
+            session_key: $is_affiliate ? 'affiliate-cart' : 'user-cart',
+            is_affiliate: $is_affiliate
         );
     }
 
@@ -74,6 +73,10 @@ class CartService
 
     public function update(int|string $productId, int $quantity): self
     {
+        $product = Product::query()->where('type', '!=', ProductType::VARIABLE)->findOrFail($productId);
+        if ($product->available_stock < $quantity) {
+            throw new ProductStockUnavailable($product);
+        }
         if ($quantity == 0) {
             $this->remove($productId);
         } else $this->items->put($productId, $quantity);

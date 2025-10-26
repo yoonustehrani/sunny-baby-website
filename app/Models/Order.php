@@ -14,7 +14,7 @@ class Order extends Model
     /** @use HasFactory<\Database\Factories\OrderFactory> */
     use HasFactory;
 
-    protected $fillable = ['subtotal', 'total_discount', 'total', 'status', 'mutable_until'];
+    protected $fillable = ['subtotal', 'total_discount', 'total', 'status', 'mutable_until', 'type'];
     protected $appends = ['is_mutable'];
 
     public function casts(): array

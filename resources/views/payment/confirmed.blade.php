@@ -19,7 +19,7 @@
                     <div class="tf-page-cart-checkout">
                         <div class="d-flex align-items-center justify-content-between mb_15">
                             <div class="fs-18">تاریخ</div>
-                            <p>{{ $transaction->paid_at->format('Y-m-d H:i:s') }}</p>
+                            <p>{{ jalali($transaction->paid_at) }}<br>{{ $transaction->paid_at->format('H:i:s') }}</p>
                         </div>
                         <div class="d-flex align-items-center justify-content-between mb_15">
                             <div class="fs-18">روش پرداختی</div>
@@ -31,7 +31,7 @@
                         </div> --}}
                         <div class="d-flex align-items-center justify-content-between mb_15">
                             <div class="fs-18">شماره تلفن</div>
-                            <p>(212) 555-1234</p>
+                            <p>{{ $transaction->user->phone_number }}</p>
                         </div>
                         <div class="d-flex align-items-center justify-content-between mb_24">
                             <div class="fs-22 fw-6">مبلغ</div>

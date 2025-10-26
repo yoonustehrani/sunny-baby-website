@@ -43,5 +43,6 @@
     </div>
     {{-- End - Page Wrapper --}}
     @livewireScripts
+    @vite(['resources/js/affiliate.js'])
 </body>
 </html>
