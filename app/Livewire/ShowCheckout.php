@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Enums\CheckoutType;
 use App\Enums\DiscountRuleType;
 use App\Enums\OrderStatus;
+use App\Enums\OrderType;
 use App\Facades\Cart;
 use App\Livewire\Forms\CheckoutForm;
 use App\Livewire\Pages\ShowCart;
@@ -144,23 +145,23 @@ class ShowCheckout extends Component
     public function submit()
     {
         $this->form->validate();
-        $cart_items = Cart::toArray()['items'];
-        $products = Product::whereIn('id', array_keys($cart_items))->lockForUpdate()->get();
-        foreach ($products as $product) {
-            if ($product->available_stock < $cart_items[$product->getKey()]) {
-                throw new Exception($product->id . " stock insufficient");
-            }
-            $product->increment('reserved', $cart_items[$product->getKey()]);
-        }
-        
-        $sums = Cart::sums();
-        if (($this->form->finalize && $this->form->checkout_type == CheckoutType::ADD_TO_PREVIOUS_ORDER) || $this->form->checkout_type == CheckoutType::DEFAULT) {
-            $shipping_total = get_carrier($this->form->carrier_class, $this->form->getAddressForShipment())->calculate();
-            $sums['total'] += $shipping_total;
-        }
-        
         try {
             DB::beginTransaction();
+            $cart_items = Cart::toArray()['items'];
+            $products = Product::whereIn('id', array_keys($cart_items))->lockForUpdate()->get();
+            foreach ($products as $product) {
+                if ($product->available_stock < $cart_items[$product->getKey()]) {
+                    Cart::remove($product->getKey());
+                    throw new Exception($product->id . " stock insufficient");
+                }
+                $product->increment('reserved', $cart_items[$product->getKey()]);
+            }
+            
+            $sums = Cart::sums();
+            if (($this->form->finalize && $this->form->checkout_type == CheckoutType::ADD_TO_PREVIOUS_ORDER) || $this->form->checkout_type == CheckoutType::DEFAULT) {
+                $shipping_total = get_carrier($this->form->carrier_class, $this->form->getAddressForShipment())->calculate();
+                $sums['total'] += $shipping_total;
+            }
             $user = Auth::user();
             if ($user == null) {
                 $user = User::firstOrCreate(
@@ -182,7 +183,8 @@ class ShowCheckout extends Component
                     array_merge(
                         $sums,
                         ['status' => OrderStatus::PENDING], 
-                        ['mutable_until' => $this->form->checkout_type == CheckoutType::MUTABLE_ORDER ? now()->addMonth() : null]
+                        ['mutable_until' => $this->form->checkout_type == CheckoutType::MUTABLE_ORDER ? now()->addMonth() : null],
+                        ['type' => OrderType::CUSTOMER_ORDER]
                     )
                 ));
             }
@@ -204,7 +206,11 @@ class ShowCheckout extends Component
             DB::commit();
             $this->form->reset();
             Cart::clear();
-            $this->redirectRoute('orders.pay', ['order' => $order->getKey(), 'gateway' => 'zp']);
+            try {
+                $this->redirectRoute('orders.pay', ['order' => $order->getKey(), 'gateway' => 'zp']);
+            } catch (\Throwable $th) {
+                $this->redirectRoute('user-account.orders');
+            }
         } catch (\Throwable $th) {
             DB::rollBack();
             throw $th;

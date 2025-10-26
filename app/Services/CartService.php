@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Enums\ProductType;
+use App\Exceptions\ProductStockUnavailable;
 use App\Models\Product;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
@@ -11,27 +13,29 @@ use Livewire\Livewire;
 
 class CartService
 {
-    public const SESSION_KEY = 'user-cart';
     public Collection $items;
     public array $meta;
     /**
      * Create a new class instance.
      */
     public function __construct(
-        array $cart,
+        protected string $session_key,
+        protected bool $is_affiliate
     )
     {
+        $cart = Session::get($session_key, [
+            'items' => [],
+            'meta' => []
+        ]);
         $this->items = collect($cart['items']);
         $this->meta = $cart['meta'];
     }
 
-    public static function getInstance(): static
+    public static function getInstance(bool $is_affiliate = false): static
     {
         return new self(
-            Session::get(self::SESSION_KEY, [
-                'items' => [],
-                'meta' => []
-            ])
+            session_key: $is_affiliate ? 'affiliate-cart' : 'user-cart',
+            is_affiliate: $is_affiliate
         );
     }
 
@@ -67,6 +71,10 @@ class CartService
 
     public function update(int|string $productId, int $quantity): self
     {
+        $product = Product::query()->where('type', '!=', ProductType::VARIABLE)->findOrFail($productId);
+        if ($product->available_stock < $quantity) {
+            throw new ProductStockUnavailable($product);
+        }
         if ($quantity == 0) {
             $this->remove($productId);
         } else $this->items->put($productId, $quantity);
@@ -99,12 +107,12 @@ class CartService
 
     public function clear(): void
     {
-        Session::remove(self::SESSION_KEY);
+        Session::remove($this->session_key);
     }
 
     protected function saveCartToSession(): self
     {
-        Session::put(self::SESSION_KEY, $this->toArray());
+        Session::put($this->session_key, $this->toArray());
         return $this;
     }
 
@@ -116,8 +124,12 @@ class CartService
     public function sums()
     {
         $all = $this->all();
-        $subtotal = $all->sum(fn($item) => $item['quantity'] * $item['product']->price);
-        $total_discount = $all->filter(fn($item) => !is_null($item['product']->discount))->sum(fn($item) => $item['quantity'] * $item['product']->discount_amount);
+        $price_key = $this->is_affiliate ? 'affiliate_price' : 'price';
+        $subtotal = $all->sum(fn($item) => $item['quantity'] * $item['product']->{$price_key});
+        $total_discount = 0;
+        if (! $this->is_affiliate) {
+            $total_discount = $all->filter(fn($item) => !is_null($item['product']->discount))->sum(fn($item) => $item['quantity'] * $item['product']->discount_amount);
+        }
         $total = $subtotal - $total_discount;
         return compact(
             'subtotal',

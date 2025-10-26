@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\OrderStatus;
+use App\Enums\OrderType;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,14 +14,15 @@ class Order extends Model
     /** @use HasFactory<\Database\Factories\OrderFactory> */
     use HasFactory;
 
-    protected $fillable = ['subtotal', 'total_discount', 'total', 'status', 'mutable_until'];
+    protected $fillable = ['subtotal', 'total_discount', 'total', 'status', 'mutable_until', 'type'];
     protected $appends = ['is_mutable'];
 
     public function casts(): array
     {
         return [
             'status' => OrderStatus::class,
-            'mutable_until' => 'datetime'
+            'mutable_until' => 'datetime',
+            'type' => OrderType::class
         ];
     }
 

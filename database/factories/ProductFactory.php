@@ -28,6 +28,7 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
+        $price = $this->random_price();
         return [
             'title' => fake()->words(
                 random_int(1, 5), true
@@ -35,11 +36,12 @@ class ProductFactory extends Factory
             'type' => ProductType::SIMPLE,
             'slug' => fake()->unique()->slug(),
             'description' => fake()->paragraph(),
-            'price' => $this->random_price(),
+            'price' => $price,
             'stock' => random_int(0, 20),
             'reserved' => 0,
             'weight' => random_int(1, 20) * 100,
-            'is_active' => true
+            'is_active' => true,
+            'affiliate_price' => $price * 0.9
         ];
     }
     public function variable(): Factory
@@ -47,6 +49,7 @@ class ProductFactory extends Factory
         return $this->state(fn(array $state) => [
             'type' => ProductType::VARIABLE,
             'price' => null,
+            'affiliate_price' => null,
             'reserved' => 0,
             'weight' => null,
         ]);

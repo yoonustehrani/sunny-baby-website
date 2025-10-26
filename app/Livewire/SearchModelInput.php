@@ -2,7 +2,6 @@
 
 namespace App\Livewire;
 
-use App\Livewire\Forms\CheckoutForm;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;

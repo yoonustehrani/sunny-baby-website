@@ -43,7 +43,7 @@
         <div class="blog-sidebar-main p-0">
             <div 
                 x-bind:class="open ? 'tw:translate-x-0' : 'tw:-translate-x-full tw:md:translate-x-0'"
-                class="tw:fixed tw:h-full tw:overflow-y-auto tw:md:static tw:inset-y-0 tw:left-0 tw:z-[99999] tw:w-70 tw:bg-white tw:shadow-lg tw:transform tw:transition-transform tw:duration-300 tw:md:translate-x-0 tw:md:shadow-none tw:md:w-fit tw:p-4 tw:rounded-r-xl"
+                class="tw:fixed tw:h-full tw:overflow-y-auto tw:md:static tw:inset-y-0 tw:left-0 tw:z-[99999] tw:md:z-20 tw:w-70 tw:bg-white tw:shadow-lg tw:transform tw:transition-transform tw:duration-300 tw:md:translate-x-0 tw:md:shadow-none tw:md:w-fit tw:p-4 tw:rounded-r-xl"
             {{-- class=" filters-active tw:hidden tw:md:flex flex-shrink-0" --}}
             >
                 <div class="tw:flex tw:md:hidden tw:items-center tw:justify-between tw:px-2 tw:py-4 tw:border-b-2 tw:border-gray-100 tw:mb-4">
