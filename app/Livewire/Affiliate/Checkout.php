@@ -72,7 +72,7 @@ class Checkout extends Component
             foreach ($products as $product) {
                 if ($product->available_stock < $cart_items[$product->getKey()]) {
                     $cart->remove($product->getKey());
-                    throw new Exception($product->id . " stock insufficient");
+                    throw new Exception("محصول با شناسه ". $product->id . " موجودی کافی ندارد. از سبد شما حذف شد.");
                 }
                 $product->increment('reserved', $cart_items[$product->getKey()]);
             }

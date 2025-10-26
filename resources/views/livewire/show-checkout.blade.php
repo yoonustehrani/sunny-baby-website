@@ -128,32 +128,46 @@
                                         </div>
                                     </div>
                                 </label>
-                                @if ($form->checkout_type == \App\Enums\CheckoutType::ADD_TO_PREVIOUS_ORDER)
-                                    <p class="tw:font-bold">انتخاب سبد خرید قبلی</p>
-                                    <x-error name='form.mutable_order_id'/>
-                                    <ul class="tw:flex tw:flex-col tw:gap-2 tw:bg-white tw:shadow-md tw:rounded-lg tw:p-3">
-                                        @foreach ($suspended_orders as $order)
-                                            <label for="order-p-{{ $order->getKey() }}" class="tw:cursor-pointer tw:flex tw:gap-2 tw:items-center">
-                                                <div class="tw:bg-white tw:dark:bg-gray-100 tw:rounded-full tw:w-4 tw:h-4 tw:flex tw:flex-shrink-0 tw:justify-center tw:items-center tw:relative">
-                                                    <input @disabled(! isset($user)) id="order-p-{{ $order->getKey() }}" wire:model.live='form.mutable_order_id' value='{{ $order->getKey() }}' type="radio" class="checkbox tw:appearance-none tw:focus:opacity-100 tw:focus:ring-2 tw:focus:ring-offset-2 tw:focus:ring-indigo-700 tw:focus:outline-none tw:border tw:rounded-full tw:border-gray-400 tw:absolute tw:cursor-pointer tw:w-full tw:h-full tw:checked:border-none" />
-                                                    <div class="check-icon tw:hidden tw:border-4 tw:border-indigo-700 tw:rounded-full tw:w-full tw:h-full tw:z-1"></div>
-                                                </div>
-                                                <span class="tw:font-normal">سفارش به شناسه {{ $order->id }}</span>
-                                            </label>
-                                            @if (! $loop->last)
-                                                <hr>
-                                            @endif
-                                        @endforeach
-                                    </ul>
-                                    <div class="tw:flex tw:flex-col tw:gap-2 tw:rounded-lg tw:p-3">
-                                        <label for="finalize" class="tw:font-normal tw:flex tw:items-center tw:gap-2">
-                                            <input wire:model.live='form.finalize' id="finalize" type="checkbox" class="tf-check">
-                                            نهایی کردن سبد خرید و ارسال مرسولات
-                                        </label>
-                                        <p>با انتخاب این گزینه باید شیوه ارسال محصول را انتخاب کنید و ما پس از بررسی، کل محصولات خریداری شده را به آدرس شما ارسال می کنیم.</p>
-                                    </div>
-                                @endif
                             @endauth
+                            @guest
+                                <div wire:click='$dispatch("semi-protected-route")' for="{{ str_replace('\\', '-', \App\Enums\CheckoutType::ADD_TO_PREVIOUS_ORDER->name) }}" class="tw:flex tw:cursor-pointer tw:items-center tw:justify-between tw:p-4 tw:border tw:rounded-md tw:border-black/10 tw:shadow-sm">
+                                    <div class="tw:flex tw:gap-4 tw:items-center">
+                                        <div class="tw:bg-white tw:dark:bg-gray-100 tw:rounded-full tw:w-4 tw:h-4 tw:flex tw:flex-shrink-0 tw:justify-center tw:items-center tw:relative">
+                                            <input @disabled(! isset($user)) id="{{ str_replace('\\', '-', \App\Enums\CheckoutType::ADD_TO_PREVIOUS_ORDER->name) }}" wire:model.live='form.checkout_type' value='{{ \App\Enums\CheckoutType::ADD_TO_PREVIOUS_ORDER->value }}' type="radio" class="checkbox tw:appearance-none tw:focus:opacity-100 tw:focus:ring-2 tw:focus:ring-offset-2 tw:focus:ring-indigo-700 tw:focus:outline-none tw:border tw:rounded-full tw:border-gray-400 tw:absolute tw:cursor-pointer tw:w-full tw:h-full tw:checked:border-none" />
+                                            <div class="check-icon tw:hidden tw:border-4 tw:border-indigo-700 tw:rounded-full tw:w-full tw:h-full tw:z-1"></div>
+                                        </div>
+                                        <div class="tw:flex tw:flex-col tw:gap-2">
+                                            <h4 class="tw:text-base tw:font-bold">ثبت سفارش به روش افزودن به سبد خرید قبلی</h4>
+                                            <p class="tw:text-xs tw:font-normal">تنها اگر قبلا از روش تشکیل سبد خرید استفاده کرده اید می توانید با این گزینه به سفارش قبلی خود سفارش جاری را اضافه کنید.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endguest
+                            @if ($form->checkout_type == \App\Enums\CheckoutType::ADD_TO_PREVIOUS_ORDER)
+                                <p class="tw:font-bold">انتخاب سبد خرید قبلی</p>
+                                <x-error name='form.mutable_order_id'/>
+                                <ul class="tw:flex tw:flex-col tw:gap-2 tw:bg-white tw:shadow-md tw:rounded-lg tw:p-3">
+                                    @foreach ($suspended_orders as $order)
+                                        <label for="order-p-{{ $order->getKey() }}" class="tw:cursor-pointer tw:flex tw:gap-2 tw:items-center">
+                                            <div class="tw:bg-white tw:dark:bg-gray-100 tw:rounded-full tw:w-4 tw:h-4 tw:flex tw:flex-shrink-0 tw:justify-center tw:items-center tw:relative">
+                                                <input @disabled(! isset($user)) id="order-p-{{ $order->getKey() }}" wire:model.live='form.mutable_order_id' value='{{ $order->getKey() }}' type="radio" class="checkbox tw:appearance-none tw:focus:opacity-100 tw:focus:ring-2 tw:focus:ring-offset-2 tw:focus:ring-indigo-700 tw:focus:outline-none tw:border tw:rounded-full tw:border-gray-400 tw:absolute tw:cursor-pointer tw:w-full tw:h-full tw:checked:border-none" />
+                                                <div class="check-icon tw:hidden tw:border-4 tw:border-indigo-700 tw:rounded-full tw:w-full tw:h-full tw:z-1"></div>
+                                            </div>
+                                            <span class="tw:font-normal">سفارش به شناسه {{ $order->id }}</span>
+                                        </label>
+                                        @if (! $loop->last)
+                                            <hr>
+                                        @endif
+                                    @endforeach
+                                </ul>
+                                <div class="tw:flex tw:flex-col tw:gap-2 tw:rounded-lg tw:p-3">
+                                    <label for="finalize" class="tw:font-normal tw:flex tw:items-center tw:gap-2">
+                                        <input wire:model.live='form.finalize' id="finalize" type="checkbox" class="tf-check">
+                                        نهایی کردن سبد خرید و ارسال مرسولات
+                                    </label>
+                                    <p>با انتخاب این گزینه باید شیوه ارسال محصول را انتخاب کنید و ما پس از بررسی، کل محصولات خریداری شده را به آدرس شما ارسال می کنیم.</p>
+                                </div>
+                            @endif
                         </div>
                         <hr class="tw:border-gray-400/80">
                         @if (
