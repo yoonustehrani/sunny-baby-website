@@ -52,8 +52,8 @@ Route::prefix('affiliate')->name('affiliate.')->group(function() {
     Route::middleware([CheckIfUserRoleIsAffiliate::class])->group(function() {
         Route::get('/', Affiliate\Dashboard::class)->name('dashboard');
         Route::get('orders', Affiliate\ListOrders::class)->name('orders.index');
-        Route::get('orders/{order}', Affiliate\ShowOrder::class)->name('orders.show');
         Route::get('orders/create', Affiliate\CreateOrder::class)->name('orders.create');
+        Route::get('orders/{order}', Affiliate\ShowOrder::class)->name('orders.show');
         Route::get('orders/checkout', Affiliate\Checkout::class)->name('orders.checkout');
         Route::get('financials', Affiliate\Financials::class)->name('financials');
     });
