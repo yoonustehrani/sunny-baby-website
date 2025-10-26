@@ -28,7 +28,8 @@
                     </button>
                     {{-- displayFilters = true --}}
                     {{-- @click.outside="displayFilters = false" --}}
-                    <div  x-bind:class="displayFilters ? 'translate-x-0 md:-translate-x-full' : '-translate-x-full hidden'" class="fixed h-full overflow-y-auto inset-y-0 right-0 z-[99999] w-70 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-300 p-4 rounded-r-xl dark:text-white/90">
+                    {{-- x-bind:class="displayFilters ? 'translate-x-0 md:-translate-x-full' : '-translate-x-full'" --}}
+                    <div x-show="displayFilters" @click.outside="displayFilters = false"  class="absolute h-full overflow-y-auto inset-y-0 right-0 z-[99999] w-70 md:w-96 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-300 p-4 rounded-r-xl dark:text-white/90">
                         <div class="flex items-center justify-between px-2 py-4 border-b-2 border-gray-100 dark:border-gray-700 mb-4">
                             <div class="filter-icon">
                                 <span class="icon icon-filter"></span>
