@@ -21,10 +21,12 @@ class TransactionController extends Controller
             'zp' => ZarinpalGateway::class,
         };
         if ($transaction->status == TransactionStatus::PAID) {
-            return view('payment.confirmed', compact('transaction'));
+            // return view('payment.confirmed', compact('transaction'));
+            $validated = true;
+        } else {
+            $validated = app($gateway, ['transaction' => $transaction])->validateTransaction();
+            $transaction->refresh();
         }
-        $validated = app($gateway, ['transaction' => $transaction])->validateTransaction();
-        $transaction->refresh();
         $transaction->load('payable', 'user');
         /**
          * @var \App\Models\Order $order
@@ -48,7 +50,7 @@ class TransactionController extends Controller
                         $transaction->user->changeCredit(-1 * $transaction->amount, $transaction);
                     });
                 } catch (\Throwable $th) {
-                    $transaction->update(['status' => TransactionStatus::PENDING]);
+                    // $transaction->update(['status' => TransactionStatus::PENDING]);
                     throw $th;
                 }
             }

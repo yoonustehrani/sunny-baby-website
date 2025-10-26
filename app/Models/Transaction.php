@@ -16,7 +16,8 @@ class Transaction extends Model
     public function casts(): array
     {
         return [
-            'paid_at' => 'datetime'
+            'paid_at' => 'datetime',
+            'status' => TransactionStatus::class
         ];
     }
 
