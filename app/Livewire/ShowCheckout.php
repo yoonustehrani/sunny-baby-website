@@ -46,10 +46,14 @@ class ShowCheckout extends Component
         if ($this->form->note == '') {
             $this->form->note = Cart::toArray()['meta']['note'] ?? '';
         }
-        if (! Auth::check()) {
-            $this->dispatch('semi-protected-route');
-        }
     }
+
+    // public function updatedCheckoutType()
+    // {
+    //     if (! Auth::check()) {
+    //         $this->dispatch();
+    //     }
+    // }
 
     public function applyDiscountCode()
     {
@@ -145,6 +149,9 @@ class ShowCheckout extends Component
     public function submit()
     {
         $this->form->validate();
+        if (! Auth::check() && $this->form->checkout_type == CheckoutType::ADD_TO_PREVIOUS_ORDER) {
+            throw new Exception("برای افزودن به سبد خرید قبلی باید وارد شده باشید");
+        }
         try {
             DB::beginTransaction();
             $cart_items = Cart::toArray()['items'];
@@ -152,7 +159,7 @@ class ShowCheckout extends Component
             foreach ($products as $product) {
                 if ($product->available_stock < $cart_items[$product->getKey()]) {
                     Cart::remove($product->getKey());
-                    throw new Exception($product->id . " stock insufficient");
+                    throw new Exception("محصول با شناسه ". $product->id . " موجودی کافی ندارد. از سبد شما حذف شد.");
                 }
                 $product->increment('reserved', $cart_items[$product->getKey()]);
             }
