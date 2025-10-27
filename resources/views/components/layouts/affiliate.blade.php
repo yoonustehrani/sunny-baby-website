@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="fa">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport"
@@ -41,7 +40,6 @@
             </main>
         </div>
     </div>
-    {{-- End - Page Wrapper --}}
     @livewireScripts
     @vite(['resources/js/affiliate.js'])
 </body>
