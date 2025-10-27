@@ -1,18 +1,16 @@
-<aside :class="sidebarToggle ? 'translate-x-0 lg:w-[90px]' : '-translate-x-full'"
-    class="sidebar fixed left-0 top-0 z-9999 flex h-screen w-[290px] flex-col overflow-y-hidden border-l border-gray-200 bg-white px-5 dark:border-gray-800 dark:bg-gray-900 lg:static lg:translate-x-0">
-    <!-- SIDEBAR HEADER -->
+<aside :class="sidebarToggle ? 'translate-x-0 lg:w-[90px]' : 'translate-x-full'"
+    class="sidebar fixed right-0 top-0 z-9999 flex h-screen w-[290px] flex-col overflow-y-hidden border-l border-gray-200 bg-white px-5 dark:border-gray-800 dark:bg-gray-900 lg:static lg:translate-x-0">
     <div :class="sidebarToggle ? 'justify-center' : 'justify-between'"
         class="flex items-center gap-2 pt-8 sidebar-header pb-7">
-        <a href="index.html">
+        <a href="{{ route('affiliate.dashboard') }}">
             <span class="logo" :class="sidebarToggle ? 'hidden' : ''">
                 <img class="h-20 dark:hidden" src="{{ asset('images/logo/sunny-baby-logo.webp') }}" alt="Logo" />
                 <img class="h-20 hidden dark:block" src="{{ asset('images/logo/sunny-baby-logo.webp') }}" alt="Logo" />
             </span>
-            <img class="logo-icon" :class="sidebarToggle ? 'lg:block' : 'hidden'"
+            <img class="logo-icon h-16 mt-16" :class="sidebarToggle ? 'lg:block' : 'hidden'"
                 src="{{ asset('images/logo/sunny-baby-logo.webp') }}" alt="Logo" />
         </a>
     </div>
-    <!-- SIDEBAR HEADER -->
     <div class="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
         <!-- Sidebar Menu -->
         <nav x-data="{selected: $persist('Dashboard')}">

@@ -34,7 +34,7 @@
             </button>
             <!-- Hamburger Toggle BTN -->
 
-            <a href="index.html" class="lg:hidden">
+            <a href="{{ route('affiliate.dashboard') }}" class="lg:hidden">
                 <img class="h-12 dark:hidden" src="{{ asset('images/logo/sunny-baby-logo.webp') }}" alt="Logo" />
                 <img class="h-12 hidden dark:block" src="{{ asset('images/logo/sunny-baby-logo.webp') }}" alt="Logo" />
             </a>
