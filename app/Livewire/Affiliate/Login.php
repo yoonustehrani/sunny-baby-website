@@ -28,7 +28,7 @@ class Login extends Component
             return;
         }
         Auth::login($user);
-        $this->redirectAction(Dashboard::class, navigate: true);
+        $this->redirectAction(Dashboard::class, navigate: false);
     }
 
     public function render()
