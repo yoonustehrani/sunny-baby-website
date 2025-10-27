@@ -20,11 +20,19 @@ class AppServiceProvider extends ServiceProvider
         }
         if ($this->app->environment('production')) {
             // Livewire::setUpdateRoute(function ($handle) {
+<<<<<<< Updated upstream
             //     $path = config('app.path').'/livewire/update';
             //     return Route::post($path, $handle)->middleware('web');
             // });
             // Livewire::setScriptRoute(function ($handle) {
             //     $path = config('app.path').'/livewire/livewire.js';
+=======
+            //     $path = config('app.url').'/livewire/update';
+            //     return Route::post($path, $handle)->middleware('web');
+            // });
+            // Livewire::setScriptRoute(function ($handle) {
+            //     $path = config('app.url').'/livewire/livewire.js';
+>>>>>>> Stashed changes
             //     return Route::get($path, $handle)->middleware('web');
             // });
             URL::forceRootUrl(config('app.url'));

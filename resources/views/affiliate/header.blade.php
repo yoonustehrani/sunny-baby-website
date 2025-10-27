@@ -142,8 +142,8 @@
                                 <a class="flex gap-3 rounded-lg border-b border-gray-100 p-3 px-4.5 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5"
                                     href="#">
                                     <span class="relative z-1 block h-10 w-full max-w-10 rounded-full">
-                                        <img src="./images/user/user-02.jpg" alt="User"
-                                            class="overflow-hidden rounded-full" />
+                                        {{-- <img src="./images/user/user-02.jpg" alt="User"
+                                            class="overflow-hidden rounded-full" /> --}}
                                         <span
                                             class="bg-success-500 absolute right-0 bottom-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px] border-white dark:border-gray-900"></span>
                                     </span>
