@@ -199,10 +199,16 @@ return [
         'fullname' => 'نام و نام خانوادگی',
         'provinceId' => 'استان',
         'cityId' => 'شهر',
+        'province_id' => 'استان',
+        'city_id' => 'شهر',
         'zip' => 'کد پستی',
         'carrier_class' => 'شیوه ارسال محصول',
         'mutable_order_id' => 'انتخاب سبد خرید قبلی',
-        'address' => 'آدرس'
+        'address' => 'آدرس',
+        'image' => 'تصویر',
+        'brand_name' => 'نام برند',
+        'support_phone_number' => 'شماره تلفن پشتیبانی',
+        'image' => 'تصویر'
     ],
 
 ];

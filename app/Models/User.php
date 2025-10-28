@@ -58,7 +58,7 @@ class User extends Authenticatable
 
     public function addresses()
     {
-        return $this->hasMany(Address::class);
+        return $this->morphMany(Address::class, 'relatable');
     }
 
     public function transactions()
@@ -79,6 +79,11 @@ class User extends Authenticatable
     public function credit_logs()
     {
         return $this->hasMany(UserCreditLog::class);
+    }
+
+    public function business()
+    {
+        return $this->hasOne(AffiliateBusiness::class);
     }
 
     public function changeCredit(int $amount, ?Transaction $transaction = null): void

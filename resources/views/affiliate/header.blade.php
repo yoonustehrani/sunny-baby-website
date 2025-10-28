@@ -185,7 +185,7 @@
                 <a class="flex items-center text-gray-700 dark:text-gray-400" href="#"
                     @click.prevent="dropdownOpen = ! dropdownOpen">
                     <span class="ml-3 h-11 w-11 overflow-hidden rounded-full">
-                        <img src="{{ asset('images/user-icon.png') }}" alt="User" />
+                        <img src="{{ asset($user->business?->logo->url ?: 'images/user-icon.png') }}" alt="User" />
                     </span>
 
                     <span class="text-theme-sm mr-1 block font-medium"> {{ $user->name }} </span>
@@ -212,7 +212,7 @@
 
                     <ul class="flex flex-col gap-1 border-b border-gray-200 pt-4 pb-3 dark:border-gray-800">
                         <li>
-                            <a href="profile.html"
+                            <a href="{{ route('affiliate.profile') }}"
                                 class="group text-theme-sm flex items-center gap-3 rounded-lg px-3 py-2 font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300">
                                 <svg class="fill-gray-500 group-hover:fill-gray-700 dark:fill-gray-400 dark:group-hover:fill-gray-300"
                                     width="24" height="24" viewBox="0 0 24 24" fill="none"
