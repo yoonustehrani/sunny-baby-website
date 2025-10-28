@@ -41,7 +41,10 @@ class ProductFactory extends Factory
             'reserved' => 0,
             'weight' => random_int(1, 20) * 100,
             'is_active' => true,
-            'affiliate_price' => $price * 0.9
+            'affiliate_price' => $price * 0.9,
+            'sku' => fake()->unique()->randomElement([
+                strtoupper(fake()->randomLetter()) . fake()->randomNumber(5)
+            ])
         ];
     }
     public function variable(): Factory
@@ -60,7 +63,8 @@ class ProductFactory extends Factory
             'type' => ProductType::VARIANT,
             'title' => null,
             'description' => null,
-            'slug' => null
+            'slug' => null,
+            'sku' => null
         ]);
     }
     public function withDiscount()

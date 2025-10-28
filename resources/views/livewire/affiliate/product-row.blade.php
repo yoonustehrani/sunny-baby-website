@@ -2,7 +2,14 @@
     <td class="px-5 py-4 sm:px-6">
         <div class="flex items-center">
             <p class="text-gray-500 text-theme-sm dark:text-gray-400">
-                #{{ $product->getKey() }}
+                {{ $index + 1 }}
+            </p>
+        </div>
+    </td>
+    <td class="px-5 py-4 sm:px-6">
+        <div class="flex items-center">
+            <p class="text-gray-500 text-theme-sm dark:text-gray-400">
+                {{ $product->sku ?: 'تعریف نشده' }}
             </p>
         </div>
     </td>
@@ -10,7 +17,7 @@
         <div class="flex items-center">
             <div class="flex items-center gap-3">
                 @if ($product->main_image)
-                    <div class="w-10 h-10 overflow-hidden rounded-full">
+                    <div class="w-10 h-10 overflow-hidden rounded-md">
                         <img src="{{ asset($product->main_image->thumbnail_url) }}" alt="{{ $product->title ?? '' }}" />
                     </div>
                 @endif

@@ -57,11 +57,14 @@ class ProductSeeder extends Seeder
                 $vp->variants()->saveMany(Product::factory()->count(rand(2, 3))->variation()->make());
                 $vp->attribute_options()->attach($sizes->take($vp->variants->count())->pluck('id'), ['attribute_id' => $sizeAttribute->id]);
                 $vp->attribute_options()->attach($colors->take($vp->variants->count())->pluck('id'), ['attribute_id' => $colorAttribute->id]);
-                $vp->variants->each(function(Product $p, int $i) use(&$sizes, &$colors) {
+                $vp->variants->each(function(Product $p, int $i) use(&$sizes, &$colors, &$vp) {
                     $p->attribute_options()->attach($sizes[$i]->id, ['attribute_id' => $sizes[$i]['attribute_id']]);
                     $p->attribute_options()->attach($colors[$i]->id, ['attribute_id' => $colors[$i]['attribute_id']]);
+                    $p->sku = $vp->sku . '-' . $p->getKey();
+                    $p->save();
                 });
                 $vp->stock = $vp->variants->sum(fn($x) => $x->stock);
+                
                 $vp->save();
             }
             $products->push(...$variable_products);

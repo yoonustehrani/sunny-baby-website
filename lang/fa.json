@@ -152,5 +152,14 @@
     "Row": "ردیف",
     "Checkout": "تسویه حساب",
     "New Address": "آدرس جدید",
-    "Total Paid": "پرداخت شده"
+    "Total Paid": "پرداخت شده",
+    "SKU": "کد محصول",
+    "Profile": "پروفایل",
+    "Edit": "ویرایش",
+    "Edit Address": "ویرایش آدرس",
+    "Close": "خروج",
+    "Save Changes": "ذخیره تغییرات",
+    "Brand Details": "اطلاعات برند",
+    "Logo": "لوگو",
+    "Brand Name": "نام برند"
 }

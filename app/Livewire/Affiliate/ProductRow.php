@@ -13,6 +13,8 @@ class ProductRow extends Component
     
     public Product $product;
 
+    public int $index;
+
     public function render()
     {
         return view('livewire.affiliate.product-row');

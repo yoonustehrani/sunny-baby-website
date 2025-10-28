@@ -51,6 +51,7 @@ Route::prefix('affiliate')->name('affiliate.')->group(function() {
     Route::get('/login', Affiliate\Login::class)->name('login')->middleware(RedirectToAffiliateDashboardIfAuthenticated::class);
     Route::middleware([CheckIfUserRoleIsAffiliate::class])->group(function() {
         Route::get('/', Affiliate\Dashboard::class)->name('dashboard');
+        Route::get('/profile', Affiliate\Profile::class)->name('profile');
         Route::get('orders', Affiliate\ListOrders::class)->name('orders.index');
         Route::get('orders/create', Affiliate\CreateOrder::class)->name('orders.create');
         Route::get('orders/checkout', Affiliate\Checkout::class)->name('orders.checkout');

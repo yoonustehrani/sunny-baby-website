@@ -142,7 +142,14 @@
                                 <th class="px-5 py-3 sm:px-6">
                                     <div class="flex items-center">
                                         <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
-                                            @lang('ID')
+                                            @lang('Row')
+                                        </p>
+                                    </div>
+                                </th>
+                                <th class="px-5 py-3 sm:px-6">
+                                    <div class="flex items-center">
+                                        <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
+                                            @lang('SKU')
                                         </p>
                                     </div>
                                 </th>
@@ -180,10 +187,10 @@
                         <!-- table body start -->
                         <tbody x-data='{displayVariable: null}' class="divide-y divide-gray-100 dark:divide-gray-800">
                             @foreach ($products as $product)
-                                <livewire:affiliate.product-row :$product key='product-{{ $product->getKey() }}'/>
+                                <livewire:affiliate.product-row :index='$loop->index' :$product key='product-{{ $product->getKey() }}'/>
                                 @if ($product->isVariable())
                                     @foreach ($product->variants as $variant)
-                                        <livewire:affiliate.product-row :product='$variant' key='product-{{ $product->getKey() }}'/>
+                                        <livewire:affiliate.product-row :index='$loop->index' :product='$variant' key='product-sub-{{ $product->getKey() }}'/>
                                     @endforeach
                                 @endif
                             @endforeach
