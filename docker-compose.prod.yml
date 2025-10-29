@@ -51,7 +51,7 @@ services:
     volumes:
       - 'sail-meilisearch:/meili_data'
     networks:
-      - sail
+      - sunny-baby
     healthcheck:
       test:
           - CMD
