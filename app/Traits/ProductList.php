@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 trait ProductList
 {
-    use WithPagination;
+    use WithPagination, SearchProducts;
 
     public $filters = [];
     protected $queryString = ['filters'];
@@ -92,6 +92,10 @@ trait ProductList
 
     protected function baseProductQuery(): Builder
     {
+        $ids = null;
+        if (strlen($this->search) > 2) {
+            $ids = $this->getSearchResults(true);
+        }
         $query = Product::query()
             ->notVariants();
         $query->when($this->onlyInStock, function ($query) {
@@ -101,6 +105,9 @@ trait ProductList
                   // or has any in-stock variant
                   ->orWhereHas('variants', fn($v) => $v->where('stock', '>', 0));
             });
+        })
+        ->when($ids, function($query) use(&$ids) {
+            $query->whereIn('id', $ids);
         })
         ->when($this->cats, function ($query) {
             $query->whereHas('categories', function ($cat) {

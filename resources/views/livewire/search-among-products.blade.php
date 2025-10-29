@@ -8,11 +8,14 @@
         </div>
         <div class="tf-search-sticky">
             <form class="tf-mini-search-frm">
-                <fieldset class="text">
-                    <input type="text" placeholder="@lang('Search')" class="" name="text" tabindex="0" value=""
-                        aria-required="true" required="">
+                <fieldset class="text tw:items-center tw:flex"">
+                    <input type="text" placeholder="تایپ کنید تا جستجو شروع شود ..." class="" name="text" tabindex="0" value=""
+                        aria-required="true" required="" wire:model.live.debounce.300ms='search'>
+                    <span class="tw:absolute tw:left-4 tw:mt-1"><i class="icon-search"></i></span>
                 </fieldset>
-                <button class="" type="submit"><i class="icon-search"></i></button>
+                @if ($search != '' && strlen($search) < 3)
+                    <p class="tw:text-gray-700 tw:py-2 tw:px-1 tw:text-sm">حداقل ۳ حرف وارد کنید</p>
+                @endif
             </form>
         </div>
     </header>
@@ -21,46 +24,34 @@
             <div>
                 <div class="tf-col-content">
                     <div class="tf-search-hidden-inner">
-                        <div class="tf-loop-item">
-                            <div class="image">
-                                <a href="product-detail.html">
-                                    <img src="{{ asset('images/products/photo-1.jpg') }}" alt="">
-                                </a>
-                            </div>
-                            <div class="content">
-                                <a href="product-detail.html">Cotton jersey top</a>
-                                <div class="tf-product-info-price">
-                                    <div class="compare-at-price">$10.00</div>
-                                    <div class="price-on-sale fw-6">$8.00</div>
+                        @if ($products->count() > 0)
+                            @foreach ($products as $product)
+                            <div class="tf-loop-item">
+                                @if ($product->main_image)
+                                <div class="image">
+                                    <a href="{{ route('products.show', ['slug' => $product->slug]) }}">
+                                        <img src="{{ asset($product->main_image->url) }}" alt="">
+                                    </a>
+                                </div>
+                                @endif
+                                <div class="content">
+                                    <a href="{{ route('products.show', ['slug' => $product->slug]) }}">{{ $product->title }}</a>
+                                    @if ($product->isVariable() || !$product->is_discounted)
+                                        <div class="tf-product-info-price">
+                                            <p>{{ $product->price_label }}</p>
+                                        </div>
+                                    @elseif ($product->is_discounted)
+                                        <div class="tf-product-info-price">
+                                            <div class="compare-at-price">{{ $product->price_label }}</div>
+                                            <div class="price-on-sale fw-6">{{ format_price($product->discounted_price) }}</div>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
-                        </div>
-                        <div class="tf-loop-item">
-                            <div class="image">
-                                <a href="product-detail.html">
-                                    <img src="{{ asset('images/products/photo-2.jpg') }}" alt="">
-                                </a>
-                            </div>
-                            <div class="content">
-                                <a href="product-detail.html">Mini crossbody bag</a>
-                                <div class="tf-product-info-price">
-                                    <div class="price fw-6">$18.00</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tf-loop-item">
-                            <div class="image">
-                                <a href="product-detail.html">
-                                    <img src="{{ asset('images/products/photo-3.jpg') }}" alt="">
-                                </a>
-                            </div>
-                            <div class="content">
-                                <a href="product-detail.html">Oversized Printed T-shirt</a>
-                                <div class="tf-product-info-price">
-                                    <div class="price fw-6">$18.00</div>
-                                </div>
-                            </div>
-                        </div>
+                            @endforeach
+                        @else
+                            <p>نتیجه ای برای جستجو یافت نشد.</p>
+                        @endif
                     </div>
                 </div>
             </div>
