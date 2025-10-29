@@ -54,6 +54,16 @@ class DatabaseSeeder extends Seeder
             'role_type' => UserRoleType::AFFILIATE
         ]);
         $af_user->save();
+
+        $admin_user = new User([
+            'name' => 'ادمین',
+            'phone_number' => '09150000567',
+            'email' => 'admin@sunnybaby.ir',
+            'email_verified_at' => now(),
+            'password' => Hash::make('hello1234'),
+            'role_type' => UserRoleType::ADMIN
+        ]);
+        $admin_user->save();
         // User::factory()->create([
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
