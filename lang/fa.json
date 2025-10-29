@@ -161,5 +161,9 @@
     "Save Changes": "ذخیره تغییرات",
     "Brand Details": "اطلاعات برند",
     "Logo": "لوگو",
-    "Brand Name": "نام برند"
+    "Brand Name": "نام برند",
+    "Image": "تصویر",
+    "Name": "نام",
+    "Current :object": ":object‌ی فعلی",
+    "Slug": "لینک یکتا"
 }
