@@ -14,7 +14,7 @@ trait SearchProducts
     {
         $query = strlen($this->search) > 2 
             ? Product::search($this->search)->orderBy('created_at', 'desc')->take(8)
-            : Product::query()->orderBy('created_at', 'desc')->take(3);
+            : Product::query()->notVariants()->orderBy('created_at', 'desc')->take(3);
 
         if ($onlyId) {
             return collect($query->raw()['hits'])->pluck('id');
