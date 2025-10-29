@@ -9,15 +9,16 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Casts\Attribute as CastsAttribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-// use Laravel\Scout\Searchable;
+use Illuminate\Support\Arr;
+use Laravel\Scout\Searchable;
 
 class Product extends Model
 {
     /** @use HasFactory<\Database\Factories\ProductFactory> */
-    use HasFactory, DiscountMethods;
+    use HasFactory, DiscountMethods, Searchable;
     // Searchable
 
-    public $appends = ['price_label'];
+    // public $appends = ['price_label'];
 
     public function casts(): array
     {
@@ -136,5 +137,43 @@ class Product extends Model
     public function getAvailableStockAttribute(): int
     {
         return $this->stock - $this->reserved;
+    }
+
+    /**
+     * Modify the query used to retrieve models when making all of the models searchable.
+     */
+    protected function makeAllSearchableUsing(Builder $query): Builder
+    {
+        return $query->with('brand', 'attribute_options.attribute', 'categories');
+    }
+
+    /**
+     * Determine if the model should be searchable.
+     */
+    public function shouldBeSearchable(): bool
+    {
+        return ! $this->isVariant() && $this->is_active;
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array<string, mixed>
+     */
+    public function toSearchableArray(): array
+    {
+        $array = $this->toArray();
+        
+        $array['brand'] = $this->brand?->name;
+        $array['categories'] = $this->categories->pluck('name')->implode(',');
+        $array['attributes'] = $this->attribute_options->groupBy('attribute.label')->map(fn($options) => $options->map(fn($x) => $x->label)->implode(','))->toArray();
+        
+        // ->keyBy('attribute');
+        // ->map(fn($x) => $x->label)->toArray()
+        // ->toArray();
+
+        return \Illuminate\Support\Arr::dot(Arr::except($array, ['updated_at', 'stock', 'reserved', 'price', 'type', 'affiliate_price', 'affiliate_commission_percent', 'weight', 'brand_id', '']));
+ 
+        // return $array;
     }
 }
