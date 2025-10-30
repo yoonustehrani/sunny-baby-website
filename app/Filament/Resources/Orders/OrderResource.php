@@ -18,6 +18,8 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\Orders\RelationManagers;
+use Filament\Resources\RelationManagers\RelationManager;
 
 class OrderResource extends Resource
 {
@@ -45,7 +47,7 @@ class OrderResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\ItemsRelationManager::class
         ];
     }
 

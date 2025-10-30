@@ -9,10 +9,15 @@ class OrderItem extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['product_id', 'quantity', 'unit_price', 'unit_discount'];
+
     public function product()
     {
         return $this->belongsTo(Product::class);
     }
-    
-    protected $fillable = ['product_id', 'quantity', 'unit_price', 'unit_discount'];
+
+    public function getTotalAttribute(): int
+    {
+        return ($this->unit_price - $this->unit_discount) * $this->quantity;
+    }
 }
