@@ -165,5 +165,9 @@
     "Image": "تصویر",
     "Name": "نام",
     "Current :object": ":object‌ی فعلی",
-    "Slug": "لینک یکتا"
+    "Slug": "لینک یکتا",
+    "Credit": "اعتبار",
+    "Role type": "نقش کاربر",
+    "Created at": "تاریخ ایجاد",
+    "Updated at": "آخرین ویرایش"
 }
