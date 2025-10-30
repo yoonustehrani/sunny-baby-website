@@ -16,11 +16,11 @@ enum OrderType: string implements HasColor, HasLabel
     #[BadgeColor('primary')]
     case CUSTOMER_ORDER = 'C';
 
-    #[TitleFa('همکاری')]
+    #[TitleFa('همکار')]
     #[BadgeColor('info')]
     case AFFILIATE_ORDER = 'A';
 
-    #[TitleFa('دستی ادمین')]
+    #[TitleFa('ادمین')]
     #[BadgeColor('gray')]
     case ADMIN_ORDER = 'M';
 }

@@ -3,6 +3,9 @@
 namespace App\Filament\Resources\Orders\Tables;
 
 use App\Enums\OrderStatus;
+use App\Enums\OrderType;
+use Filament\Actions\Action;
+use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -15,6 +18,9 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Filament\Tables\Enums\FiltersLayout;
+use Illuminate\Database\Eloquent\Collection;
+
 
 class OrdersTable
 {
@@ -22,7 +28,11 @@ class OrdersTable
     {
         return $table
             ->columns([
-               TextColumn::make('user.phone_number')
+                TextColumn::make('index')
+                    ->rowIndex() // <-- built-in Filament helper
+                    ->label('#')
+                    ->getStateUsing(fn ($record, $rowLoop) => $rowLoop->iteration),
+                TextColumn::make('user.phone_number')
                     ->translateLabel(),
                 TextColumn::make('status')
                     ->translateLabel()
@@ -71,11 +81,17 @@ class OrdersTable
                     ->searchable(),
             ])
             ->filters([
-                TrashedFilter::make(),
                 SelectFilter::make('status')->translateLabel()->options(OrderStatus::class),
-            ])
+                SelectFilter::make('type')->label('توسط')->options(OrderType::class),
+                TrashedFilter::make()
+            ], layout: FiltersLayout::AboveContent)
             ->recordActions([
                 ViewAction::make(),
+                Action::make('Invoice')->translateLabel()
+                    ->url(fn(Model $record) => route('label.single', ['order' => $record->getKey()]))
+                    ->button()
+                    ->openUrlInNewTab()
+                    ->hidden(fn(Model $record) => !in_array($record->status, [OrderStatus::PACKAGED, OrderStatus::PROCESSING]))
                 // EditAction::make(),
             ])
             ->toolbarActions([
@@ -84,6 +100,14 @@ class OrdersTable
                     ForceDeleteBulkAction::make(),
                     RestoreBulkAction::make(),
                 ]),
+                BulkAction::make('Group Invoice')->label('پرینت گروهی فاکتور')
+                    ->action(fn (Collection $records, \Livewire\Component $livewire) => $livewire->redirect(
+                        route('label.bulk', ['orders' => implode(
+                            ',', $records->map(fn($r) => $r->getKey())->toArray()
+                        )])
+                    ))
+                    // ->requiresConfirmation()
+                    // ->action(fn (Collection $records) => $records->each->forceDelete()),
             ]);
     }
 }

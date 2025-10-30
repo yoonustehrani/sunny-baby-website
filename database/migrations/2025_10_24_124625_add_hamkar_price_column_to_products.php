@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::table('products', function (Blueprint $table) {
             $table->bigInteger('affiliate_price')->unsigned()->nullable()->after('price');
-            $table->integer('affiliate_commission_percent')->nullable()->unsigned()->default(5);
         });
     }
 

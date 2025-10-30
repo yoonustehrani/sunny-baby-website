@@ -16,17 +16,21 @@ enum OrderStatus: string implements HasLabel, HasColor
     #[BadgeColor('warning')]
     case PENDING = 'PE';
 
-    #[TitleFa('معلق')]
+    #[TitleFa('سبد خرید')]
     #[BadgeColor('primary')]
     case SUSPENDED = 'SP';
 
-    #[TitleFa('در حال پردازش')]
+    #[TitleFa('در حال انجام')]
     #[BadgeColor('info')]
     case PROCESSING = 'PR';
 
     #[TitleFa('لغو شده')]
     #[BadgeColor('gray')]
     case CANCELLED = 'CA';
+
+    #[TitleFa('بسته بندی شده')]
+    #[BadgeColor('success')]
+    case PACKAGED = 'PK';
 
     #[TitleFa('ارسال شده')]
     #[BadgeColor('success')]
