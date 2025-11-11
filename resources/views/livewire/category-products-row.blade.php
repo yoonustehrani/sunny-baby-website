@@ -6,7 +6,7 @@
                 @if ($hasProducts)
                     <div class="d-flex gap-16 align-items-center">
                         <div class="nav-sw-arrow nav-next-slider nav-next-product"><span class="icon icon-arrow1-right"></span></div>
-                        <a href="{{ route('categories.show', ['category' => $category->id]) }}" class="tf-btn btn-line fs-12 fw-6">@lang('VIEW ALL')</a>
+                        <a href="{{ route('categories.show', ['slug' => $category->slug]) }}" class="tf-btn btn-line fs-12 fw-6">@lang('VIEW ALL')</a>
                         <div class="nav-sw-arrow nav-prev-slider nav-prev-product"><span class="icon icon-arrow1-left"></span></div>
                     </div>
                 @endif

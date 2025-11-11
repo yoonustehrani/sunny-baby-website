@@ -90,7 +90,8 @@ trait ProductList
         return isset($this->cats) && in_array($categoryId, $this->cats);
     }
 
-    protected function baseProductQuery(): Builder
+    protected function baseProductQuery()
+    // : Builder
     {
         $ids = null;
         if (strlen($this->search) > 2) {
@@ -98,6 +99,11 @@ trait ProductList
         }
         $query = Product::query()
             ->notVariants();
+
+        if (isset($this->category)) {
+            $query = $this->category->products()->notVariants();
+        }
+        
         $query->when($this->onlyInStock, function ($query) {
             $query->where(function ($q) {
                 // parent itself is in stock

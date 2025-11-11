@@ -10,6 +10,7 @@ use App\Livewire\Pages\Shop;
 use App\Livewire\ShowCheckout;
 use App\Livewire\UserAccount;
 use App\Livewire\Affiliate;
+use App\Livewire\Pages\CategoryProducts;
 use App\Livewire\Pages\ShowCart;
 use App\Livewire\Pages\ShowLogin;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +25,7 @@ Route::name('pages.')->group(function() {
     Route::get('/shop', Shop::class)->name('shop');
 });
 
-Route::get('categories/{category}/products', fn() => '')->name('categories.show');
+Route::get('categories/{slug}/products', CategoryProducts::class)->name('categories.show');
 
 Route::get('/checkout', ShowCheckout::class)->name('checkout');
 Route::get('/cart', ShowCart::class)->name('cart');

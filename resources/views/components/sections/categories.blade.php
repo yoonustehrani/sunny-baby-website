@@ -15,22 +15,22 @@
                 @unless ($loop->last)
                     <div class="collection-item hover-img wow fadeInUp" data-wow-delay=".1s">
                         <div class="collection-inner">
-                            <a href="{{ route('pages.shop', ['cats' => [$main_categories->firstWhere('name', $name)?->id]]) }}" class="collection-image img-style rounded-0 tw:h-fit tw:aspect-square tw:md:h-full">
+                            <a href="{{ route('categories.show', ['slug' => $main_categories->firstWhere('name', $name)?->slug]) }}" class="collection-image img-style rounded-0 tw:h-fit tw:aspect-square tw:md:h-full">
                                 <img class="lazyload" data-src="{{ asset($image) }}" src="{{ asset($image) }}" alt="collection-img">
                             </a>
                             <div class="collection-content tw:w-full tw:flex tw:justify-center">
-                                <a href="{{ route('pages.shop', ['cats' => [$main_categories->firstWhere('name', $name)?->id]]) }}" class="tf-btn collection-title hover-icon tw:bg-white/60 tw:hover:bg-black tw:hover:text-white"><span>{{ $name }}</span><i class="icon icon-arrow1-top-left"></i></a>
+                                <a href="{{ route('categories.show', ['slug' => $main_categories->firstWhere('name', $name)?->slug]) }}" class="tf-btn collection-title hover-icon tw:bg-white/60 tw:hover:bg-black tw:hover:text-white"><span>{{ $name }}</span><i class="icon icon-arrow1-top-left"></i></a>
                             </div>
                         </div>
                     </div>
                 @else
                 <div class="tw:col-span-full tw:md:col-span-1 tw:md:row-span-full collection-item large hover-img wow fadeInUp" data-wow-delay="0s">
                     <div class="collection-inner">
-                        <a href="{{ route('pages.shop', ['cats' => [$main_categories->firstWhere('name', $name)?->id]]) }}" class="collection-image img-style rounded-0 tw:h-fit tw:aspect-square tw:md:aspect-auto tw:md:h-full">
+                        <a href="{{ route('categories.show', ['slug' => $main_categories->firstWhere('name', $name)?->slug]) }}" class="collection-image img-style rounded-0 tw:h-fit tw:aspect-square tw:md:aspect-auto tw:md:h-full">
                             <img class="lazyload" data-src="{{ asset($image) }}" src="{{ asset($image) }}" alt="collection-img">
                         </a>
                         <div class="collection-content tw:w-full tw:flex tw:justify-center">
-                            <a href="{{ route('pages.shop', ['cats' => [$main_categories->firstWhere('name', $name)?->id]]) }}" class="tf-btn collection-title hover-icon tw:bg-white/60 tw:hover:bg-black tw:hover:text-white"><span>{{ $name }}</span><i class="icon icon-arrow1-top-left"></i></a>
+                            <a href="{{ route('categories.show', ['slug' => $main_categories->firstWhere('name', $name)?->slug]) }}" class="tf-btn collection-title hover-icon tw:bg-white/60 tw:hover:bg-black tw:hover:text-white"><span>{{ $name }}</span><i class="icon icon-arrow1-top-left"></i></a>
                         </div>
                     </div>
                 </div>
