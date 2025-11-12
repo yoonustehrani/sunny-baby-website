@@ -161,5 +161,16 @@
     "Save Changes": "ذخیره تغییرات",
     "Brand Details": "اطلاعات برند",
     "Logo": "لوگو",
-    "Brand Name": "نام برند"
+    "Brand Name": "نام برند",
+    "Image": "تصویر",
+    "Name": "نام",
+    "Current :object": ":object‌ی فعلی",
+    "Slug": "لینک یکتا",
+    "Credit": "اعتبار",
+    "Role type": "نقش کاربر",
+    "Created at": "تاریخ ایجاد",
+    "Updated at": "آخرین ویرایش",
+    "Order items": "آیتم های سفارش",
+    "Deleted at": "تاریخ حذف",
+    "Invoice": "برچسب"
 }

@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Attributes\BadgeColor;
 use App\Attributes\TitleFa;
 use BackedEnum;
 use ReflectionEnumUnitCase;
@@ -25,11 +26,21 @@ trait EnumHelpers
 
     public function getAttribute(string $attribute): mixed
     {
-        return new ReflectionEnumUnitCase($this::class, $this->name)->getAttributes()[0]?->getArguments()[0] ?? null;
+        return new ReflectionEnumUnitCase($this::class, $this->name)->getAttributes($attribute)[0]?->getArguments()[0] ?? null;
     }
 
     public function getTitleFa(): string|null
     {
         return $this->getAttribute(TitleFa::class);
+    }
+
+    public function getLabel(): ?string
+    {
+        return $this->getTitleFa();
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->getAttribute(BadgeColor::class);
     }
 }

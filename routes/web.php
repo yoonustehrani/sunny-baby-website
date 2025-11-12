@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\OrderPaymentController;
+use App\Http\Controllers\PrintLabelController;
 use App\Http\Controllers\ShowHomeController;
 use App\Http\Controllers\ShowProductController;
 use App\Http\Controllers\TransactionController;
@@ -18,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
 Route::get('/', ShowHomeController::class)->name('home');
+
+Route::get('/orders/{order}/print-label', [PrintLabelController::class, 'single'])->name('label.single');
+Route::get('/orders/print-label', [PrintLabelController::class, 'bulk'])->name('label.bulk');
 
 Route::get('/products/{slug}', ShowProductController::class)->name('products.show');
 Route::name('pages.')->group(function() {

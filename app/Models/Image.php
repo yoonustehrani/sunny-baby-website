@@ -12,4 +12,9 @@ class Image extends Model
     protected $fillable = ['url', 'thumbnail_url', 'title', 'alt'];
 
     public $timestamps = false;
+
+    public function getFullUrlAttribute(): string
+    {
+        return asset($this->url);
+    }
 }

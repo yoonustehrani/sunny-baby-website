@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(Address::class);
             $table->string('carrier_class');
             $table->string('tracking_number')->nullable();
-            $table->bigInteger('cost')->unsigned();
+            $table->bigInteger('cost')->unsigned()->nullable();
             $table->timestamp('shipped_at')->nullable();
             $table->json('meta')->default(json_encode([]));
             $table->timestamps();

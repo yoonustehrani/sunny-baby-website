@@ -28,6 +28,7 @@ return new class extends Migration
             $table->integer('reserved')->unsigned()->default(0);
             $table->integer('weight')->nullable()->unsigned();
             $table->boolean('is_active')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

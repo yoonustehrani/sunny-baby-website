@@ -5,12 +5,14 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Enums\UserRoleType;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -84,6 +86,11 @@ class User extends Authenticatable
     public function business()
     {
         return $this->hasOne(AffiliateBusiness::class);
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->role_type == UserRoleType::ADMIN;
     }
 
     public function changeCredit(int $amount, ?Transaction $transaction = null): void
