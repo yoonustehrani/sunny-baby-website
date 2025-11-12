@@ -20,7 +20,7 @@ return new class extends Migration
             $table->bigInteger('unit_price')->unsigned();
             $table->bigInteger('unit_discount');
             $table->smallInteger('quantity')->unsigned();
-            $table->softDeletes();
+            // $table->softDeletes();
             $table->timestamps();
         });
     }

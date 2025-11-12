@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\OrderPaymentController;
+use App\Http\Controllers\PrintLabelController;
 use App\Http\Controllers\ShowHomeController;
 use App\Http\Controllers\ShowProductController;
 use App\Http\Controllers\TransactionController;
@@ -10,6 +11,7 @@ use App\Livewire\Pages\Shop;
 use App\Livewire\ShowCheckout;
 use App\Livewire\UserAccount;
 use App\Livewire\Affiliate;
+use App\Livewire\Pages\CategoryProducts;
 use App\Livewire\Pages\ShowCart;
 use App\Livewire\Pages\ShowLogin;
 use Illuminate\Support\Facades\Auth;
@@ -18,13 +20,16 @@ use Illuminate\Support\Facades\Session;
 
 Route::get('/', ShowHomeController::class)->name('home');
 
+Route::get('/orders/{order}/print-label', [PrintLabelController::class, 'single'])->name('label.single');
+Route::get('/orders/print-label', [PrintLabelController::class, 'bulk'])->name('label.bulk');
+
 Route::get('/products/{slug}', ShowProductController::class)->name('products.show');
 Route::name('pages.')->group(function() {
     Route::view('/contact-us', 'pages.contact')->name('contact');
     Route::get('/shop', Shop::class)->name('shop');
 });
 
-Route::get('categories/{category}/products', fn() => '')->name('categories.show');
+Route::get('categories/{slug}/products', CategoryProducts::class)->name('categories.show');
 
 Route::get('/checkout', ShowCheckout::class)->name('checkout');
 Route::get('/cart', ShowCart::class)->name('cart');

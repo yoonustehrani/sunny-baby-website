@@ -10,4 +10,9 @@ class Shipment extends Model
     use HasMetaProperty;
 
     protected $fillable = ['address_id', 'carrier_class', 'cost'];
+
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
+    }
 }

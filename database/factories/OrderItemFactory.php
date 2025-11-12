@@ -18,12 +18,20 @@ class OrderItemFactory extends Factory
      */
     public function definition(): array
     {
-        $p = Product::where('type', '<>', ProductType::VARIABLE)->inRandomOrder()->first();
+        $p = Product::where('type', '<>', ProductType::VARIABLE)->with('discount')->inRandomOrder()->first();
         return [
             'product_id' => $p,
             'unit_price' => $p->price,
             'unit_discount' => $p->is_discounted ? $p->discount_amount : 0,
             'quantity' => fake()->randomElement([1,1,1,2,2,3,4,1,1])
         ];
+    }
+
+    public function withAffiliatePrice()
+    {
+        return $this->state(fn(array $state) => [
+            'unit_price' => $state['product_id']->affiliate_price,
+            'unit_discount' => 0
+        ]);
     }
 }

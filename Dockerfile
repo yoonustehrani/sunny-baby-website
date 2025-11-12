@@ -23,24 +23,25 @@ FROM dunglas/frankenphp:1-php8.4-bookworm
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN install-php-extensions \
-    pcntl \
-    ctype \
-    curl \
-    dom \
-    fileinfo \
-    filter \
-    hash \
-    mbstring \
-    openssl \
-    pcre \
-    pdo \
-    pdo_mysql \
-    pdo_pgsql \
-    session \
-    tokenizer \
-    xml \
-    redis \
-    zip
+  pcntl \
+  ctype \
+  curl \
+  dom \
+  fileinfo \
+  filter \
+  hash \
+  mbstring \
+  openssl \
+  pcre \
+  pdo \
+  pdo_mysql \
+  pdo_pgsql \
+  session \
+  tokenizer \
+  xml \
+  redis \
+  zip \
+  gd
  
 COPY . /app
 

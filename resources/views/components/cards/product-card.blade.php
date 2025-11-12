@@ -42,7 +42,9 @@
     <div class="card-product-info tw:px-2! tw:grow" x-data='{}'>
         <a href="{{ route('products.show', ['slug' => $product->slug]) }}" class="title link tw:text-sm tw:md:text-base tw:mx-auto tw:font-normal">{{ $product->title }}</a>
         <x-product-price :$product/>
-        @if (! $product->isVariable())
+        @if ($product->isVariable())
+            <a href="{{ route('products.show', ['slug' => $product->slug]) }}" class="tw:block tw:w-full tw:md:w-auto tw:text-sm tw:text-center tw:rounded-md tw:shadow-sm tw:border tw:border-transparent tw:duration-300 tw:hover:border-gray-700 tw:bg-dun tw:px-2 tw:lg:px-3 tw:py-1 tw:mb-3 tw:mt-1 tw:mx-auto">@lang('View')</a>
+        @else
             <livewire:add-to-cart-button :key="'add-to-cart-main-' . $product->id" :$product/>
         @endif
         {{-- <ul class="list-color-product">
