@@ -41,6 +41,7 @@ RUN install-php-extensions \
   xml \
   redis \
   zip \
+  intl \
   gd
  
 COPY . /app
