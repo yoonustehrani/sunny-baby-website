@@ -50,20 +50,20 @@ COPY .env.production /app/.env
 
 WORKDIR /app
 
+COPY --from=static-builder /app/public/build ./public/build
+
 ENV COMPOSER_ALLOW_SUPERUSER=1
+
+RUN apt-get update -y && apt-get install -y supervisor unzip
 
 RUN composer install --optimize-autoloader --no-dev
 
 RUN php artisan config:clear
 RUN php artisan view:clear
 
-# RUN php artisan optimize:clear
-# RUN php artisan optimize
-
-RUN apt-get update -y && apt-get install -y supervisor
+RUN php artisan optimize:clear
+RUN php artisan optimize
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-COPY --from=static-builder /app/public/build ./public/build
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
