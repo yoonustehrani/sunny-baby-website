@@ -52,8 +52,6 @@ class AdvancedAddToCartSection extends Component
         if ($variant) {
             $variant->refresh();
         }
-        Log::alert($this->selectedOptions);
-        Log::alert($variant);
         $this->variant = $variant;
     }
 
@@ -92,12 +90,13 @@ class AdvancedAddToCartSection extends Component
     protected function getVariableAttributesAndOptions()
     {
         $possibleVariants = $this->product->variants;
-        if (! collect($this->selectedOptions)->filter()->isEmpty()) {
-            $possibleVariants = $possibleVariants->filter(function ($variant) {
+        $selectedOptions = collect($this->selectedOptions)->filter();
+        if (! $selectedOptions->isEmpty()) {
+            $possibleVariants = $possibleVariants->filter(function ($variant) use($selectedOptions) {
                 $variantOptions = collect($variant['attribute_options'])
                     ->pluck('id', 'attribute_id');
                 foreach ($variantOptions as $attrId => $optionId) {
-                    if (!is_null($this->selectedOptions[$attrId]) && $this->selectedOptions[$attrId] != $optionId) {
+                    if (isset($selectedOptions[$attrId]) && !is_null($selectedOptions[$attrId]) && $selectedOptions[$attrId] != $optionId) {
                         return false; // not compatible
                     }
                 }
