@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         $this->call(CitySeeder::class);
-        $this->call(ProductSeeder::class);
+        // $this->call(ProductSeeder::class);
 
         $user = new User([
             'phone_number' => '09101234567'

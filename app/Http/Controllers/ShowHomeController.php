@@ -13,6 +13,7 @@ class ShowHomeController extends Controller
      */
     public function __invoke(Request $request)
     {
+        // return Product::first()['description']);
         // $pds = Product::whereType('C')->with(['variants.attribute_options.attribute', 'attribute_options.attribute'])->get();
         return view('home', [
             'categories' => Cache::remember('home-categories', 60 * 60, fn() => \App\Models\Category::limit(3)->whereNull('parent_id')->get()),

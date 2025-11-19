@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\ProductType;
 use App\Traits\DiscountMethods;
+use App\Traits\HasUniqueSlug;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Casts\Attribute as CastsAttribute;
@@ -15,9 +16,11 @@ use Laravel\Scout\Searchable;
 class Product extends Model
 {
     /** @use HasFactory<\Database\Factories\ProductFactory> */
-    use HasFactory, DiscountMethods, Searchable;
+    use HasFactory, DiscountMethods, Searchable, HasUniqueSlug;
 
     // public $appends = ['price_label'];
+
+    protected $fillable = ['title', 'slug', 'description', 'stock', 'low_stock_count', 'weight', 'type', 'imported_id', 'price'];
 
     public function casts(): array
     {

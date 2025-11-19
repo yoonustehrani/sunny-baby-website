@@ -74,9 +74,11 @@
         <div class="container">
             <div class="tf-height-observer w-100 d-flex align-items-center">
                 <div class="tf-sticky-atc-product d-flex align-items-center">
-                    <div class="tf-sticky-atc-img">
-                        <img class="lazyloaded" data-src="{{ asset($product->main_image->url) }}" alt="" src="{{ asset($product->main_image->thumbnail_url) }}">
-                    </div>
+                    @if ($product->main_image)
+                        <div class="tf-sticky-atc-img">
+                            <img class="lazyloaded" data-src="{{ asset($product->main_image->url) }}" alt="" src="{{ asset($product->main_image->thumbnail_url) }}">
+                        </div>
+                    @endif
                     <div class="tf-sticky-atc-title fw-5 d-xl-block d-none">{{ $product->title }}</div>
                 </div>
                 <div class="tf-sticky-atc-infos">
