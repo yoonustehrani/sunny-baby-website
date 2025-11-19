@@ -824,9 +824,9 @@
     <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/swiper-bundle.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}" async></script>
+    <script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/lazysize.min.js') }}" async></script>
-    <script type="text/javascript" src="{{ asset('js/wow.min.js') }}" async></script>
+    <script type="text/javascript" src="{{ asset('js/wow.min.js') }}"></script>
     @vite(['resources/js/app.js'])
 </body>
 </html>
