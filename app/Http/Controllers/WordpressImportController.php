@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\CSVReader;
 use App\Enums\ProductType;
+use App\Models\Category;
 use App\Models\Image;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 
 class WordpressImportController extends Controller
@@ -19,6 +21,7 @@ class WordpressImportController extends Controller
         $csv = new CSVReader(database_path('seeders/data/wc-product-export.csv'), [])
             ->read();
         $data = $csv->getData();
+
         $keys = [
             'type' => 'نوع',
             'id' => 'شناسه',
@@ -39,6 +42,24 @@ class WordpressImportController extends Controller
             'feature_x_name ', 'نمایان بودن :n صفت',
             'feature_x_universal ', "صفت :n سراسری"
         ];
+
+        $images = [];
+        collect($data)->map(fn($x) => trim($x[$keys['images']]))->each(function (string $value) use (&$images) {
+            $files = array_filter(explode(', ', $value));
+            foreach ($files as $file) {
+                if (! in_array($file, $images)) {
+                    array_push($images, $file);
+                }
+            }
+        });
+        file_put_contents(
+            database_path('/seeders/data/images.csv'),
+            "url\n".implode("\n", $images)
+        );
+        
+        Artisan::call('app:download-list-of-files');
+        Artisan::call('app:make-thumbnails');
+
         $headers = array_keys($data[0]);
         $last_n = $headers[count($headers) - 1];
         $matches = [];
@@ -88,6 +109,7 @@ class WordpressImportController extends Controller
                     'price' => $sp['price']
                 ]);
                 $p->save();
+
                 $image_urls = array_map(fn(string $url) => 'storage/imported/' . str_replace('/', '-', $url), $sp['images']);
                 $images = Image::whereIn('url', $image_urls)->get();
                 $p->images()->detach($images);
@@ -95,25 +117,14 @@ class WordpressImportController extends Controller
                 $images->shift();
                 $p->images()->attach($main, ['is_main' => true]);
                 $p->images()->attach($images);
+
+                $categories = Category::whereIn('name', $sp['categories'])->get();
+                $p->categories()->sync($categories);
             }
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
             throw $th;
         }
-
-        // $images = [];
-        // collect($csv->getData())->map(fn($x) => trim($x['تصاویر']))->each(function (string $value) use (&$images) {
-        //     $files = array_filter(explode(', ', $value));
-        //     foreach ($files as $file) {
-        //         if (! in_array($file, $images)) {
-        //             array_push($images, $file);
-        //         }
-        //     }
-        // });
-        // file_put_contents(
-        //     database_path('/seeders/data/images.csv'),
-        //     "url\n".implode("\n", $images)
-        // );
     }
 }
