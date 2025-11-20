@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class AttributeOption extends Model
 {
     public $timestamps = false;
-    protected $fillable = ['content', 'label'];
+    protected $fillable = ['content', 'label', 'attribute_id'];
 
     public function attribute()
     {

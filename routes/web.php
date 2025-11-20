@@ -1,10 +1,12 @@
 <?php
 
+use App\CSVReader;
 use App\Http\Controllers\OrderPaymentController;
 use App\Http\Controllers\PrintLabelController;
 use App\Http\Controllers\ShowHomeController;
 use App\Http\Controllers\ShowProductController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\WordpressImportController;
 use App\Http\Middleware\CheckIfUserRoleIsAffiliate;
 use App\Http\Middleware\RedirectToAffiliateDashboardIfAuthenticated;
 use App\Livewire\Pages\Shop;
@@ -18,7 +20,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
+
+
 Route::get('/', ShowHomeController::class)->name('home');
+
+Route::get('/import', WordpressImportController::class)->name('import');
 
 Route::get('/orders/{order}/print-label', [PrintLabelController::class, 'single'])->name('label.single');
 Route::get('/orders/print-label', [PrintLabelController::class, 'bulk'])->name('label.bulk');

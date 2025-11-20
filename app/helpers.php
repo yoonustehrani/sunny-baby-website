@@ -216,3 +216,10 @@ if (! function_exists('affiliate_cart')) {
         return CartService::getInstance(is_affiliate: true);
     }
 }
+
+if (! function_exists('get_url_path')) {
+    function get_url_path(string $url): string
+    {
+        return preg_replace('#^https?://[^/]+#', '', $url);
+    }
+}

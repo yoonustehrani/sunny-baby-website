@@ -32,15 +32,15 @@ class AttributeSeeder extends Seeder
                     ['label' => 'خاکستری', 'value' => '#808080'],
                 ]
             ],
-            [
-                'name' => 'سایز',
-                'type' => OptionContentType::SIMPLE,
-                'options' => [
-                    ['value' => '۱-۳ ماه'],
-                    ['value' => '۳-۶ ماه'],
-                    ['value' => '۶-۱۲ ماه']
-                ]
-            ],
+            // [
+            //     'name' => 'سایز',
+            //     'type' => OptionContentType::SIMPLE,
+            //     'options' => [
+            //         ['value' => '۱-۳ ماه'],
+            //         ['value' => '۳-۶ ماه'],
+            //         ['value' => '۶-۱۲ ماه']
+            //     ]
+            // ],
             [
                 'name' => 'جنسیت',
                 'type' => OptionContentType::IMAGE,

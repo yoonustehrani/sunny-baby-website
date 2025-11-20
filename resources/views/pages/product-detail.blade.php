@@ -173,7 +173,6 @@
                 </div>
             </div>
         </div>
-        <livewire:product.bottom-add-to-cart :$product/>
     </section>
     <!-- /default -->
     <section class="flat-spacing-17 pt_0">
