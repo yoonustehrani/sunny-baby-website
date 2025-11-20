@@ -109,15 +109,15 @@ class AdvancedAddToCartSection extends Component
             ->flatten()
             ->pluck('id')
             ->unique();
-        
         return $this->variableAttributes->each(function($attribute) use (&$enabledOptions) {
             $attribute->available_options = $this->product->variants
                 ->pluck('attribute_options')
                 ->flatten()
                 ->where('attribute_id', $attribute->id)
-                ->map(function ($option) use (&$enabledOptions) {
-                    $option->disabled = !$enabledOptions->contains($option['id']);
-                    return $option;
+                ->each(function ($option) use (&$enabledOptions) {
+                    if ($this->variableAttributes->count() > 1) {
+                        $option->disabled = !$enabledOptions->contains($option['id']);
+                    }
                 });
         });
     }

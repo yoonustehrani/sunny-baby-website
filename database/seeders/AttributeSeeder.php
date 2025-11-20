@@ -30,17 +30,18 @@ class AttributeSeeder extends Seeder
                     ['label' => 'بنفش', 'value' => '#800080'],
                     ['label' => 'صورتی', 'value' => '#ffc0cb'],
                     ['label' => 'خاکستری', 'value' => '#808080'],
+                    ['label' => 'کرم', 'value' => '#F8E5C4'],
+                    ['label' => 'طوسی', 'value' => '#B4B5B0'],
+                    ['label' => 'آجری', 'value' => '#793B31'],
+                    ['label' => 'خردلی', 'value' => '#DAA520'],
+                    ['label' => 'شکلاتی', 'value' => '#4E2F26'],
+                    ['label' => 'قهوه ای', 'value' => '#532E1B'],
+                    ['label' => 'سرمه ای', 'value' => '#222F4F'],
+                    ['label' => 'کالباسی', 'value' => '#DAB9BC'],
+                    ['label' => 'نخودی', 'value' => '#F2CA85'],
+                    ['label' => 'زغال سنگی', 'value' => '#323232'],
                 ]
             ],
-            // [
-            //     'name' => 'سایز',
-            //     'type' => OptionContentType::SIMPLE,
-            //     'options' => [
-            //         ['value' => '۱-۳ ماه'],
-            //         ['value' => '۳-۶ ماه'],
-            //         ['value' => '۶-۱۲ ماه']
-            //     ]
-            // ],
             [
                 'name' => 'جنسیت',
                 'type' => OptionContentType::IMAGE,

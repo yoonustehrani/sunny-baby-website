@@ -8,7 +8,7 @@
             </div>
         </div>
         <div class="tw:-mt-6 tw:w-full tw:px-1 tw:md:px-4 tw:md:w-4/5 tw:mx-auto tw:flex-wrap tw:flex tw:items-center tw:justify-center tw:gap-8 tw:py-6">
-            @foreach ($attribute->options as $option)
+            @foreach ($attribute->options->sortBy('content') as $option)
                 <a wire:key="color-{{ $option->id }}" class="tw:block" href="{{ urldecode(route('pages.shop', ['filters' => [$attribute->id => [$option->id]] ])) }}">
                     <div
                         class="tw:size-20 tw:p-2 tw:rounded-full tw:bg-white tw:border tw:border-black/10 tw:relative tw:flex tw:justify-center">
