@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\CSVReader;
+use App\Enums\OptionContentType;
 use App\Enums\ProductType;
+use App\Models\Attribute;
+use App\Models\AttributeOption;
 use App\Models\Category;
 use App\Models\Image;
 use App\Models\Product;
@@ -37,10 +40,10 @@ class WordpressImportController extends Controller
             'tags' => 'برچسبها',
             'weight' => "وزن (گرم)",
             'reviews_allowed' => "آیا به مشتری اجازه نوشتن نقد داده شود؟",
-            'feature_x_name ', 'نام :n صفت',
-            'feature_x_values ', 'مقدار(های) :n صفت',
-            'feature_x_name ', 'نمایان بودن :n صفت',
-            'feature_x_universal ', "صفت :n سراسری"
+            'feature_n_name'  => 'نام :n صفت',
+            'feature_n_values' => 'مقدار(های) :n صفت',
+            'feature_n_display'  => 'نمایان بودن :n صفت',
+            'feature_n_global' => "صفت :n سراسری"
         ];
 
         $images = [];
@@ -66,7 +69,7 @@ class WordpressImportController extends Controller
         preg_match('/[0-9]{1}/', $last_n, $matches);
         $last_n = intval($matches[0]);
         // return collect($data)->map(fn($item) => str_replace('id:', '', $item[$keys['parent']]))->filter()->unique();
-        $simple_products_data = collect($data)->where($keys['type'], 'simple')->map(function (array $item) use ($keys) {
+        $simple_products_data = collect($data)->where($keys['type'], 'simple')->map(function (array $item) use ($keys, $last_n) {
             $images = [];
             $urls = explode(', ', $item[$keys['images']]);
             foreach ($urls as $url) {
@@ -86,8 +89,26 @@ class WordpressImportController extends Controller
                 array_push($categories, ...$all_cats);
             }
             $item[$keys['categories']] = $categories;
-            $english_keys = array_map(fn($farsiKey) => array_search($farsiKey, $keys) ?: $farsiKey, array_keys($item));
-            return array_combine($english_keys, array_values($item));
+            $english_keys = array_filter(
+                array_map(fn($farsiKey) => array_search($farsiKey, $keys), array_keys($item))
+            );
+            $results = [];
+            foreach ($english_keys as $key) {
+                $results[$key] = $item[$keys[$key]];
+            }
+
+            $attr_options = [];
+            for ($i=1; $i <= $last_n; $i++) { 
+                $attr_options[] = [
+                    'attribute' => $item[str_replace(':n', $i, $keys['feature_n_name'])],
+                    'option_value' => $item[str_replace(':n', $i, $keys['feature_n_values'])],
+                    'display' => boolval($item[str_replace(':n', $i, $keys['feature_n_display'])]),
+                    'global' => boolval($item[str_replace(':n', $i, $keys['feature_n_global'])])
+                ];
+            }
+            $results['attribute_options'] = array_filter($attr_options, fn($attr) => $attr['attribute'] != null && $attr['display'] === true);
+
+            return $results;
         });
 
         try {
@@ -96,8 +117,8 @@ class WordpressImportController extends Controller
                 /**
                  * @var Product $p
                  */
-                $p = Product::where('imported_id', $sp['id'])->first() ?: new Product();
-                $p->fill([
+                $product = Product::where('imported_id', $sp['id'])->first() ?: new Product();
+                $product->fill([
                     'title' => $sp['title'],
                     'slug' => str_replace(' ', '-', trim(mb_substr($sp['title'], 0, 60))),
                     'description' => str_replace('\\n', '<br>', $sp['description']),
@@ -108,18 +129,38 @@ class WordpressImportController extends Controller
                     'imported_id' => $sp['id'],
                     'price' => $sp['price']
                 ]);
-                $p->save();
+                $product->save();
 
                 $image_urls = array_map(fn(string $url) => 'storage/imported/' . str_replace('/', '-', $url), $sp['images']);
                 $images = Image::whereIn('url', $image_urls)->get();
-                $p->images()->detach($images);
+                $product->images()->detach($images);
                 $main = $images->first();
                 $images->shift();
-                $p->images()->attach($main, ['is_main' => true]);
-                $p->images()->attach($images);
+                $product->images()->attach($main, ['is_main' => true]);
+                $product->images()->attach($images);
 
                 $categories = Category::whereIn('name', $sp['categories'])->get();
-                $p->categories()->sync($categories);
+                $product->categories()->sync($categories);
+
+                foreach ($sp['attribute_options'] as $option) {
+                    $attribute = Attribute::firstOrCreate(
+                        ['label' => $option['attribute']],
+                        ['option_content_type' => OptionContentType::SIMPLE, 'can_be_filtered' => false]
+                    );
+                    if ($option['global']) {
+                        $attribute_option = AttributeOption::firstOrCreate(
+                            [
+                                'attribute_id' => $attribute->id,
+                                'label' => $option['option_value']
+                            ],
+                            [
+                                'content' => $option['option_value'],
+                                'content_hash' => trim(sha1($option['option_value']))
+                            ]
+                        );
+                        $product->attribute_options()->attach($attribute_option, ['attribute_id' => $attribute->id]);
+                    }
+                }
             }
             DB::commit();
         } catch (\Throwable $th) {

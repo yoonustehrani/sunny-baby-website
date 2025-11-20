@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(Attribute::class)->constrained()->cascadeOnDelete();
             $table->string('content');
             $table->string('content_hash');
-            $table->string('label')->nullable();
+            $table->string('label');
             $table->unique(['attribute_id', 'content_hash']);
         });
     }

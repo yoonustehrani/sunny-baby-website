@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CitySeeder::class);
         $this->call(CategorySeeder::class);
         $this->call(BrandSeeder::class);
+        $this->call(AttributeSeeder::class);
         // $this->call(ProductSeeder::class);
 
     //     $user = new User([
