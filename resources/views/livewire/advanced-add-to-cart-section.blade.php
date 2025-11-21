@@ -116,9 +116,9 @@
                             </p>
                             <div class="tw:w-full">
                                 @if ($product->isVariable())
-                                    <x-buttons.add-to-cart class='tw:w-full! tw:lg:w-fit!' :product='$variant' :disabled='is_null($variant) || $variant->stock == 0'/>
+                                    <x-buttons.add-to-cart :$n class='tw:w-full! tw:lg:w-fit!' :product='$variant' :disabled='is_null($variant) || $variant->stock == 0'/>
                                 @else
-                                    <x-buttons.add-to-cart :$product />
+                                    <x-buttons.add-to-cart :$n :$product />
                                 @endif
                             </div>
                         </div>

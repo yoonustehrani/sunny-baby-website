@@ -12,14 +12,15 @@
                         <label for="attr-op-{{ $option->id }}" class="label d-flex align-items-center tw:gap-2">
                         @switch($attribute->option_content_type)
                             @case(App\Enums\OptionContentType::COLOR)
-                                <input wire:change.live='toggleFilter({{ $attribute->id }}, {{ $option->id }})' type="checkbox" name="{{ $attribute->id }}" class="tf-check-color" style="background-color: {{ $option->content }};" id="attr-op-{{ $option->id }}">
+                                <input @checked($this->isFilterSelected($attribute->id, $option->id)) wire:change.live='toggleFilter({{ $attribute->id }}, {{ $option->id }})' type="checkbox" name="{{ $attribute->id }}" class="tf-check" id="attr-op-{{ $option->id }}">
+                                <div class="tw:size-8 tw:rounded-full tw:border tw:border-black/10" style="background-color: {{ $option->content }};"></div>
                                 @break
                             @case(App\Enums\OptionContentType::IMAGE)
-                                <input wire:change.live='toggleFilter({{ $attribute->id }}, {{ $option->id }})' type="checkbox" name="{{ $attribute->id }}" class="tf-check" id="attr-op-{{ $option->id }}">
+                                <input @checked($this->isFilterSelected($attribute->id, $option->id)) wire:change.live='toggleFilter({{ $attribute->id }}, {{ $option->id }})' type="checkbox" name="{{ $attribute->id }}" class="tf-check" id="attr-op-{{ $option->id }}">
                                 <img height="40" width="40" src="{{ asset($option->content) }}" alt="{{ $attribute->label }} - {{ $option->label }}">
                                 @break
                             @default
-                                <input wire:change.live='toggleFilter({{ $attribute->id }}, {{ $option->id }})' type="checkbox" name="{{ $attribute->id }}" class="tf-check" id="attr-op-{{ $option->id }}">
+                                <input @checked($this->isFilterSelected($attribute->id, $option->id)) wire:change.live='toggleFilter({{ $attribute->id }}, {{ $option->id }})' type="checkbox" name="{{ $attribute->id }}" class="tf-check" id="attr-op-{{ $option->id }}">
                         @endswitch
                         <span @class(['tw:text-primary' => $this->isFilterSelected($attribute->id, $option->id)])>{{ $option->label }}&nbsp;<span>({{ $counts[$option->id] }})</span></span>
                         </label>

@@ -20,6 +20,7 @@
         @else
             <div class="price fw-6">{{ format_price($product->price) }}</div>
         @endif
+        <div class="price fw-6 tw:pt-2"><span>مجموع:</span> {{ $product->is_discounted ? format_price($product->discounted_price * $quantity) : format_price($product->price * $quantity) }}</div>
         <div class="tf-mini-cart-btns">
             <div class="wg-quantity small">
                 <span class="btn-quantity minus-btn" wire:click='sub'>-</span>

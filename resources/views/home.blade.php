@@ -1,5 +1,5 @@
 <x-layouts.main :$title>
-    <x-topbar />
+    {{-- <x-topbar /> --}}
     <x-header />
     <x-sections.slider />
     <x-sections.categories />
