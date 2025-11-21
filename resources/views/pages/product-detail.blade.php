@@ -181,11 +181,11 @@
                 <div class="col-12">
                     <div class="widget-tabs style-has-border tw:bg-white">
                         <ul class="widget-menu-tab">
-                            <li class="item-title active">
+                            {{-- <li class="item-title">
                                 <span class="inner">@lang('Description')</span>
-                            </li>
-                            <li class="item-title">
-                                <span class="inner">@lang('Attributes')</span>
+                            </li> --}}
+                            <li class="item-title active">
+                                <span class="inner">ویژگی های محصول</span>
                             </li>
                             {{-- <li class="item-title">
                                 <span class="inner">Shipping</span>
@@ -195,10 +195,10 @@
                             </li> --}}
                         </ul>
                         <div class="widget-content-tab">
-                            <div class="widget-content-inner active">
+                            {{-- <div class="widget-content-inner">
                                 {!! $product->description !!}
-                            </div>
-                            <div class="widget-content-inner">
+                            </div> --}}
+                            <div class="widget-content-inner active">
                                 <table class="tf-pr-attrs">
                                     <tbody>
                                         @foreach ($product->attribute_options->groupBy('attribute.label') as $group => $options)

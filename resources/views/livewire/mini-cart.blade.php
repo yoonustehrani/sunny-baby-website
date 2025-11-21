@@ -5,7 +5,7 @@
             <span class="icon-close icon-close-popup" data-bs-dismiss="modal"></span>
         </div>
         <div class="wrap">
-            <div class="tf-mini-cart-threshold">
+            {{-- <div class="tf-mini-cart-threshold">
                 <div class="tf-progress-bar">
                     @php
                         $percentage = $sums['total'] / 1_000_000;
@@ -14,10 +14,8 @@
                 </div>
                 <div class="tf-progress-msg">
                     @lang('Buy :amount more to enjoy :feature', ['amount' => '۱ میلیون تومان', 'feature' => __('Free Shipping')]).
-                    {{-- Buy <span class="price fw-6">$75.00</span> more to enjoy <span class="fw-6">Free
-                        Shipping</span> --}}
                 </div>
-            </div>
+            </div> --}}
             <div class="tf-mini-cart-wrap">
                 <div class="tf-mini-cart-main">
                     <div class="tf-mini-cart-sroll">
