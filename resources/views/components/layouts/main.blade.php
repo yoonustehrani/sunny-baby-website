@@ -41,7 +41,7 @@
     <!-- toolbar-bottom -->
     <div class="tf-toolbar-bottom type-1150">
         <div class="toolbar-item">
-            <a href="index.html#toolbarShopmb" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft">
+            <a href="{{ route('home') }}">
                 <div class="toolbar-icon">
                     <i class="icon-home"></i>
                 </div>
