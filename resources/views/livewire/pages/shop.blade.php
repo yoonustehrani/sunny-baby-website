@@ -1,6 +1,6 @@
 <section class="">
     @isset($topCategories)
-        <div class="tw:flex tw:justify-center tw:items-center tw:flex-wrap tw:gap-4 tw:lg:mx-36 tw:-mt-12 tw:mb-8 tw:px-3">
+        <div class="tw:flex tw:justify-center tw:items-center tw:flex-wrap tw:gap-4 tw:lg:mx-36 tw:-mt-12 tw:mb-5 tw:px-3">
             @foreach ($topCategories as $item)
                 <a href="{{ route('categories.show', ['slug' => $item->slug]) }}" class="tw:flex tw:bg-white tw:rounded-md tw:shadow-sm tw:text-sm tw:items-center tw:justify-center tw:px-3 tw:py-2 tw:gap-3">
                     @if ($item->image)

@@ -20,7 +20,7 @@
                             @endforeach
                         @else
                         <div class="tw:relative tw:w-fit tw:flex tw:items-center">
-                            <select class="tw:appearance-none tw:pl-10 tw:pr-3 tw:py-2 tw:border tw:border-gray-300" wire:model.live='selectedOptions.{{ $attr->id }}'>
+                            <select class="tw:appearance-none tw:pl-10 tw:pr-3 tw:py-2 tw:border tw:border-gray-300 tw:bg-white" wire:model.live='selectedOptions.{{ $attr->id }}'>
                                 <option value="">انتخاب کنید</option>
                                 @foreach ($attr->available_options as $option)
                                     <option @disabled($option->disabled) value="{{ $option->id }}">
@@ -96,13 +96,15 @@
                         
                         @endif --}}
                         <div class="tf-sticky-atc-btns tw:flex-wrap tw:lg:flex-nowrap tw:items-center tw:justify-between">
-                            <div class="tf-product-info-quantity">
-                                <div class="wg-quantity">
-                                    <span class="btn-quantity" wire:click='decrement'>-</span>
-                                    <input type="text" name="number" wire:model='n'>
-                                    <span class="btn-quantity" wire:click='increment'>+</span>
+                            @if (! $product->isVariable() || !is_null($variant))
+                                <div class="tf-product-info-quantity">
+                                    <div class="wg-quantity">
+                                        <span class="btn-quantity" wire:click='decrement'>-</span>
+                                        <input type="text" name="number" wire:model='n'>
+                                        <span class="btn-quantity" wire:click='increment'>+</span>
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                             <p class="tw:lg:hidden">
                                 @if ($product->isVariable())
                                     @if (!is_null($variant))
