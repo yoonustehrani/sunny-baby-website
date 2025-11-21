@@ -8,9 +8,9 @@
                     </svg>
                 </a>
             </div>
-            <div class="col-xl-3 col-md-4 col-6">
+            <div class="col-xl-3 col-md-4 col-6 tw:py-2">
                 <a href="{{ route('home') }}" class="logo-header">
-                    <img src="{{ asset('images/logo/sunny-baby-logo.webp') }}" alt="logo" class="logo tw:p-5">
+                    <img src="{{ asset('images/logo/sunny-baby-logo.webp') }}" alt="logo" class="logo tw:size-18">
                 </a>
             </div>
             <div class="col-xl-6 tf-md-hidden">

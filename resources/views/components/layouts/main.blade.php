@@ -43,20 +43,27 @@
         <div class="toolbar-item">
             <a href="index.html#toolbarShopmb" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft">
                 <div class="toolbar-icon">
+                    <i class="icon-home"></i>
+                </div>
+                <div class="toolbar-label">@lang('Home')</div>
+            </a>
+        </div>
+        <div class="toolbar-item">
+            <a href="index.html#toolbarShopmb" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft">
+                <div class="toolbar-icon">
                     <i class="icon-shop"></i>
                 </div>
                 <div class="toolbar-label">@lang('Categories')</div>
             </a>
         </div>
-        
-        <div class="toolbar-item">
+        {{-- <div class="toolbar-item">
             <a href="index.html#canvasSearch" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft">
                 <div class="toolbar-icon">
                     <i class="icon-search"></i>
                 </div>
                 <div class="toolbar-label">@lang('Search')</div>
             </a>
-        </div>
+        </div> --}}
         <x-toolbar-item route="user-account.dashboard">
             <div x-data="{ loggedIn: @json(auth()->check()) }"
             x-on:user-logged-in.window="loggedIn = true;"
