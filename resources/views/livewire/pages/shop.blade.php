@@ -1,5 +1,17 @@
-<section class="flat-spacing-1 tw:bg-white">
-    <div class="container" x-data="{ open: false }">
+<section class="">
+    @isset($topCategories)
+        <div class="tw:flex tw:justify-center tw:items-center tw:flex-wrap tw:gap-4 tw:lg:mx-36 tw:-mt-12 tw:mb-8 tw:px-3">
+            @foreach ($topCategories as $item)
+                <a href="{{ route('categories.show', ['slug' => $item->slug]) }}" class="tw:flex tw:bg-white tw:rounded-md tw:shadow-sm tw:text-sm tw:items-center tw:justify-center tw:px-3 tw:py-2 tw:gap-3">
+                    @if ($item->image)
+                        <img width="30px" height="30px" src="{{ asset($item->image->url) }}" alt="">
+                    @endif
+                    <span>{{ $item->name }}</span>
+                </a>
+            @endforeach
+        </div>
+    @endisset
+    <div class="container tw:py-6 tw:bg-white" x-data="{ open: false }">
         <div class="tf-shop-control grid-3 align-items-center">
             <div class="tw:md:block tw:hidden"></div>
             <div class="tf-control-filter tw:block tw:md:hidden">
@@ -53,6 +65,7 @@
                     </div>
                     <span class="icon-close icon-close-popup" x-on:click='open = false'></span>
                 </div>
+                @if (routeIs('pages.shop'))
                 <div class="widget-facet wd-categories">
                     <div class="facet-title" data-bs-target="#categories" data-bs-toggle="collapse" aria-expanded="true"
                         aria-controls="categories">
@@ -69,6 +82,7 @@
                         </ul>
                     </div>
                 </div>
+                @endif
                 <div id="facet-filter-div" class="facet-filter-div">
                     <div class="widget-facet">
                         <div class="facet-title" data-bs-target="#availability" data-bs-toggle="collapse"

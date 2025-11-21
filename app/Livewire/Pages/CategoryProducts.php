@@ -19,6 +19,9 @@ class CategoryProducts extends Component
 
     public function render()
     {
-        return view('livewire.pages.shop', array_merge(['brands' => $this->getBrands()], $this->getData()))->title($this->category->name);
+        $topCategories = Category::with('image')->where('parent_id', $this->category->getKey())->get();
+        return view('livewire.pages.shop', array_merge(['brands' => $this->getBrands()], $this->getData()))
+            ->with('topCategories', $topCategories)
+            ->title($this->category->name);
     }
 }
