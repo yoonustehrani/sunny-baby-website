@@ -10,7 +10,7 @@
             </div>
             <div class="col-xl-3 col-md-4 col-6 tw:py-2">
                 <a href="{{ route('home') }}" class="logo-header">
-                    <img src="{{ asset('images/logo/sunny-baby-logo.webp') }}" alt="logo" class="logo tw:size-18">
+                    <img src="{{ asset('images/logo/sunny-baby-logo-rec.webp') }}" alt="logo" class="logo tw:h-full tw:max-h-16 tw:lg:max-h-20 tw:w-auto">
                 </a>
             </div>
             <div class="col-xl-6 tf-md-hidden">
