@@ -165,7 +165,6 @@ class WordpressImportController extends Controller
         $product = Product::where('imported_id', $sp['id'])->first() ?: new Product();
         $product->fill([
             'title' => $sp['title'],
-            'slug' => str_replace(' ', '-', trim(mb_substr($sp['title'], 0, 60))),
             'description' => str_replace('\\n', '<br>', $sp['description']),
             'stock' => intval($sp['stock']),
             'low_stock_count' => intval($sp['low_stock_count']),
@@ -174,6 +173,9 @@ class WordpressImportController extends Controller
             'imported_id' => $sp['id'],
             'price' => $sp['price'] ?: null
         ]);
+        if ($product->type !== ProductType::VARIANT) {
+            $product->slug = str_replace(' ', '-', trim(mb_substr($sp['title'], 0, 60)));
+        }
         if ($product->type === ProductType::VARIANT) {
             $parent = Product::where('imported_id', $sp['parent'])->first();
             $product->parent_id = $parent->id;
