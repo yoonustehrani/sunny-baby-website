@@ -215,7 +215,23 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-12 tw:mt-6">
+                    <div class="widget-tabs style-has-border tw:bg-white">
+                        <ul class="widget-menu-tab">
+                            <li class="item-title active">
+                                <span class="inner">شرایط ارسال</span>
+                            </li>
+                        </ul>
+                        <div class="widget-content-tab">
+                            <div class="widget-content-inner active">
+                                <p>ارسال داخل مشهد: از طریق اسنپ پیک، 2 روز کاری، تسویه قبل ارسال<br>ارسال به شهرستان ها: از طریق پست و تیپاکس، 7 تا 10 روز کاری، تسویه قبل ارسال</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
+    <livewire:sections.featured-products wire:key='livewire-featured-products' :$product title='همچنین ممکن است دوست داشته باشید'/>
+    <livewire:sections.related-products wire:key='livewire-featured-products' :$product title='محصولات مرتبط'/>
 </x-layouts.main>

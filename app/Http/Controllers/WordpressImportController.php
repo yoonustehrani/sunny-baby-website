@@ -63,8 +63,6 @@ class WordpressImportController extends Controller
             $last_n
         );
 
-        dd($variable_products_data->first());
-
         try {
             DB::beginTransaction();
             foreach ($products_data as $sp) {
@@ -73,15 +71,15 @@ class WordpressImportController extends Controller
                 }
                 $this->insertProduct($sp);
             }
-            foreach ($products_data->filter(fn($p) => ! empty($p['suggested_products'])) as $product) {
+            foreach ($products_data->filter(fn($p) => ! empty($p['featured_products'])) as $product) {
                 try {
-                    $related_products = Product::whereIn('imported_id', $product['suggested_products'])->get();
+                    $featured_products = Product::whereIn('imported_id', $product['featured_products'])->get();
                 } catch (\Throwable $th) {
-                    dd($product['suggested_products']);
+                    dd($product['featured_products']);
                     throw $th;
                 }
                 $p = Product::where('imported_id', $product['id'])->first();
-                $p->related_products()->sync($related_products);
+                $p->featured_products()->sync($featured_products);
             }
             DB::commit();
         } catch (\Throwable $th) {
@@ -142,8 +140,8 @@ class WordpressImportController extends Controller
             
             $results['attribute_options'] = array_filter($attr_options, fn($attr) => $attr['attribute'] != null);
 
-            if ($results['suggested_products'] != null && $results['type'] !== ProductType::VARIANT) {
-                $results['suggested_products'] = collect(explode(', ', $results['suggested_products']))
+            if ($results['featured_products'] != null && $results['type'] !== ProductType::VARIANT) {
+                $results['featured_products'] = collect(explode(', ', $results['featured_products']))
                     ->map(fn($z) => str_replace('id:', '', $z))
                     ->unique()
                     ->filter(fn($z) => ! str_contains($z, '-'))
@@ -170,7 +168,7 @@ class WordpressImportController extends Controller
             'categories' => 'دستهها',
             'tags' => 'برچسبها',
             'weight' => "وزن (گرم)",
-            'suggested_products' => 'تشویق برای خرید بیشتر',
+            'featured_products' => 'تشویق برای خرید بیشتر',
             'reviews_allowed' => "آیا به مشتری اجازه نوشتن نقد داده شود؟",
             'feature_n_name'  => 'نام :n صفت',
             'feature_n_values' => 'مقدار(های) :n صفت',

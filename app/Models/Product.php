@@ -102,9 +102,9 @@ class Product extends Model
             ->withPivot(['product_id', 'attribute_id', 'attribute_option_id']);
     }
 
-    public function related_products()
+    public function featured_products()
     {
-        return $this->belongsToMany(Product::class, 'related_products', 'relatable_id', 'related_id');
+        return $this->belongsToMany(Product::class, 'featured_products', 'product_id', 'featured_id');
     }
 
     // public function attributes()
