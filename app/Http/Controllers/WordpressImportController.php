@@ -43,8 +43,8 @@ class WordpressImportController extends Controller
             "url\n".implode("\n", $images)
         );
         
-        // Artisan::call('app:download-list-of-files');
-        // Artisan::call('app:make-thumbnails');
+        Artisan::call('app:download-list-of-files');
+        Artisan::call('app:make-thumbnails');
 
         $headers = array_keys($data[0]);
         $last_n = $headers[count($headers) - 1];
