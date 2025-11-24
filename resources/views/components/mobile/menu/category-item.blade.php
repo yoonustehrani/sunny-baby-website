@@ -1,5 +1,5 @@
 <li class="nav-mb-item">
-    <a href="#cate-{{ $category->id }}" 
+    <a href="{{ route('categories.show', ['slug' => $category->slug]) }}" 
        class="tf-category-link {{ $category->childrenRecursive->isNotEmpty() ? 'has-children collapsed mb-menu-link' : 'sub-nav-link' }}"
        data-bs-toggle="{{ $category->childrenRecursive->isNotEmpty() ? 'collapse' : '' }}" 
        aria-expanded="false" 
