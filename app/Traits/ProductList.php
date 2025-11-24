@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Enums\ProductType;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -97,8 +98,18 @@ trait ProductList
         if (strlen($this->search) > 2) {
             $ids = $this->getSearchResults(true);
         }
-        $query = Product::query()
-            ->notVariants();
+        // $query = Product::query()
+        //     ->notVariants();
+
+
+        $query = Product::where('products.type', '<>', ProductType::VARIANT)
+            ->selectRaw('products.*, 
+                COALESCE(MIN(p2.price), products.price, 0) AS min_price,
+                COALESCE(MAX(p2.price), products.price, 0) AS max_price'
+            )
+            ->leftJoin('products as p2', 'p2.parent_id', '=', 'products.id')
+            ->groupBy('products.id');
+        
 
         if (isset($this->category)) {
             $query = $this->category->products()->notVariants();
@@ -187,6 +198,12 @@ trait ProductList
                 case 'date-desc':
                     $query->orderBy('updated_at', 'desc');
                     break;
+                case 'price-asc':
+                    $query->orderBy('min_price', 'asc');
+                    break;
+                case 'price-desc':
+                    $query->orderBy('max_price', 'desc');
+                    break;
                 default:
                     # code...
                     break;
@@ -220,7 +237,7 @@ trait ProductList
         $comma = '، ';
         $orderList = [
             'featured' => __('Featured'),
-            'best-selling' => __('Best selling'),
+            // 'best-selling' => __('Best selling'),
             'alpha-asc' => __('Alphabetically') . $comma . __('A-Z'),
             'alpha-desc' => __('Alphabetically') . $comma . __('Z-A'),
             'price-asc' => __('Price') . $comma . __('low to high'),
