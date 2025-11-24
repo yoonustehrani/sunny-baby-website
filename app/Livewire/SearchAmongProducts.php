@@ -12,9 +12,15 @@ class SearchAmongProducts extends Component
 {
     use SearchProducts;
 
+    public bool $minimal = false;
+
     public function render()
     {
+        $view = 'livewire.search-among-products';
+        if ($this->minimal) {
+            $view .= '-minimal';
+        }
         $products = $this->getSearchResults();
-        return view('livewire.search-among-products', compact('products'));
+        return view($view, compact('products'));
     }
 }

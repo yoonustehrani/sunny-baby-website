@@ -507,34 +507,25 @@ window.toastr = toastr;
   /* header sticky
   -------------------------------------------------------------------------*/
   var headerSticky = function () {
-    let didScroll;
-    let lastScrollTop = 0;
-    let delta = 5;
-    let navbarHeight = $("header").outerHeight();
-    $(window).scroll(function (event) {
-      didScroll = true;
-    });
-    
-    setInterval(function () {
-      if (didScroll) {
-        let st = $(this).scrollTop();
+    $(document).ready(function () {
+      var $header = $('#header');
+      var headerOffset = $header.offset().top;
 
-        // Make scroll more than delta
-        if (Math.abs(lastScrollTop - st) <= delta) return;
-        // If scrolled down and past the navbar, add class .nav-up.
-        if (st > lastScrollTop && st > navbarHeight) {
-          // Scroll Down
-          $("header").css("top",`-${navbarHeight}px`)
-        } else {
-          // Scroll Up
-          if (st + $(window).height() < $(document).height()) {
-            $("header").css("top","0px");
+      $(window).on('scroll', function () {
+        var scrollTop = $(this).scrollTop();
+
+        // If the header is scrolled out of view
+        if (scrollTop > headerOffset) {
+          if (!$header.hasClass('tw:fixed')) {
+            $header.addClass('tw:fixed');
+            $('.the_search').addClass('tw:hidden');
           }
+        } else {
+          $header.removeClass('tw:fixed');
+          $('.the_search').removeClass('tw:hidden');
         }
-        lastScrollTop = st;
-        didScroll = false;
-      }
-    }, 250);
+      });
+    });
   };
 
   /* header change background
