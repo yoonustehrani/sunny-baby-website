@@ -84,7 +84,7 @@ class CartService
     public function add(int|string $productId, int $quantity = 1)
     {
         if ($this->getProductQuantity($productId) == 0) {
-            $this->update($productId, 1);
+            $this->update($productId, $quantity);
         } else {
             $this->update($productId, $this->getProductQuantity($productId) + $quantity);
         }

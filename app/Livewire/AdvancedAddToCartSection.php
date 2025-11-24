@@ -69,6 +69,9 @@ class AdvancedAddToCartSection extends Component
 
     public function render()
     {
+        // dd(
+            // $this->getVariableAttributesAndOptions()->first()->available_options->toArray()
+        // );
         return view('livewire.advanced-add-to-cart-section', [
             'features' => $this->product->isVariable() ? $this->getVariableAttributesAndOptions() : collect([])
         ]);
@@ -89,36 +92,37 @@ class AdvancedAddToCartSection extends Component
 
     protected function getVariableAttributesAndOptions()
     {
-        $possibleVariants = $this->product->variants;
-        $selectedOptions = collect($this->selectedOptions)->filter();
-        if (! $selectedOptions->isEmpty()) {
-            $possibleVariants = $possibleVariants->filter(function ($variant) use($selectedOptions) {
-                $variantOptions = collect($variant['attribute_options'])
-                    ->pluck('id', 'attribute_id');
-                foreach ($variantOptions as $attrId => $optionId) {
-                    if (isset($selectedOptions[$attrId]) && !is_null($selectedOptions[$attrId]) && $selectedOptions[$attrId] != $optionId) {
-                        return false; // not compatible
-                    }
-                }
-                return true;
-            });
-        }
+        // $possibleVariants = $this->product->variants;
+        // $selectedOptions = collect($this->selectedOptions)->filter();
+        // if (! $selectedOptions->isEmpty()) {
+        //     $possibleVariants = $possibleVariants->filter(function ($variant) use($selectedOptions) {
+        //         $variantOptions = collect($variant['attribute_options'])
+        //             ->pluck('id', 'attribute_id');
+        //         foreach ($variantOptions as $attrId => $optionId) {
+        //             if (isset($selectedOptions[$attrId]) && !is_null($selectedOptions[$attrId]) && $selectedOptions[$attrId] != $optionId) {
+        //                 return false; // not compatible
+        //             }
+        //         }
+        //         return true;
+        //     });
+        // }
         
-        $enabledOptions = $possibleVariants
-            ->pluck('attribute_options')
-            ->flatten()
-            ->pluck('id')
-            ->unique();
+        // $enabledOptions = $possibleVariants
+        //     ->pluck('attribute_options')
+        //     ->flatten()
+        //     ->pluck('id')
+        //     ->unique();
         return $this->variableAttributes->each(function($attribute) use (&$enabledOptions) {
             $attribute->available_options = $this->product->variants
                 ->pluck('attribute_options')
                 ->flatten()
                 ->where('attribute_id', $attribute->id)
-                ->each(function ($option) use (&$enabledOptions) {
-                    if ($this->variableAttributes->count() > 1) {
-                        $option->disabled = !$enabledOptions->contains($option['id']);
-                    }
-                });
+                ->unique('id');
+                // ->each(function ($option) use (&$enabledOptions) {
+                //     if ($this->variableAttributes->count() > 1) {
+                //         $option->disabled = !$enabledOptions->contains($option['id']);
+                //     }
+                // });
         });
     }
 

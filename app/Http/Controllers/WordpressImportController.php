@@ -43,8 +43,8 @@ class WordpressImportController extends Controller
             "url\n".implode("\n", $images)
         );
         
-        Artisan::call('app:download-list-of-files');
-        Artisan::call('app:make-thumbnails');
+        // Artisan::call('app:download-list-of-files');
+        // Artisan::call('app:make-thumbnails');
 
         $headers = array_keys($data[0]);
         $last_n = $headers[count($headers) - 1];
@@ -70,6 +70,16 @@ class WordpressImportController extends Controller
                     $sp['variants'] = $variable_products_data->where('parent', $sp['id']);
                 }
                 $this->insertProduct($sp);
+            }
+            foreach ($products_data->filter(fn($p) => ! empty($p['featured_products'])) as $product) {
+                try {
+                    $featured_products = Product::whereIn('imported_id', $product['featured_products'])->get();
+                } catch (\Throwable $th) {
+                    dd($product['featured_products']);
+                    throw $th;
+                }
+                $p = Product::where('imported_id', $product['id'])->first();
+                $p->featured_products()->sync($featured_products);
             }
             DB::commit();
         } catch (\Throwable $th) {
@@ -130,6 +140,14 @@ class WordpressImportController extends Controller
             
             $results['attribute_options'] = array_filter($attr_options, fn($attr) => $attr['attribute'] != null);
 
+            if ($results['featured_products'] != null && $results['type'] !== ProductType::VARIANT) {
+                $results['featured_products'] = collect(explode(', ', $results['featured_products']))
+                    ->map(fn($z) => str_replace('id:', '', $z))
+                    ->unique()
+                    ->filter(fn($z) => ! str_contains($z, '-'))
+                    ->toArray();
+            }
+
             return $results;
         });
     }
@@ -150,6 +168,7 @@ class WordpressImportController extends Controller
             'categories' => 'دستهها',
             'tags' => 'برچسبها',
             'weight' => "وزن (گرم)",
+            'featured_products' => 'تشویق برای خرید بیشتر',
             'reviews_allowed' => "آیا به مشتری اجازه نوشتن نقد داده شود؟",
             'feature_n_name'  => 'نام :n صفت',
             'feature_n_values' => 'مقدار(های) :n صفت',
@@ -165,7 +184,6 @@ class WordpressImportController extends Controller
         $product = Product::where('imported_id', $sp['id'])->first() ?: new Product();
         $product->fill([
             'title' => $sp['title'],
-            'slug' => str_replace(' ', '-', trim(mb_substr($sp['title'], 0, 60))),
             'description' => str_replace('\\n', '<br>', $sp['description']),
             'stock' => intval($sp['stock']),
             'low_stock_count' => intval($sp['low_stock_count']),
@@ -174,6 +192,9 @@ class WordpressImportController extends Controller
             'imported_id' => $sp['id'],
             'price' => $sp['price'] ?: null
         ]);
+        if ($product->type !== ProductType::VARIANT) {
+            $product->slug = str_replace(' ', '-', trim(mb_substr($sp['title'], 0, 60)));
+        }
         if ($product->type === ProductType::VARIANT) {
             $parent = Product::where('imported_id', $sp['parent'])->first();
             $product->parent_id = $parent->id;
