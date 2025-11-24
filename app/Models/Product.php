@@ -102,6 +102,11 @@ class Product extends Model
             ->withPivot(['product_id', 'attribute_id', 'attribute_option_id']);
     }
 
+    public function related_products()
+    {
+        return $this->belongsToMany(Product::class, 'related_products', 'relatable_id', 'related_id');
+    }
+
     // public function attributes()
     // {
     //     return $this->belongsToMany(Attribute::class, table: 'attribute_option_product')->using(AttributeOptionProduct::class)->withPivot(['product_id', 'attribute_id', 'attribute_option_id']);
