@@ -13,6 +13,7 @@ use App\Models\Category;
 use Illuminate\Pagination\Cursor;
 use Illuminate\Pagination\CursorPaginator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 trait ProductList
 {
@@ -42,29 +43,30 @@ trait ProductList
 
     // public function perPage
 
-    public function updatedFilters(): void
-    {
-        $this->resetPage(); // reset to page 1 when filters change
-    }
+    // public function updatedFilters(): void
+    // {
+    //     $this->resetPage();
+    // }
 
-    public function updatedBrand(): void
-    {
-        $this->resetPage(); // reset to page 1 when filters change
-    }
+    // public function updatedBrand(): void
+    // {
+    //     $this->resetPage();
+    // }
 
-    public function updatedOrderBy(): void
-    {
-        $this->resetPage(); // reset to page 1 when filters change
-    }
+    // public function updatedOrderBy(): void
+    // {
+    //     $this->resetPage();
+    // }
 
-    public function updatedInStock(): void
-    {
-        $this->resetPage(); // reset to page 1 when filters change
-    }
+    // public function updatedOnlyInStock(): void
+    // {
+    //     $this->resetPage();
+    // }
 
     public function setOrderBy(string $key): void
     {
         $this->orderBy = $key;
+        $this->updated('orderBy', $this->orderBy);
     }
 
     public function toggleFilter($attributeId, $optionId): void
@@ -81,6 +83,7 @@ trait ProductList
         if (empty($this->filters[$attributeId])) {
             unset($this->filters[$attributeId]);
         }
+        $this->updated('filters', $this->filters);
     }
 
     public function isFilterSelected($attributeId, $optionId): bool
@@ -100,21 +103,24 @@ trait ProductList
         if (strlen($this->search) > 2) {
             $ids = $this->getSearchResults(true);
         }
-        // $query = Product::query()
-        //     ->notVariants();
 
+        $query = Product::where('products.type', '<>', ProductType::VARIANT);
+        
+        if (isset($this->category)) {
+            $query = $this->category->products();
+        }
 
-        $query = Product::where('products.type', '<>', ProductType::VARIANT)
-            ->selectRaw('products.*, 
+        $query->selectRaw('
+                products.*,
                 COALESCE(MIN(p2.price), products.price, 0) AS min_price,
                 COALESCE(MAX(p2.price), products.price, 0) AS max_price'
             )
-            ->leftJoin('products as p2', 'p2.parent_id', '=', 'products.id')
-            ->groupBy('products.id');
-        
+            ->leftJoin('products as p2', 'p2.parent_id', '=', 'products.id');
 
         if (isset($this->category)) {
-            $query = $this->category->products()->notVariants();
+            $query->groupBy('category_product.product_id', 'category_product.category_id', 'products.id');
+        } else {
+            $query->groupBy('products.id');
         }
         
         $query->when($this->onlyInStock, function ($query) {
@@ -255,7 +261,9 @@ trait ProductList
         $attributes = ModelsAttribute::where('can_be_filtered', true)->with(['options' => function ($q) use ($availableOptionIds) {
             $q->whereIn('id', $availableOptionIds);
         }])->get();
+
         $categories = $this->buildCategoryTree($categories);
+        
         return compact('orderList', 'attributes', 'optionCounts', 'categories');
     }
 }

@@ -15,12 +15,13 @@ class CategoryProducts extends Component
     public function mount($slug)
     {
         $this->category = Category::whereSlug($slug)->firstOrFail();
+        $this->loadMore();
     }
 
     public function render()
     {
         $topCategories = Category::with('image')->where('parent_id', $this->category->getKey())->get();
-        return view('livewire.pages.shop', array_merge(['brands' => $this->getBrands()], $this->getData()))
+        return view('livewire.pages.shop', array_merge(['brands' => []], $this->getMetaData()))
             ->with('topCategories', $topCategories)
             ->title($this->category->name);
     }

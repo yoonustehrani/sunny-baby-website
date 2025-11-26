@@ -65,23 +65,23 @@
                     </div>
                     <span class="icon-close icon-close-popup" x-on:click='open = false'></span>
                 </div>
-                @if (routeIs('pages.shop'))
-                <div class="widget-facet wd-categories">
-                    <div class="facet-title" data-bs-target="#categories" data-bs-toggle="collapse" aria-expanded="true"
-                        aria-controls="categories">
-                        <span>@lang('Product categories')</span>
-                        <span class="icon icon-arrow-up"></span>
+                @if (isset($showCategoryFilters) && $showCategoryFilters)
+                    <div class="widget-facet wd-categories">
+                        <div class="facet-title" data-bs-target="#categories" data-bs-toggle="collapse" aria-expanded="true"
+                            aria-controls="categories">
+                            <span>@lang('Product categories')</span>
+                            <span class="icon icon-arrow-up"></span>
+                        </div>
+                        <div id="categories" class="collapse show">
+                            <ul class="list-categoris current-scrollbar mb_36">
+                                @foreach($categories as $category)
+                                    <li class="tw:font-normal">
+                                        <x-shop.category-filter-item :$category :level="0"/>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
-                    <div id="categories" class="collapse show">
-                        <ul class="list-categoris current-scrollbar mb_36">
-                            @foreach($categories as $category)
-                                <li class="tw:font-normal">
-                                    <x-shop.category-filter-item :$category :level="0"/>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
                 @endif
                 <div id="facet-filter-div" class="facet-filter-div">
                     <div class="widget-facet">
@@ -127,48 +127,41 @@
                 </div>
             </div>
             <div class="tw:w-full">
-                @if ($products->count() > 0)
-                    <div class="grid-layout wrapper-shop" data-grid="grid-4">
-                        @foreach ($products as $product)
-                            <x-cards.product-card 
-                                wire:key='pr-result-{{ $product->id }}' 
-                                :$product 
-                                class="tw:bg-white! tw:p-2! tw:rounded-xl style-4 tw:flex-col"
-                            />
-                        @endforeach
-                    </div>
-                    @if($hasMorePages)
-                        <div class="grid-layout wrapper-shop" x-data x-intersect="$wire.call('loadMore')" data-grid="grid-4">
-                            @for ($i = 0; $i < 4; $i++)
-                                <div class="card-product tw:animate-fade">
-                                    <div class="card-product-wrapper">
-                                        <div class="tw:rounded-md tw:aspect-square tw:w-full tw:bg-gray-300">
-                                            
-                                        </div>
-                                        <div class="card-product-info tw:px-2! tw:grow">
-                                            <p class="link tw:bg-gray-300 tw:text-gray-300 tw:w-full tw:text-sm tw:md:text-base tw:mx-auto tw:font-normal">Loading title</p>
-                                            <div class="tw:w-full tw:flex tw:flex-col tw:items-center tw:gap-3">
-                                                <p class="tw:bg-gray-300 tw:text-gray-300">{{ format_price(100_000) }}</p>
-                                                <p class="tw:bg-gray-300 tw:text-gray-300 tw:py-1 tw:px-3 tw:rounded-md">@lang("Add to cart")</p>
+                @isset($products)
+                    @if ($products->count() > 0)
+                        <div class="grid-layout wrapper-shop" data-grid="grid-4">
+                            @foreach ($products as $product)
+                                <x-cards.product-card 
+                                    wire:key='pr-result-{{ $product->id }}' 
+                                    :$product 
+                                    class="tw:bg-white! tw:p-2! tw:rounded-xl style-4 tw:flex-col"
+                                />
+                            @endforeach
+                        </div>
+                        @if($hasMorePages)
+                            <div class="grid-layout wrapper-shop" x-data x-intersect="$wire.call('loadMore')" data-grid="grid-4">
+                                @for ($i = 0; $i < 4; $i++)
+                                    <div class="card-product tw:animate-fade">
+                                        <div class="card-product-wrapper">
+                                            <div class="tw:rounded-md tw:aspect-square tw:w-full tw:bg-gray-300">
+                                                
+                                            </div>
+                                            <div class="card-product-info tw:px-2! tw:grow">
+                                                <p class="link tw:bg-gray-300 tw:text-gray-300 tw:w-full tw:text-sm tw:md:text-base tw:mx-auto tw:font-normal">Loading title</p>
+                                                <div class="tw:w-full tw:flex tw:flex-col tw:items-center tw:gap-3">
+                                                    <p class="tw:bg-gray-300 tw:text-gray-300">{{ format_price(100_000) }}</p>
+                                                    <p class="tw:bg-gray-300 tw:text-gray-300 tw:py-1 tw:px-3 tw:rounded-md">@lang("Add to cart")</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endfor
-                        </div>
-                    @endif
-                    
-                    {{-- <div>
-                        @if ($hasMorePages)
-                            <button wire:click='loadMore'>LoadMore</button>
+                                @endfor
+                            </div>
                         @endif
-                    </div> --}}
-                    {{-- <div class="tf-pagination-wrap tw:flex tw:items-center tw:justify-center tw:w-full">
-                        {{ $products->links() }}
-                    </div> --}}
-                @else
-                    <p class="tw:text-2xl tw:text-center tw:p-4">محصولی برای نمایش موجود نیست.</p>
-                @endif
+                    @else
+                        <p class="tw:text-2xl tw:text-center tw:p-4">محصولی برای نمایش موجود نیست.</p>
+                    @endif
+                @endisset
             </div>
         </div>
     </div>
