@@ -137,9 +137,35 @@
                             />
                         @endforeach
                     </div>
-                    <div class="tf-pagination-wrap tw:flex tw:items-center tw:justify-center tw:w-full">
+                    @if($hasMorePages)
+                        <div class="grid-layout wrapper-shop" x-data x-intersect="$wire.call('loadMore')" data-grid="grid-4">
+                            @for ($i = 0; $i < 4; $i++)
+                                <div class="card-product tw:animate-fade">
+                                    <div class="card-product-wrapper">
+                                        <div class="tw:rounded-md tw:aspect-square tw:w-full tw:bg-gray-300">
+                                            
+                                        </div>
+                                        <div class="card-product-info tw:px-2! tw:grow">
+                                            <p class="link tw:bg-gray-300 tw:text-gray-300 tw:w-full tw:text-sm tw:md:text-base tw:mx-auto tw:font-normal">Loading title</p>
+                                            <div class="tw:w-full tw:flex tw:flex-col tw:items-center tw:gap-3">
+                                                <p class="tw:bg-gray-300 tw:text-gray-300">{{ format_price(100_000) }}</p>
+                                                <p class="tw:bg-gray-300 tw:text-gray-300 tw:py-1 tw:px-3 tw:rounded-md">@lang("Add to cart")</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endfor
+                        </div>
+                    @endif
+                    
+                    {{-- <div>
+                        @if ($hasMorePages)
+                            <button wire:click='loadMore'>LoadMore</button>
+                        @endif
+                    </div> --}}
+                    {{-- <div class="tf-pagination-wrap tw:flex tw:items-center tw:justify-center tw:w-full">
                         {{ $products->links() }}
-                    </div>
+                    </div> --}}
                 @else
                     <p class="tw:text-2xl tw:text-center tw:p-4">محصولی برای نمایش موجود نیست.</p>
                 @endif

@@ -83,3 +83,14 @@ body, html {
         font-family: var(--font-vazir), system-ui, sans-serif !important; */
     /* } */
 }
+
+@layer utilities {
+  @keyframes fade {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.4; }
+  }
+
+  .tw\:animate-fade {
+    animation: fade 1.5s ease-in-out infinite;
+  }
+}
