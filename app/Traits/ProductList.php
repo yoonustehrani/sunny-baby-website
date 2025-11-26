@@ -10,6 +10,8 @@ use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 use App\Models\Attribute as ModelsAttribute;
 use App\Models\Category;
+use Illuminate\Pagination\Cursor;
+use Illuminate\Pagination\CursorPaginator;
 use Illuminate\Support\Facades\DB;
 
 trait ProductList
@@ -154,36 +156,12 @@ trait ProductList
         return $query;
     }
 
-    protected function getProducts($with = []): LengthAwarePaginator
+    protected function getProducts(array $with = [], ?Cursor $cursor = null): LengthAwarePaginator|CursorPaginator
     {
         /**
          * @var Builder $query
          */
         $query = $this->baseProductQuery();
-        // $query = Product::query()
-        //     ->notVariants()
-        //     ->when($this->onlyInStock, function ($query) {
-        //         $query->where(function ($q) {
-        //             $q->where('products.stock', '>', 0)
-        //             ->orWhereHas('variants', fn($v) => $v->where('stock', '>', 0));
-        //         });
-        //     })
-        //     ->when($this->brand != '', function($query) {
-        //         $query->where('brand_id', $this->brand);
-        //     })
-        //     ->when($this->cats, function ($query) {
-        //         $query->whereHas('categories', function ($cat) {
-        //             $cat->whereIn('categories.id', $this->cats);
-        //         });
-        //     })
-        //     ->when($this->filters, function ($query) {
-        //         foreach ($this->filters as $options) {
-        //             $query->where(function ($q) use ($options) {
-        //                 $q->whereHas('attribute_options', fn($sub) => $sub->whereIn('attribute_options.id', $options))
-        //                 ->orWhereHas('variants.attribute_options', fn($sub) => $sub->whereIn('attribute_options.id', $options));
-        //             });
-        //         }
-        //     });
         if (isset($this->orderBy)) {
             switch ($this->orderBy) {
                 case 'alpha-asc':
@@ -214,7 +192,9 @@ trait ProductList
             $query->with($with);
         }
 
-        return $query->paginate($this->perPage ?? 8);
+        $perPage = $this->perPage ?? 8;
+        return $query->cursorPaginate($perPage, cursor: $cursor);
+        // return $query->paginate(perPage: $perPage, page: $page);
     }
 
     protected function buildCategoryTree($categories, $parentId = null)
@@ -232,7 +212,7 @@ trait ProductList
             ->values();
     }
 
-    protected function getData($productsWith = ['discount', 'variants', 'images'])
+    protected function getMetaData()
     {
         $comma = '، ';
         $orderList = [
@@ -245,8 +225,7 @@ trait ProductList
             'date-asc' => __('Date') . $comma . __('old to new'),
             'date-desc' => __('Date') . $comma . __('new to old'),
         ];
-        $products = $this->getProducts($productsWith);
-
+        
         $optionCounts = DB::table('attribute_option_product as aop')
             ->select('aop.attribute_option_id', DB::raw('COUNT(DISTINCT COALESCE(p.parent_id, p.id)) as product_count'))
             ->join('products as p', 'aop.product_id', '=', 'p.id')
@@ -277,6 +256,6 @@ trait ProductList
             $q->whereIn('id', $availableOptionIds);
         }])->get();
         $categories = $this->buildCategoryTree($categories);
-        return compact('orderList', 'products', 'attributes', 'optionCounts', 'categories');
+        return compact('orderList', 'attributes', 'optionCounts', 'categories');
     }
 }
