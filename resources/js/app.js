@@ -731,3 +731,8 @@ if ($(".tf-product-header").length > 0) {
         $(document).multiModal('hidden', e.target);
     });
 }(jQuery, window));
+
+window.openSubMenu = (element, id) => {
+  element.innerText = element.innerText == '+' ? '-' : '+';
+  document.getElementById(id).classList.toggle('collapse');
+}

@@ -241,8 +241,8 @@
     <!-- toolbarShopmb -->
     <div class="offcanvas offcanvas-start canvas-mb toolbar-shop-mobile" id="toolbarShopmb">
         <span class="icon-close icon-close-popup" data-bs-dismiss="offcanvas" aria-label="Close"></span>
-        <div class="mb-canvas-content">
-            <div class="mb-body">
+        <div class="mb-canvas-content tw:px-0">
+            <div class="mb-body tw:w-full">
                 <ul class="nav-ul-mb" id="wrapper-menu-navigation">
                     @foreach($menu_categories as $category)
                         @include('components.mobile.menu.category-item', ['category' => $category, 'level' => 1])
