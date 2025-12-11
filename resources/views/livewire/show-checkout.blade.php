@@ -106,12 +106,12 @@
                             <label for="{{ str_replace('\\', '-', \App\Enums\CheckoutType::MUTABLE_ORDER->name) }}" class="tw:flex tw:cursor-pointer tw:items-center tw:justify-between tw:p-4 tw:border tw:rounded-md tw:border-black/10 tw:shadow-sm">
                                 <div class="tw:flex tw:gap-4 tw:items-center">
                                     <div class="tw:bg-white tw:dark:bg-gray-100 tw:rounded-full tw:w-4 tw:h-4 tw:flex tw:flex-shrink-0 tw:justify-center tw:items-center tw:relative">
-                                        <input @disabled(! isset($user)) id="{{ str_replace('\\', '-', \App\Enums\CheckoutType::MUTABLE_ORDER->name) }}" wire:model.live='form.checkout_type' value='{{ \App\Enums\CheckoutType::MUTABLE_ORDER->value }}' type="radio" class="checkbox tw:appearance-none tw:focus:opacity-100 tw:focus:ring-2 tw:focus:ring-offset-2 tw:focus:ring-indigo-700 tw:focus:outline-none tw:border tw:rounded-full tw:border-gray-400 tw:absolute tw:cursor-pointer tw:w-full tw:h-full tw:checked:border-none" />
+                                        <input id="{{ str_replace('\\', '-', \App\Enums\CheckoutType::MUTABLE_ORDER->name) }}" wire:model.live='form.checkout_type' value='{{ \App\Enums\CheckoutType::MUTABLE_ORDER->value }}' type="radio" class="checkbox tw:appearance-none tw:focus:opacity-100 tw:focus:ring-2 tw:focus:ring-offset-2 tw:focus:ring-indigo-700 tw:focus:outline-none tw:border tw:rounded-full tw:border-gray-400 tw:absolute tw:cursor-pointer tw:w-full tw:h-full tw:checked:border-none" />
                                         <div class="check-icon tw:hidden tw:border-4 tw:border-indigo-700 tw:rounded-full tw:w-full tw:h-full tw:z-1"></div>
                                     </div>
                                     <div class="tw:flex tw:flex-col tw:gap-2">
                                         <h4 class="tw:text-base tw:font-bold">ثبت سفارش به روش تشکیل سبد خرید</h4>
-                                        <p class="tw:text-xs tw:font-normal">سفارش شما به مدت یکماه نزد ما خواهد بود و میتوانید طی این مدت زمان به سفارش خود محصولات دیگری اضافه کنید</p>
+                                        <p class="tw:text-xs tw:font-normal">سفارش شما به مدت یک هفته نزد ما خواهد بود و میتوانید طی این مدت زمان به سفارش خود محصولات دیگری اضافه کنید</p>
                                     </div>
                                 </div>
                             </label>
@@ -119,7 +119,7 @@
                                 <label for="{{ str_replace('\\', '-', \App\Enums\CheckoutType::ADD_TO_PREVIOUS_ORDER->name) }}" class="tw:flex tw:cursor-pointer tw:items-center tw:justify-between tw:p-4 tw:border tw:rounded-md tw:border-black/10 tw:shadow-sm">
                                     <div class="tw:flex tw:gap-4 tw:items-center">
                                         <div class="tw:bg-white tw:dark:bg-gray-100 tw:rounded-full tw:w-4 tw:h-4 tw:flex tw:flex-shrink-0 tw:justify-center tw:items-center tw:relative">
-                                            <input @disabled(! isset($user)) id="{{ str_replace('\\', '-', \App\Enums\CheckoutType::ADD_TO_PREVIOUS_ORDER->name) }}" wire:model.live='form.checkout_type' value='{{ \App\Enums\CheckoutType::ADD_TO_PREVIOUS_ORDER->value }}' type="radio" class="checkbox tw:appearance-none tw:focus:opacity-100 tw:focus:ring-2 tw:focus:ring-offset-2 tw:focus:ring-indigo-700 tw:focus:outline-none tw:border tw:rounded-full tw:border-gray-400 tw:absolute tw:cursor-pointer tw:w-full tw:h-full tw:checked:border-none" />
+                                            <input id="{{ str_replace('\\', '-', \App\Enums\CheckoutType::ADD_TO_PREVIOUS_ORDER->name) }}" wire:model.live='form.checkout_type' value='{{ \App\Enums\CheckoutType::ADD_TO_PREVIOUS_ORDER->value }}' type="radio" class="checkbox tw:appearance-none tw:focus:opacity-100 tw:focus:ring-2 tw:focus:ring-offset-2 tw:focus:ring-indigo-700 tw:focus:outline-none tw:border tw:rounded-full tw:border-gray-400 tw:absolute tw:cursor-pointer tw:w-full tw:h-full tw:checked:border-none" />
                                             <div class="check-icon tw:hidden tw:border-4 tw:border-indigo-700 tw:rounded-full tw:w-full tw:h-full tw:z-1"></div>
                                         </div>
                                         <div class="tw:flex tw:flex-col tw:gap-2">
@@ -128,8 +128,7 @@
                                         </div>
                                     </div>
                                 </label>
-                            @endauth
-                            @guest
+                            @else
                                 <div wire:click='$dispatch("semi-protected-route")' for="{{ str_replace('\\', '-', \App\Enums\CheckoutType::ADD_TO_PREVIOUS_ORDER->name) }}" class="tw:flex tw:cursor-pointer tw:items-center tw:justify-between tw:p-4 tw:border tw:rounded-md tw:border-black/10 tw:shadow-sm">
                                     <div class="tw:flex tw:gap-4 tw:items-center">
                                         <div class="tw:bg-white tw:dark:bg-gray-100 tw:rounded-full tw:w-4 tw:h-4 tw:flex tw:flex-shrink-0 tw:justify-center tw:items-center tw:relative">
@@ -142,7 +141,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endguest
+                            @endauth
                             @if ($form->checkout_type == \App\Enums\CheckoutType::ADD_TO_PREVIOUS_ORDER)
                                 <p class="tw:font-bold">انتخاب سبد خرید قبلی</p>
                                 <x-error name='form.mutable_order_id'/>
