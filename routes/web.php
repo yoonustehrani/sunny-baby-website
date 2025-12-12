@@ -3,6 +3,7 @@
 use App\CSVReader;
 use App\Http\Controllers\OrderPaymentController;
 use App\Http\Controllers\PrintLabelController;
+use App\Http\Controllers\SearchPageController;
 use App\Http\Controllers\ShowHomeController;
 use App\Http\Controllers\ShowProductController;
 use App\Http\Controllers\TransactionController;
@@ -25,6 +26,8 @@ use Illuminate\Support\Facades\Session;
 Route::get('/', ShowHomeController::class)->name('home');
 
 Route::get('/import', WordpressImportController::class)->name('import');
+Route::get('/search', SearchPageController::class)->name('search');
+
 
 Route::get('/orders/{order}/print-label', [PrintLabelController::class, 'single'])->name('label.single');
 Route::get('/orders/print-label', [PrintLabelController::class, 'bulk'])->name('label.bulk');

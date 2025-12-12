@@ -1,6 +1,6 @@
 <section class="flat-spacing-11">
     <div class="container">
-        <form wire:submit='submit' class="tf-page-cart-wrap layout-2">
+        <div class="tf-page-cart-wrap layout-2">
             <div class="tf-page-cart-item">
                 <h5 class="fw-5 mb_20">@lang('Billing details')</h5>
                 @if ($errors->any())                    
@@ -14,9 +14,10 @@
                             : $first)
                         : null;
                 @endphp
-                     <p class="tw:text-red-500 tw:pb-4 tw:font-bold">{{ $summary }}</p>
+                     <p id="error-summary" x-data='{}' x-init='$el.scrollIntoView({block: "end", inline: "nearest"});' class="tw:text-red-500 tw:pb-4 tw:font-bold">{{ $summary }}</p>
                 @endif
                 {{-- @auth
+                    
                     {{ $user->phone_number }}
                 @endauth --}}
                 <div class="form-checkout">
@@ -236,10 +237,10 @@
                                 <label for="check-agree" class="text_black-2"><a href="terms-conditions.html" class="text-decoration-underline">شرایط و قوانین سایت</a> را مطالعه کرده‌ام و می‌پذیرم.</label>
                             </div> --}}
                         </div>
-                        <button class="tf-btn radius-3 btn-fill btn-icon animate-hover-btn justify-content-center">@lang('Place order')</button>
+                        <button type="button" x-on:click='document.getElementById("error-summary")?.remove()' wire:click='submit' class="tf-btn radius-3 btn-fill btn-icon animate-hover-btn justify-content-center">@lang('Place order')</button>
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 </section>

@@ -1,11 +1,11 @@
 <div class="canvas-wrapper tw:relative the_search">
     <div class="tf-search-head">
         <div class="tf-search-sticky tw:p-3">
-            <form class="tf-mini-search-frm">
+            <form action="{{ route('search') }}" class="tf-mini-search-frm">
                 <fieldset class="text tw:items-center tw:flex"">
                     <input type="text" placeholder="تایپ کنید تا جستجو شروع شود ..." name="text" tabindex="0" value=""
                         aria-required="true" required="" wire:model.live.debounce.300ms='search'>
-                    <span class="tw:absolute tw:left-4 tw:mt-1"><i class="icon-search"></i></span>
+                    <button class="tw:absolute tw:m-0 tw:top-3 tw:left-4"><i class="icon-search"></i></button>
                 </fieldset>
                 @if ($search != '' && strlen($search) < 3)
                     <p class="tw:text-gray-700 tw:py-2 tw:px-1 tw:text-sm">حداقل ۳ حرف وارد کنید</p>
