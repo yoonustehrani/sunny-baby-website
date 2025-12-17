@@ -41,11 +41,15 @@ class MakeThumbnails extends Command
             }
             return true;
         });
+        $bar = $this->output->createProgressBar(count($files));
         foreach ($files as $file) {
             if (! Storage::exists('imported/' . $this->getThumbnailFileName($file))) {
                 $this->generateThumbnail('imported/' . $file);
             }
+            $bar->advance();
         }
+        $bar->finish();
+        $this->output->write("\n");
     }
     
 

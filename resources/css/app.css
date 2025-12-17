@@ -73,6 +73,10 @@ body, html {
     .checkbox:checked + .check-icon {
       display: flex !important;
     }
+    .modal-dialog-centered {
+      display: flex !important;
+      align-items: center !important;
+    }
     
     /* :root {
         --font-vazir: "Vazirmatn";

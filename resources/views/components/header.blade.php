@@ -45,7 +45,9 @@
             </div>
         </div>
     </div>
+    @unless (routeIs('checkout'))
     <div class="tw:block tw:md:hidden">
         <livewire:search-among-products :minimal='true'/>
     </div>
+    @endunless
 </header>

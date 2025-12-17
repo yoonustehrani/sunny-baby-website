@@ -206,6 +206,7 @@ function makeGradient($baseColor) {
 if (! function_exists('routeIs')) {
     function routeIs(string $name)
     {
+        \Log::alert(Route::currentRouteName() == $name);
         return Route::currentRouteName() == $name;
     }
 }
