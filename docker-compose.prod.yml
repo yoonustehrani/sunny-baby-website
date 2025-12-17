@@ -1,6 +1,8 @@
 services:
   app:
-    image: yoonustehrani/sunnybaby-website:latest
+    image: yoonustehrani/sunny-baby-app:latest
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
     networks:
       - web
       - sunny-baby
