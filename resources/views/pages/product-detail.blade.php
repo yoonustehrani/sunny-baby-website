@@ -36,7 +36,7 @@
                     <div class="col-md-6">
                         <div class="tf-product-media-wrap sticky-top">
                             <div class="thumbs-slider">
-                                <div class="swiper tf-product-media-thumbs other-image-zoom" data-direction="vertical">
+                                <div dir="ltr" class="swiper tf-product-media-thumbs other-image-zoom" data-direction="vertical">
                                     <div class="swiper-wrapper stagger-wrap">
                                         @foreach ($product->images as $img)
                                         <div class="swiper-slide stagger-item">

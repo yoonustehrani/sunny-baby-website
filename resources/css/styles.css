@@ -17505,12 +17505,15 @@ blockquote .text {
   }
   .tf-cart-item {
     margin-bottom: 15px;
-    padding-inline-start: 98px;
+    /* padding-inline-start: 98px; */
     min-height: 140px;
     display: block;
     font-size: 12px;
     font-weight: 600;
     position: relative;
+  }
+  .tf-cart-item .tf-cart-item_product {
+    padding-bottom: 50px !important;
   }
   .tf-cart-item td {
     display: flex;
