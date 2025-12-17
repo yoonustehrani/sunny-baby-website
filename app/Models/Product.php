@@ -44,6 +44,10 @@ class Product extends Model
             }
             $price = $prices->first();
         }
+        if (is_null($price)) {
+            $price = 0;
+            // dd($this->toArray());
+        }
         return format_price($price);
     }
 
