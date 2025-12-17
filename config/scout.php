@@ -143,7 +143,7 @@ return [
         'key' => env('MEILISEARCH_KEY'),
         'index-settings' => [
             Product::class => [
-                'sortableAttributes' => ['created_at']
+                // 'sortableAttributes' => ['created_at']
                 // 'filterableAttributes'=> ['id', 'name', 'email'],
             ],
         ],
