@@ -13,7 +13,7 @@ trait SearchProducts
     public function getSearchResults(bool $onlyId = false, int $limit = 4)
     {
         $query = strlen($this->search) > 2 
-            ? Product::search($this->search)->orderBy('created_at', 'desc')->take($limit)
+            ? Product::search($this->search)->take($limit) // ->orderBy('created_at', 'desc')
             : Product::query()->notVariants()->orderBy('created_at', 'desc')->take(3);
 
         if ($onlyId) {
