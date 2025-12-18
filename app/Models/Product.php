@@ -20,7 +20,7 @@ class Product extends Model
 
     // public $appends = ['price_label'];
 
-    protected $fillable = ['title', 'slug', 'description', 'stock', 'low_stock_count', 'weight', 'type', 'imported_id', 'price'];
+    protected $fillable = ['title', 'sku', 'slug', 'description', 'stock', 'low_stock_count', 'weight', 'type', 'imported_id', 'price'];
 
     public function casts(): array
     {

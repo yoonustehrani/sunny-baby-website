@@ -15,7 +15,7 @@ return new class extends Migration
             $table->after('stock', function(Blueprint $table) {
                 $table->integer('low_stock_count')->default(1);
                 $table->boolean('reviews_allowed')->default(true);
-                $table->integer('imported_id')->nullable();
+                $table->string('imported_id')->nullable();
             });
         });
     }

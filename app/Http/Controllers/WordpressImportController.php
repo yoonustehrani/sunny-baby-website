@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 ini_set('max_execution_time', '1200');
 
-
 use App\CSVReader;
 use App\Enums\OptionContentType;
 use App\Enums\ProductType;
@@ -52,7 +51,6 @@ class WordpressImportController extends Controller
         preg_match('/[0-9]{1}/', $last_n, $matches);
         $last_n = intval($matches[0]);
 
-        // return collect($data)->where($keys['type'], 'variation');
         $variable_products_data = $this->getPreparedDataset(
             collection: collect($data)->where($keys['type'], 'variation'),
             last_n: $last_n
@@ -67,7 +65,7 @@ class WordpressImportController extends Controller
             DB::beginTransaction();
             foreach ($products_data as $sp) {
                 if ($sp['type'] === ProductType::VARIABLE) {
-                    $sp['variants'] = $variable_products_data->where('parent', $sp['id']);
+                    $sp['variants'] = $variable_products_data->whereIn('parent', [$sp['id'], $sp['sku']]);
                 }
                 $this->insertProduct($sp);
             }
@@ -92,7 +90,6 @@ class WordpressImportController extends Controller
     {
         $keys = $this->getKeys();
         return $collection->map(function (array $item) use ($keys, $last_n) {
-            // dd($item);
             $images = [];
             $urls = explode(', ', $item[$keys['images']]);
             foreach ($urls as $url) {
@@ -144,7 +141,7 @@ class WordpressImportController extends Controller
                 $results['featured_products'] = collect(explode(', ', $results['featured_products']))
                     ->map(fn($z) => str_replace('id:', '', $z))
                     ->unique()
-                    ->filter(fn($z) => ! str_contains($z, '-'))
+                    // ->filter(fn($z) => ! str_contains($z, '-'))
                     ->toArray();
             }
 
@@ -173,7 +170,8 @@ class WordpressImportController extends Controller
             'feature_n_name'  => 'نام :n صفت',
             'feature_n_values' => 'مقدار(های) :n صفت',
             'feature_n_display'  => 'نمایان بودن :n صفت',
-            'feature_n_global' => "صفت :n سراسری"
+            'feature_n_global' => "صفت :n سراسری",
+            'sku' => 'شناسه محصول'
         ];
     }
 
@@ -184,6 +182,7 @@ class WordpressImportController extends Controller
         $product = Product::where('imported_id', $sp['id'])->first() ?: new Product();
         $product->fill([
             'title' => $sp['title'],
+            'sku' => $sp['sku'] ?: null,
             'description' => str_replace('\\n', '<br>', $sp['description']),
             'stock' => intval($sp['stock']),
             'low_stock_count' => intval($sp['low_stock_count']),
@@ -196,7 +195,7 @@ class WordpressImportController extends Controller
             $product->slug = str_replace(' ', '-', trim(mb_substr($sp['title'], 0, 60)));
         }
         if ($product->type === ProductType::VARIANT) {
-            $parent = Product::where('imported_id', $sp['parent'])->first();
+            $parent = Product::where('imported_id', $sp['parent'])->orWhere('sku', $sp['parent'])->first();
             $product->parent_id = $parent->id;
         }
         $product->save();
@@ -257,7 +256,11 @@ class WordpressImportController extends Controller
                         'content_hash' => trim(sha1($option['option_value']))
                     ]
                 );
-                $product->attribute_options()->attach($attribute_option, ['attribute_id' => $attribute->id]);
+                try {
+                    $product->attribute_options()->attach($attribute_option, ['attribute_id' => $attribute->id]);
+                } catch (\Throwable $th) {
+                    dd($sp['attribute_options'], $attribute_option->toArray());
+                }
             }
         }
 
