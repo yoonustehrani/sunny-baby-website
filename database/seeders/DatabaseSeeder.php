@@ -2,20 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\OrderStatus;
-use App\Enums\OrderType;
-use App\Enums\UserRoleType;
-use App\Models\Address;
-use App\Models\Order;
-use App\Models\OrderItem;
-use App\Models\Product;
-use App\Models\Shipment;
-use App\Models\User;
-use App\Services\Shipping\PeykCarrier;
-use App\Services\Shipping\PishtazCarrier;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
