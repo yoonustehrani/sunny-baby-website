@@ -192,7 +192,8 @@ class WordpressImportController extends Controller
             'weight' => $sp['weight'] ?: null,
             'type' => $sp['type'],
             'imported_id' => $sp['id'],
-            'price' => $sp['price'] ?: null
+            'price' => $sp['price'] ?: null,
+            'discounted_price' => $sp['discounted_price'] ?: null
         ]);
         $product->affiliate_price = $product->price ? ($product->price * 0.95) : null;
         if ($product->type !== ProductType::VARIANT) {

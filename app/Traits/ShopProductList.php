@@ -44,7 +44,7 @@ trait ShopProductList
         $this->products = isset($this->products) ? $this->products->push(...$products->items()) : $products->getCollection();
         $this->nextCursor = $products->nextCursor()?->encode();
         $this->hasMorePages = $products->hasMorePages();
-        $this->products->load(['discount', 'variants', 'images']);
+        $this->products->load(['variants', 'images']);
     }
 
     public function unsetBrand()

@@ -17,7 +17,7 @@ class CategoryProductsRow extends Component
         $query = $this->category->products()->notVariants()->latest()->take(10);
         $this->hasProducts = $query->count() > 0;
         if ($this->hasProducts) {
-            $this->products = $query->with('discount', 'variants', 'images')->get();
+            $this->products = $query->with('variants', 'images')->get();
         }
     }
 

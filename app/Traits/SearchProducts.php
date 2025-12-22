@@ -21,7 +21,7 @@ trait SearchProducts
         }
         return Cache::remember("search-products-limit-{$limit}" . md5($this->search) ?: 'default-search-results-products', 60, function() use(&$query) {
             $results = $query->get();
-            $results->load('images', 'variants', 'discount');
+            $results->load('images', 'variants');
             return $results;
         });
     }

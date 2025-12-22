@@ -9,12 +9,7 @@ trait DiscountMethods
 {
     protected function getDiscountAmount(): int
     {
-        $price = $this->price;
-        $value = $this->discount->value;
-        if (DiscountMethod::PERCENTAGE === $this->discount->method) {
-            return intval(($price / 100) * $value);
-        }
-        return $value;
+        return $this->price - $this->discounted_price;
     }
 
     public function discountAmount(): CastsAttribute
@@ -25,25 +20,12 @@ trait DiscountMethods
     public function discountInPercent(): CastsAttribute
     {
         return CastsAttribute::make(get: function() {
-            $value = $this->discount->value;
-            if (DiscountMethod::PERCENTAGE === $this->discount->method) {
-                return $value;
-            }
-            return intval(($value / $this->price) * 100);
+            return intval(($this->getDiscountAmount() / $this->price) * 100);
         });
     }
 
     public function isDiscounted(): CastsAttribute
     {
-        return CastsAttribute::make(get: fn() => ! is_null($this->discount_id) && ! is_null($this->discount));
-    }
-
-    public function getDiscountedPriceAttribute(): int|null
-    {
-        if (is_null($this->discount)) {
-            return null;
-        }
-        $discount = $this->getDiscountAmount();
-        return round_price($this->price - $discount);
+        return CastsAttribute::make(get: fn() => ! is_null($this->discounted_price));
     }
 }

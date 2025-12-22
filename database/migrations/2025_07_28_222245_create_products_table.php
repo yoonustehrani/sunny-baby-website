@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('slug')->nullable()->unique();
             $table->text('description')->nullable();
             $table->bigInteger('price')->unsigned()->nullable();
+            $table->bigInteger('discounted_price')->unsigned()->nullable();
             $table->integer('stock')->unsigned()->default(0);
             $table->integer('reserved')->unsigned()->default(0);
             $table->integer('weight')->nullable()->unsigned();
