@@ -54,7 +54,7 @@ COPY --from=static-builder /app/public/build ./public/build
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
-RUN apt-get update -y && apt-get install -y supervisor unzip
+RUN apt-get update -y && apt-get install -y supervisor unzip git
 
 RUN composer install --optimize-autoloader --no-dev
 
