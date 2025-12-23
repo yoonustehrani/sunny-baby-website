@@ -53,6 +53,10 @@ class Checkout extends Component
 
     public function setSelectedAddress(int $addressId)
     {
+        if ($this->form->selectedAddress?->id === $addressId) {
+            $this->form->selectedAddress = null;
+            return;
+        }
         $address = Auth::user()->addresses()->findOrFail($addressId);
         $this->form->selectedAddress = $address;
     }

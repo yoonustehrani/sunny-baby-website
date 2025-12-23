@@ -196,6 +196,9 @@ class WordpressImportController extends Controller
             'discounted_price' => $sp['discounted_price'] ?: null
         ]);
         $product->affiliate_price = $product->price ? ($product->price * 0.95) : null;
+        if (isset($sp['variants'])) {
+            $product->stock = collect($sp['variants'])->sum('stock');
+        }
         if ($product->type !== ProductType::VARIANT) {
             $product->slug = str_replace(' ', '-', trim(mb_substr($sp['title'], 0, 60)));
         }

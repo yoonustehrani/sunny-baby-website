@@ -27,6 +27,11 @@ class Order extends Model
         ];
     }
 
+    public function getIsPendingAttribute(): bool
+    {
+        return $this->status === OrderStatus::PENDING;
+    }
+
     public function items()
     {
         return $this->hasMany(OrderItem::class);
