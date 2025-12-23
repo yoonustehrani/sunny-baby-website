@@ -40,7 +40,6 @@ class Transaction extends Model
             DB::beginTransaction();
             $this->status = TransactionStatus::PAID;
             if (! $this->paid_at) {
-                $this->payable->increment('total_paid', $this->amount);
                 $this->paid_at = now();
             }
             $this->save();
