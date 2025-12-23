@@ -53,6 +53,10 @@ class Checkout extends Component
 
     public function setSelectedAddress(int $addressId)
     {
+        if ($this->form->selectedAddress?->id === $addressId) {
+            $this->form->selectedAddress = null;
+            return;
+        }
         $address = Auth::user()->addresses()->findOrFail($addressId);
         $this->form->selectedAddress = $address;
     }
@@ -60,10 +64,6 @@ class Checkout extends Component
     public function submit()
     {
         $this->form->validate();
-        // if (($this->form->finalize && $this->form->checkout_type == CheckoutType::ADD_TO_PREVIOUS_ORDER) || $this->form->checkout_type == CheckoutType::DEFAULT) {
-            
-        // }
-        
         try {
             DB::beginTransaction();
             $cart = affiliate_cart();

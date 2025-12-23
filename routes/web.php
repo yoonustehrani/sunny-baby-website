@@ -1,31 +1,23 @@
 <?php
 
-use App\CSVReader;
-use App\Http\Controllers\OrderPaymentController;
-use App\Http\Controllers\PrintLabelController;
-use App\Http\Controllers\SearchPageController;
-use App\Http\Controllers\ShowHomeController;
-use App\Http\Controllers\ShowProductController;
-use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\WordpressImportController;
-use App\Http\Middleware\CheckIfUserRoleIsAffiliate;
-use App\Http\Middleware\RedirectToAffiliateDashboardIfAuthenticated;
-use App\Livewire\Pages\Shop;
-use App\Livewire\ShowCheckout;
-use App\Livewire\UserAccount;
-use App\Livewire\Affiliate;
-use App\Livewire\Pages\CategoryProducts;
-use App\Livewire\Pages\ShowCart;
-use App\Livewire\Pages\ShowLogin;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Session;
-
-
+use App\Http\Controllers\{
+    AuthController,
+    OrderPaymentController,
+    PrintLabelController,
+    SearchPageController,
+    ShowHomeController,
+    ShowProductController,
+    TransactionController,
+    // WordpressImportController,
+};
+use App\Http\Middleware\{CheckIfUserRoleIsAffiliate, RedirectToAffiliateDashboardIfAuthenticated};
+use App\Livewire\{ShowCheckout, UserAccount, Affiliate};
+use App\Livewire\Pages\{Shop, CategoryProducts, ShowCart, ShowLogin};
 
 Route::get('/', ShowHomeController::class)->name('home');
 
-Route::get('/import', WordpressImportController::class)->name('import');
+// Route::get('/import', WordpressImportController::class)->name('import');
 Route::get('/search', SearchPageController::class)->name('search');
 
 
@@ -43,11 +35,7 @@ Route::get('categories/{slug}/products', CategoryProducts::class)->name('categor
 Route::get('/checkout', ShowCheckout::class)->name('checkout');
 Route::get('/cart', ShowCart::class)->name('cart');
 
-Route::post('/logout', function() {
-    Auth::logout();
-    Session::flush();
-    return redirect(route('home'));
-})->name('logout')->middleware('auth');
+Route::post('/logout', [AuthController::class, 'logOut'])->name('logout')->middleware('auth');
 
 Route::get('/login', ShowLogin::class)->name('login')->middleware('guest');
 

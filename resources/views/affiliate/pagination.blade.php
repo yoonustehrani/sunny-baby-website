@@ -19,8 +19,30 @@
                         fill=""></path>
                 </svg>
             </button>
+            @foreach ($elements as $element)
+                {{-- Ellipsis --}}
+                @if (is_string($element))
+                    <span class="px-2 text-gray-400">{{ $element }}</span>
+                @endif
 
-            @foreach ($paginator->getUrlRange(1, $paginator->lastPage()) as $page => $url)
+                {{-- Page links --}}
+                @if (is_array($element))
+                    @foreach ($element as $page => $url)
+                        <button
+                            wire:key="paginator-products-page{{ $page }}"
+                            wire:click="gotoPage({{ $page }}, '{{ $paginator->getPageName() }}')"
+                            @class([
+                                'flex h-10 w-10 items-center justify-center rounded-lg text-sm font-medium',
+                                'bg-blue-500/[0.08] text-brand-500' => $page === $paginator->currentPage(),
+                                'text-gray-700 dark:text-gray-400 hover:text-brand-500' => $page !== $paginator->currentPage(),
+                            ])
+                        >
+                            {{ $page }}
+                        </button>
+                    @endforeach
+                @endif
+            @endforeach
+            {{-- @foreach ($paginator->getUrlRange(1, $paginator->lastPage()) as $page => $url)
                 <button 
                     wire:key="paginator-products-page{{ $page }}"
                     wire:click="gotoPage({{ $page }}, '{{ $paginator->getPageName() }}')"
@@ -28,7 +50,7 @@
                     >
                     {{ $page }}
                 </button>
-            @endforeach
+            @endforeach --}}
 
             <button 
                 wire:click="nextPage"

@@ -75,6 +75,9 @@ class AffiliateCheckoutForm extends Form
 
     public function getAddressForShipment(): ?Address
     {
+        if ($this->selectedAddress) {
+            return $this->selectedAddress;
+        }
         if ($this->provinceId && $this->cityId) {
             return new Address([
                 'city_id' => $this->cityId

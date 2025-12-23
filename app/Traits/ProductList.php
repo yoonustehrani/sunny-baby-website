@@ -10,6 +10,7 @@ use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 use App\Models\Attribute as ModelsAttribute;
 use App\Models\Category;
+use Exception;
 use Illuminate\Pagination\Cursor;
 use Illuminate\Pagination\CursorPaginator;
 use Illuminate\Support\Facades\DB;
@@ -112,8 +113,12 @@ trait ProductList
 
         $query->selectRaw('
                 products.*,
-                COALESCE(MIN(p2.price), products.price, 0) AS min_price,
-                COALESCE(MAX(p2.price), products.price, 0) AS max_price'
+                COALESCE (
+                    LEAST(MIN(p2.discounted_price), MIN(p2.price), products.discounted_price, products.price), 0
+                ) AS min_price,
+                COALESCE (
+                    GREATEST(MAX(p2.price), MAX(p2.discounted_price), products.price), 0
+                ) AS max_price'
             )
             ->leftJoin('products as p2', 'p2.parent_id', '=', 'products.id');
 
@@ -162,7 +167,7 @@ trait ProductList
         return $query;
     }
 
-    protected function getProducts(array $with = [], ?Cursor $cursor = null): LengthAwarePaginator|CursorPaginator
+    protected function getProducts(array $with = [], ?string $paginator = LengthAwarePaginator::class, ...$params): LengthAwarePaginator|CursorPaginator
     {
         /**
          * @var Builder $query
@@ -199,8 +204,15 @@ trait ProductList
         }
 
         $perPage = $this->perPage ?? 8;
-        return $query->cursorPaginate($perPage, cursor: $cursor);
-        // return $query->paginate(perPage: $perPage, page: $page);
+        switch ($paginator) {
+            case CursorPaginator::class:
+                return $query->cursorPaginate($perPage, cursor: $params['cursor']);
+            case LengthAwarePaginator::class:
+                return $query->paginate(perPage: $perPage);
+            default:
+                throw new Exception('Invalid Paginator');
+                break;
+        }
     }
 
     protected function buildCategoryTree($categories, $parentId = null)

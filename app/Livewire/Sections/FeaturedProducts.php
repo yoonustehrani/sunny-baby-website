@@ -14,7 +14,7 @@ class FeaturedProducts extends Component
 
     public function render()
     {
-        $products = $this->product->featured_products()->with(['discount', 'variants', 'images'])->get();
+        $products = $this->product->featured_products()->with(['variants', 'images'])->get();
         return view('livewire.sections.products-carousel', ['products' => $products]);
     }
 }

@@ -2,20 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\OrderStatus;
-use App\Enums\OrderType;
-use App\Enums\UserRoleType;
-use App\Models\Address;
-use App\Models\Order;
-use App\Models\OrderItem;
-use App\Models\Product;
-use App\Models\Shipment;
-use App\Models\User;
-use App\Services\Shipping\PeykCarrier;
-use App\Services\Shipping\PishtazCarrier;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -30,7 +17,8 @@ class DatabaseSeeder extends Seeder
         $this->call(CategorySeeder::class);
         $this->call(BrandSeeder::class);
         $this->call(AttributeSeeder::class);
-        // $this->call(ProductSeeder::class);
+        $this->call(HamkarSeeder::class);
+        $this->call(ProductSeeder::class);
 
     //     $user = new User([
     //         'phone_number' => '09101234567'
@@ -56,26 +44,7 @@ class DatabaseSeeder extends Seeder
     //         'cost' => 60_000
     //     ]));
 
-    //     $af_user = new User([
-    //         'name' => 'همکار تستی',
-    //         'phone_number' => '09101234568',
-    //         'email' => 'af@sunnybaby.ir',
-    //         'email_verified_at' => now(),
-    //         'password' => Hash::make('hello1234'),
-    //         'role_type' => UserRoleType::AFFILIATE
-    //     ]);
-    //     $af_user->save();
-
-    //     Order::factory()->affiliate()->complete()->state(['user_id' => $af_user])->create();
-    //     Order::factory()->affiliate()->complete()->shipped()->state(['user_id' => $af_user])->create();
-    //     $sho2 = Order::factory()->affiliate()->complete()->processing()->state(['user_id' => $af_user])->create();
-    //     $sho2->shipment()->save(new Shipment([
-    //         'address_id' => $address->id,
-    //         'carrier_class' => PeykCarrier::class,
-    //         'cost' => null
-    //     ]));
-        // Order::factory()->affiliate()->complete()->mutable()->state(['user_id' => $af_user])->create();
-        // Order::factory()->affiliate()->complete()->mutable()->processing()->state(['user_id' => $af_user])->create();
+    
 
         // $admin_user = new User([
         //     'name' => 'ادمین',

@@ -13,7 +13,7 @@ class ShowOrder extends Component
     
     public function mount(Order $order)
     {
-        $order->load(['items' => function($q) {
+        $order->load(['shipment.address.city.province', 'items' => function($q) {
             $q->with(['product' => function($qx) {
                 $qx->with('parent', 'attribute_options');
             }]);

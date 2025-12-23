@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Enums\TransactionStatus;
+use App\Services\Payment\PaymentGateway;
+use App\Services\PaymentService;
 use App\Traits\HasMetaProperty;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -31,6 +33,11 @@ class Transaction extends Model
         return $this->morphTo();
     }
 
+    public function getMethod(): PaymentGateway
+    {
+        return new PaymentService($this->method)->getGateway();
+    }
+
     public function markAsPaid()
     {
         if ($this->status == TransactionStatus::PAID) {
@@ -40,7 +47,6 @@ class Transaction extends Model
             DB::beginTransaction();
             $this->status = TransactionStatus::PAID;
             if (! $this->paid_at) {
-                $this->payable->increment('total_paid', $this->amount);
                 $this->paid_at = now();
             }
             $this->save();

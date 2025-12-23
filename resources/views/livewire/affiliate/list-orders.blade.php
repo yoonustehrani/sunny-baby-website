@@ -141,12 +141,14 @@
                                     </td>
                                     <td class="px-5 py-4 sm:px-6">
                                         <div class="flex items-center">
-                                            <a
-                                                href="{{ route('orders.pay', ['order' => $order->getKey(), 'gateway' => 'zp']) }}"
-                                                class="rounded-md ml-2 px-2 py-0.5 flex items-center gap-2 text-theme-xs font-medium text-success-700 dark:bg-success-500/15 dark:text-success-500 bg-success-50"
-                                                >
-                                                پرداخت
-                                            </a>
+                                            @if ($order->is_pending)
+                                                <a
+                                                    href="{{ route('orders.pay', ['order' => $order->getKey(), 'gateway' => 'zp']) }}"
+                                                    class="rounded-md ml-2 px-2 py-0.5 flex items-center gap-2 text-theme-xs font-medium text-success-700 dark:bg-success-500/15 dark:text-success-500 bg-success-50"
+                                                    >
+                                                    پرداخت
+                                                </a>
+                                            @endif
                                             <a
                                                 href="{{ route('affiliate.orders.show', ['order' => $order->getKey()]) }}"
                                                 class="rounded-md ml-2 px-2 py-0.5 flex items-center gap-2 text-theme-xs font-medium text-warning-700 dark:bg-warning-500/15 dark:text-warning-500 bg-warning-50"

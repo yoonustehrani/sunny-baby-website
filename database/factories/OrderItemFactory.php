@@ -18,7 +18,7 @@ class OrderItemFactory extends Factory
      */
     public function definition(): array
     {
-        $p = Product::where('type', '<>', ProductType::VARIABLE)->with('discount')->inRandomOrder()->first();
+        $p = Product::where('type', '<>', ProductType::VARIABLE)->inRandomOrder()->first();
         return [
             'product_id' => $p,
             'unit_price' => $p->price,

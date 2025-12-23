@@ -68,6 +68,13 @@
                                 <th class="px-5 py-3 sm:px-6">
                                     <div class="flex items-center">
                                         <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
+                                            @lang('Row')
+                                        </p>
+                                    </div>
+                                </th>
+                                <th class="px-5 py-3 sm:px-6">
+                                    <div class="flex items-center">
+                                        <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
                                             @lang('Fullname')
                                         </p>
                                     </div>
@@ -106,26 +113,28 @@
                         <!-- table body start -->
                         <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
                             @foreach ($addresses as $address)
-                                <tr class="text-gray-800 dark:text-white/90">
+                                <tr 
+                                    wire:click='setSelectedAddress({{ $address->id }})'
+                                    @class(['bg-sky-100 dark:bg-sky-900' => $form->selectedAddress?->id === $address->id, "text-gray-800 dark:text-white/90 cursor-pointer hover:bg-sky-100 dark:hover:bg-sky-900"])>
                                     <th class="px-5 py-4 sm:px-6 text-right">
-                                        <span>{{ $loop->index }}</span>
+                                        <span>{{ $loop->index + 1 }}</span>
                                     </th>
+                                    <td class="px-5 py-4 sm:px-6">
+                                        <span>{{ $address->fullname }}</span>
+                                    </td>
+                                    <td class="px-5 py-4 sm:px-6">
+                                        <span>{{ $address->city->province->name }} / {{ $address->city->name }}</span>
+                                    </td>
+                                    <td class="px-5 py-4 sm:px-6">
+                                        <span>{{ $address->phone_number }}</span>
+                                    </td>
+                                    <td class="px-5 py-4 sm:px-6">
+                                        <p>{{ $address->text }}</p>
+                                    </td>
+                                    <td class="px-5 py-4 sm:px-6">
+                                        <p>{{ $address->zip }}</p>
+                                    </td>
                                 </tr>
-                                <td class="px-5 py-4 sm:px-6">
-                                    <span>{{ $address->fullname }}</span>
-                                </td>
-                                <td class="px-5 py-4 sm:px-6">
-                                    <span>{{ $address->city->province->name }} / {{ $address->city->name }}</span>
-                                </td>
-                                <td class="px-5 py-4 sm:px-6">
-                                    <span>{{ $address->phone_number }}</span>
-                                </td>
-                                <td class="px-5 py-4 sm:px-6">
-                                    <p>{{ $address->text }}</p>
-                                </td>
-                                <td class="px-5 py-4 sm:px-6">
-                                    <p>{{ $address->zip }}</p>
-                                </td>
                             @endforeach
                         </tbody>
                     </table>
@@ -136,7 +145,8 @@
             </div>
         </div>
     </div>
-    <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
+    @if(is_null($form->selectedAddress))
+    <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/3">
         <div class="px-5 py-4 sm:px-6 sm:py-5 flex items-center justify-between">
             <h3 class="text-base font-medium text-gray-800 dark:text-white/90">
                 @lang('New Address')
@@ -191,7 +201,8 @@
             </div>
         </div>
     </div>
-    <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
+    @endif
+    <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/3">
         <div class="px-5 py-4 sm:px-6 sm:py-5 flex items-center justify-between">
             <h3 class="text-base font-medium text-gray-800 dark:text-white/90">
                 @lang('Billing details')

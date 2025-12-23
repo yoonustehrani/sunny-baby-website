@@ -84,6 +84,9 @@ class WordpressImportController extends Controller
             DB::rollBack();
             throw $th;
         }
+
+        Artisan::call("scout:flush", ['model' => 'App\Models\Product']);
+        Artisan::call("scout:import", ['model' => 'App\Models\Product']);
     }
 
     protected function getPreparedDataset(Collection $collection, int $last_n)
@@ -189,8 +192,13 @@ class WordpressImportController extends Controller
             'weight' => $sp['weight'] ?: null,
             'type' => $sp['type'],
             'imported_id' => $sp['id'],
-            'price' => $sp['price'] ?: null
+            'price' => $sp['price'] ?: null,
+            'discounted_price' => $sp['discounted_price'] ?: null
         ]);
+        $product->affiliate_price = $product->price ? ($product->price * 0.95) : null;
+        if (isset($sp['variants'])) {
+            $product->stock = collect($sp['variants'])->sum('stock');
+        }
         if ($product->type !== ProductType::VARIANT) {
             $product->slug = str_replace(' ', '-', trim(mb_substr($sp['title'], 0, 60)));
         }

@@ -5,6 +5,7 @@ namespace App\Traits;
 use App\Models\Brand;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\Cursor;
+use Illuminate\Pagination\CursorPaginator;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Url;
 
@@ -39,11 +40,11 @@ trait ShopProductList
         if ($this->hasMorePages === false) {
             return;
         }
-        $products = $this->getProducts(with: [], cursor: Cursor::fromEncoded($this->nextCursor));
+        $products = $this->getProducts(with: [], paginator: CursorPaginator::class, cursor: Cursor::fromEncoded($this->nextCursor));
         $this->products = isset($this->products) ? $this->products->push(...$products->items()) : $products->getCollection();
         $this->nextCursor = $products->nextCursor()?->encode();
         $this->hasMorePages = $products->hasMorePages();
-        $this->products->load(['discount', 'variants', 'images']);
+        $this->products->load(['variants', 'images']);
     }
 
     public function unsetBrand()

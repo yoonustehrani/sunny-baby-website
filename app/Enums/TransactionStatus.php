@@ -3,9 +3,12 @@
 namespace App\Enums;
 
 use App\Attributes\TitleFa;
+use App\Traits\EnumHelpers;
 
 enum TransactionStatus: int
 {
+    use EnumHelpers;
+
     #[TitleFa('در انتظار پرداخت')]
     case PENDING = 0;
     #[TitleFa('پرداخت موفق')]
