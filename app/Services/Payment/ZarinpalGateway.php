@@ -17,6 +17,7 @@ use ZarinPal\Sdk\HttpClient\Exception\ResponseException;
 class ZarinpalGateway extends PaymentGateway
 {
     public string $name = 'زرین پال';
+    public string $logo_url = 'images/logo/zarinpal-logo.svg'; 
     
     public function getPaymentLib()
     {

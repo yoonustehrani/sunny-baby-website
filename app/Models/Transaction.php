@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Enums\TransactionStatus;
+use App\Services\Payment\PaymentGateway;
+use App\Services\PaymentService;
 use App\Traits\HasMetaProperty;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -29,6 +31,11 @@ class Transaction extends Model
     public function payable()
     {
         return $this->morphTo();
+    }
+
+    public function getMethod(): PaymentGateway
+    {
+        return new PaymentService($this->method)->getGateway();
     }
 
     public function markAsPaid()
