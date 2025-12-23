@@ -64,10 +64,6 @@ class Checkout extends Component
     public function submit()
     {
         $this->form->validate();
-        // if (($this->form->finalize && $this->form->checkout_type == CheckoutType::ADD_TO_PREVIOUS_ORDER) || $this->form->checkout_type == CheckoutType::DEFAULT) {
-            
-        // }
-        
         try {
             DB::beginTransaction();
             $cart = affiliate_cart();
