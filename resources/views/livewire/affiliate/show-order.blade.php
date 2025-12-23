@@ -97,4 +97,17 @@
             </div>
         </div>
     </div>
+    <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
+        <div class="px-5 py-4 sm:px-6 sm:py-5 flex flex-col gap-5 justify-between">
+            <h3 class="text-base font-medium text-gray-800 dark:text-white/90">
+                مشخصات ارسال
+            </h3>
+            <div class="leading-loose">
+                <p>شیوه ارسال: {{ get_carrier($order->shipment->carrier_class, $order->shipment->address)->getName() }}</p>
+                <p>هزینه دریافت شده: {{ format_price($order->shipment->cost) }}</p>
+                <p>گیرنده: {{ $order->shipment->address->fullname }}</p>
+                <p>آدرس: {{ $order->shipment->address->city->province->name }}، {{ $order->shipment->address->city->name }} - {{ $order->shipment->address->text }}</p>
+            </div>
+        </div>
+    </div>
 </div>
