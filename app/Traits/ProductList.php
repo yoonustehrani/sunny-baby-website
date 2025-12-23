@@ -84,7 +84,9 @@ trait ProductList
         if (empty($this->filters[$attributeId])) {
             unset($this->filters[$attributeId]);
         }
-        $this->updated('filters', $this->filters);
+        if (method_exists($this, 'updated')) {
+            $this->updated('filters', $this->filters);   
+        }
     }
 
     public function isFilterSelected($attributeId, $optionId): bool
