@@ -57,10 +57,10 @@ class Product extends Model
         return $this->belongsTo(Brand::class);
     }
 
-    public function discount()
-    {
-        return $this->belongsTo(Discount::class)->forProduct()->active()->unexpired();
-    }
+    // public function discount()
+    // {
+    //     return $this->belongsTo(Discount::class)->forProduct()->active()->unexpired();
+    // }
 
     public function reviews()
     {

@@ -146,7 +146,7 @@
                         <div class="footer-bottom-wrap d-flex gap-20 flex-wrap justify-content-between align-items-center">
                             <div class="footer-menu_item" dir="ltr">© 2024 {{ config('app.name') }}. All Rights Reserved</div>
                             <div class="tw:flex tw:items-center tw:gap-3">
-                                <img class="tw:h-5 tw:w-auto" src="images/footer/zp-logo.svg" alt="">
+                                <img class="tw:h-5 tw:w-auto" src="{{ asset('images/footer/zp-logo.svg') }}" alt="">
                             </div>
                         </div>
                     </div>

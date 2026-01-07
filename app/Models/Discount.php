@@ -62,9 +62,9 @@ class Discount extends Model
         $query->where('is_active', true)->where('activates_at', '<=', now());
     }
 
-    #[Scope]
-    public function forProduct(Builder $query)
-    {
-        $query->where('target', DiscountTargetType::PRODUCT);
-    }
+    // #[Scope]
+    // public function forProduct(Builder $query)
+    // {
+    //     $query->where('target', DiscountTargetType::PRODUCT);
+    // }
 }

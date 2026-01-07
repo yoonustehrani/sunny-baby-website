@@ -302,7 +302,7 @@ input[type=url],
 input[type=search],
 input[type=tel],
 input[type=color] {
-  font-family: "Albert Sans", sans-serif;
+  font-family: "YekanBakh", sans-serif;
   border: 1px solid var(--line);
   outline: 0;
   -webkit-box-shadow: none;
@@ -406,7 +406,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Albert Sans", sans-serif;
+  font-family: "YekanBakh", sans-serif;
   text-rendering: optimizeLegibility;
   color: var(--main);
   font-weight: 400;
