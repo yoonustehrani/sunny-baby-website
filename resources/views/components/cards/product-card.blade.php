@@ -25,11 +25,11 @@
             </a>
         </div> --}}
         @if ($product->is_discounted)
-            @unless(is_null($product->discount->expires_at))
+            {{-- @unless(is_null($product->discount->expires_at))
             <div class="countdown-box">
                 <div x-init='launchCountdown($el)' class="js-countdown" dir="rtl" data-timer="{{ $product->discount->expires_at->timestamp - now()->timestamp }}" data-labels="d :,h :,m"></div>
             </div>
-            @endunless
+            @endunless --}}
             <div class="on-sale-wrap text-end">
                 <div class="on-sale-item" dir="ltr">-{{ $product->discount_in_percent }}%</div>
             </div>

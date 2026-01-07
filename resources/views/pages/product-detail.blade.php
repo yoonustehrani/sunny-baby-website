@@ -94,7 +94,7 @@
                                     <div class="liveview-count">20</div>
                                     <p class="fw-6">@lang('people are viewing this right now')</p>
                                 </div> --}}
-                                @if ($product->is_discounted && $product->discount->expires_at)
+                                {{-- @if ($product->is_discounted && $product->discount->expires_at)
                                     <div class="tf-product-info-countdown">
                                         <div class="countdown-wrap">
                                             <div class="countdown-title">
@@ -106,7 +106,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                @endif
+                                @endif --}}
                                 <livewire:advanced-add-to-cart-section :$product/>
                                 {{-- <div class="tf-product-info-extra-link">
                                     <a href="product-detail.html#compare_color" data-bs-toggle="modal" class="tf-product-extra-icon">
