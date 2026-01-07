@@ -12,7 +12,7 @@
     <div class="tf-mini-cart-info">
         <a class="title link" href="{{ route('products.show', ['slug' => $item->slug]) }}">{{ $item->title }}</a>
         @if ($item->isVariable())
-                <div class="meta-variant">{{ implode('، ', $product->attribute_options->map(fn($option) => $option->label)->toArray()) }}</div>
+            <div class="meta-variant">{{ implode('، ', $product->attribute_options->map(fn($option) => $option->label)->toArray()) }}</div>
         @endif
         @if ($product->is_discounted)
             <div class="tw:text-gray-400 tw:line-through fw-6">{{ format_price($product->price) }}</div>

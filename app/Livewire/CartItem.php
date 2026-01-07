@@ -45,6 +45,14 @@ class CartItem extends Component
 
     public function render()
     {
-        return view('livewire.cart-item');
+        $slug = $this->product->isVariant() ? $this->product->parent->slug : $this->product->slug;
+        $url = route('products.show', ['slug' => $slug]);
+        $title = $this->product->title;
+        if (!$title && $this->product->isVariant()) {
+            $title = $this->product->parent->title;
+            $title .= ' - ';
+            $title .= implode('، ', $this->product->attribute_options->map(fn($option) => $option->label)->toArray());
+        }
+        return view('livewire.cart-item', compact('url', 'title'));
     }
 }
