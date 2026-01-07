@@ -1,5 +1,5 @@
 import './bootstrap';
-import './countdown';
+// import './countdown';
 
 if ($(".tf-sw-top_bar").length > 0) {
   var preview = $(".tf-sw-top_bar").data("preview");
